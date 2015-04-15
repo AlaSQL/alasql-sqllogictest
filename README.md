@@ -40,5 +40,5 @@ ToDo
 ----
 
 - Verify that the parser parses all the tests (ongoing development in the sqllogivtestparserV2.js)
-- Impelment mocha for showing testresults
-- Implement rest of returned results. demands 
+- Implement verification of returned results. 
+- Impelment mocha testframework
