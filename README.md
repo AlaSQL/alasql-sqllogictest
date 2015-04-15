@@ -1,5 +1,4 @@
-# alasql-logictest
-sqllogictest for AlaSQL
+# SQLlogictest for AlaSQL
 
 
 How?
