@@ -1,5 +1,7 @@
 # SQLlogictest for AlaSQL
 
+Testing SQL compabillity for [AlaSQL](https://github.com/agershun/alasql)
+
 
 How?
 ----
@@ -28,7 +30,7 @@ AlaSQL src should incooperate test cases from sqllogictest [1] to identify areas
 
 The goal (for now) is not to pass all the tests, but to help us describe (in the documentation) what AlaSQL does not support - and by that identify areas to improve for the library.
 
-[1] https://github.com/oriherrnstadt/SQLlogictest/tree/master/test
+[1] https://github.com/grahn/sqllogictest/tree/master/test
 
 The format of the tests are desribed here: http://www.sqlite.org/sqllogictest/doc/trunk/about.wiki
 
