@@ -40,9 +40,8 @@ ToDo
 ----
 
 - Verify that the parser parses all the tests (ongoing development in the sqllogivtestparserV2.js)
-- Impelment mocha for showing testresults
-- Implement rest of returned results. demands 
-
+- Implement verification of returned results. 
+- Impelment mocha testframework
 
 
 
@@ -88,7 +87,4 @@ It makes sense, as no errors was found. But it can also look like this:
 	
 That makes less sense as an error was found but was not printed. Because there are about 2 million tests in the full test set the same errors will be found many times. That is why an error only gets printed first time its seen. Settings for printing errors can be found in the config section of run.js
 
-=======
-- Implement verification of returned results. 
-- Impelment mocha testframework
 
