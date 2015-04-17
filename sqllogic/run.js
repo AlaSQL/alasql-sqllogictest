@@ -7,15 +7,19 @@ var fs    = require("fs")
 var alasql = require('./../alasql.js');
 var sqllogictestparser =  require('./sqllogictestparser');
 var db = alasql;
-
+console.time('Total script time')
 
 
 ///////////// CONFIG ////////////////////
 
-// config of logging of errors
+// If set to false an error will only be printed first time ic occures in all test files. 
+var printAllErrors = false;				
 
-var printAllErrors = false;				// If set to false an error will only be printed first time ic occures in all test files. 
-var curiousErrorprinting = 0.0001;		// Sometimes you would like to have more examples of the same error. Set this between 0 and 1 to set the probabillity of an error getting printed in case it has been printes before 
+// If set to false an error will only be printed at first occurence in all test files. If set to true an error will be printed at first occurence in each test file
+var resetErroIndexPerFile = false;		
+
+// Sometimes you would like to have more examples of the same error. Set this between 0 and 1 to set the probabillity of an error getting printed in case it has been printes before 
+var curiousErrorprinting = 0.0001;		
 
 
 
@@ -35,7 +39,6 @@ var testfiles = walkFiles(
 
 
 ///////////////////
-
 
 
 
@@ -78,16 +81,14 @@ var score = {
 
 console.log(new Date().toISOString())
 
-console.log('Running '+testfiles.length+' test files.')
+console.log('Preparing to run the following '+testfiles.length+' test files.')
 
-if(testfiles.length<622){
-	console.log('Looks like you are running a subset of the tests. Pleaes config the testfiles with null in last argument to run all tests.')
+if(testfiles.length<622){ // Todo: fix hardcode
+	console.log('(Just to let you know: it looks like you are running a subset of the tests. Check out the config section of this file to run all tests.)')
 }
 	
 
 console.log(testfiles);	
-
-
 
 
 for (var i in testfiles) {
@@ -97,7 +98,7 @@ for (var i in testfiles) {
 	var db = new alasql.Database(name);
 	console.log('');
 	console.log('-----------------------------');
-	console.log('Looking at ', testfiles[i]);
+	console.log('Looking at', testfiles[i]);
 	console.log('');
 	
 
@@ -111,24 +112,34 @@ for (var i in testfiles) {
 
 	console.timeEnd(testfiles[i]);
 
-  
+  	console.log('');
+	console.log('-----------------------------');
 
-	console.log('*************************************');
-	console.log('OK    :', score.ok.total);
-	console.log('Not OK:', score.fail.total);
-	console.log('Total :', score.ok.total+score.fail.total);
+	console.log('');
+	console.log('');
+	
+	console.log('***************** TOTAL RESULT AFTER '+(i+1)+' / '+testfiles.length+' test files')	
+	console.log('Tests      :', score.ok.total+score.fail.total);
+	console.log('Was OK     :', score.ok.total);
+	console.log('Was not OK :', score.fail.total);
 	console.log('Final score:', score.percent(score.ok.total, score.fail.total), '% was OK');
-	console.log('*************************************');
-
+	console.log('*****************');
+    console.log('');
 
 }
 
-console.log('*************************************');
+console.log('***************** ALL TESTS COPMLETED ********************');
+console.timeEnd('Total script time')
+
+
 
 
 
 function runSQLtestForFile(path, db){
-
+	
+	if(resetErroIndexPerFile)
+		erroIndex = {};
+	
     var fragments = sqllogictestparser(path);
 
     for (var i = 0; i < fragments.length; i++) { 

@@ -42,3 +42,49 @@ ToDo
 - Verify that the parser parses all the tests (ongoing development in the sqllogivtestparserV2.js)
 - Impelment mocha for showing testresults
 - Implement rest of returned results. demands 
+
+
+
+
+Output
+------
+
+The output from run.js is structured the following way:
+
+- Date and time for the run
+- Information about how many test files will used
+- [notice if this does not represent all test files in the test folder]
+- Listing path to each testfile to be used
+- For each test file
+	- Name of the test file that is about to run
+	- If errors occure the original SQL triggering the error is printed followed by the javascript error description. 
+	- Summery of error rate in this test file and time consumption
+	- Summery of error rate for all test file	
+- Note stating: "ALL TESTS COPMLETED"
+
+The output from a single testfile could look like this
+
+	-----------------------------
+	Looking at ./test/index/between/1/slt_good_0.test
+
+	Ran 22 tests
+	100% was OK
+	0 was not
+	./test/index/between/1/slt_good_0.test: 47ms
+
+	-----------------------------
+
+It makes sense, as no errors was found. But it can also look like this:
+
+	-----------------------------
+	Looking at ./test/evidence/slt_lang_update.test
+
+	Ran 25 tests
+	96% was OK
+	1 was not
+	./test/evidence/slt_lang_update.test: 98ms
+
+	-----------------------------
+	
+That makes less sense as an error was found but was not printed. Because there are about 2 million tests in the full test set the same errors will be found many times. That is why an error only gets printed first time its seen. Settings for printing errors can be found in the config section of run.js
+
