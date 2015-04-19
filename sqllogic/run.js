@@ -4,6 +4,7 @@
 // Todo: verifying hashed results
 
 var fs    = require("fs")
+var util = require('util');
 var alasql = require('./../alasql.js');
 var sqllogictestparser =  require('./sqllogictestparser');
 var db = alasql;
@@ -123,6 +124,7 @@ for (var i in testfiles) {
 	console.log('Was OK     :', score.ok.total);
 	console.log('Was not OK :', score.fail.total);
 	console.log('Final score:', score.percent(score.ok.total, score.fail.total), '% was OK');
+	console.log(util.inspect(process.memoryUsage()));
 	console.log('*****************');
     console.log('');
 
