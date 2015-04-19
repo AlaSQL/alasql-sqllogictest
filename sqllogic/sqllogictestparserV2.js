@@ -1,3 +1,37 @@
+/*
+
+var fs = require('fs');
+var PEG = require("pegjs");
+
+var parserPath = './parser.txt'
+var parserDescription = fs.readFileSync(parserPath, "ASCII");
+var testDescription = fs.readFileSync(testPath, "ASCII");
+
+console.log('Creating parser')
+var parser = PEG.buildParser(parserDescription);
+console.log('Parser OK')
+console.log('')
+
+	
+console.log('Parseing test')	
+console.log(parser.parse(testDescription));
+
+
+
+
+
+
+
+
+
+*/
+
+
+
+
+
+
+
 
 
 
