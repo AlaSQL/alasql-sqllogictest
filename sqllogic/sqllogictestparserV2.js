@@ -39,10 +39,8 @@ console.timeEnd('Parser OK');
 
 module.exports = function(path) {
 
-	path = './demo.test'
+	//path = './demo.test'
 	
-	//path = './test/index/commute/10/slt_good_32.test'
-		
 	var fs = require('fs');
 
 	var parser = _parser;

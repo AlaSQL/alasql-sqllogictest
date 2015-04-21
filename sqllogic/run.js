@@ -5,6 +5,7 @@
 
 var fs    = require("fs")
 var util = require('util');
+var pretty = require('prettysize');
 var alasql = require('./../alasql.js');
 var sqllogictestparser =  require('./sqllogictestparserV2');
 var db = alasql;
@@ -33,8 +34,8 @@ var testfiles = walkFiles(
 							/\.test$/, 					// Regexp for files to include (all files ending with .test )
 							
 														// Regexp for files to exclude - keep one and outcomment the rest
-							null						// Exclude no files - As all tests contains a few million tests it can take some time. (622 files at this time)
-					//		/00\/|\d{2,}\.test/			// Exclude a lot of files (fastest - 125 files at the time)
+					//		null						// Exclude no files - As all tests contains a few million tests it can take some time. (622 files at this time)
+							/00\/|\d{2,}\.test/			// Exclude a lot of files (fastest - 125 files at the time)
 					//		/\/10+\//					// exclude biggest files (balance between time and depth) (410 files)
 						);
 
@@ -104,8 +105,8 @@ for (var i in testfiles) {
 	
 
 	score.round.init();
-	runSQLtestForFile(testfiles[i],  db);
-break;
+	runSQLtestFromFile(testfiles[i],  db);
+
 	var roundCount = score.round.stat();
 
 	console.log('Ran', roundCount.total, 'tests');
@@ -120,15 +121,24 @@ break;
 	console.log('');
 	console.log('');
 	
-	console.log('***************** TOTAL RESULT AFTER '+(i+1)+' / '+testfiles.length+' test files')	
+	console.log('***************** TOTAL RESULT AFTER ',(1+i),' / ',testfiles.length,' test files')	
 	console.log('Tests      :', score.ok.total+score.fail.total);
 	console.log('Was OK     :', score.ok.total);
 	console.log('Was not OK :', score.fail.total);
 	console.log('Final score:', score.percent(score.ok.total, score.fail.total), '% was OK');
-	console.log(util.inspect(process.memoryUsage()));
+	
+	var mem = process.memoryUsage();
+	console.log('mem:',util.inspect({
+				  						rss: pretty(mem.rss), 
+				 						heapTotal: pretty(mem.heapTotal), 
+				 						heapUsed: pretty(mem.heapUsed) 
+							}));
+	
+	
+	
 	console.log('*****************');
     console.log('');
-
+//break;
 }
 
 console.log('***************** ALL TESTS COPMLETED ********************');
@@ -138,17 +148,15 @@ console.timeEnd('Total script time')
 
 
 
-function runSQLtestForFile(path, db){
+function runSQLtestFromFile(path, db){
 	
 	if(resetErroIndexPerFile)
 		erroIndex = {};
 	
     var fragments = sqllogictestparser(path);
-
 	
 	
-//console.log('ran parser on',path);
-return;
+	//console.log(fragments)return;
 	
     for (var i = 0; i < fragments.length; i++) { 
        if('halt' == fragments[i].command)
@@ -164,6 +172,12 @@ return;
           continue;
         }  
 
+		
+		if(false === fragments[i].expectSuccess){
+			//console.log('Expected error not implemented')
+			continue;
+		}
+		
         var test = verifyTest(fragments[i], db)
 
         if(test.ok){
@@ -171,6 +185,8 @@ return;
          } else {
            score.fail.total++;
 		   
+			//console.log(test)	 
+			 
 		   var errHash = test.msg.split('-----^').pop()/*.split("'").unshift()*/.replace(/[^a-z]/mig, '')
 		   
 		   // The hashing of the errors gives us first error per error type. The math random is there to give os 1% of all errors so we have some different examples. Should be avoided when we have the worst error types implemented correctly.
@@ -202,8 +218,15 @@ return;
 
 function verifyTest(fragment, db){
   
-    var result = runTest(fragment.argument, db)
-    result.ok = fragment.expectSuccess ===  result.succes
+	//console.log('-----------------------------------------------')
+    var result = runTest(fragment.sql, db)
+	/*console.log(fragment)
+	console.log(result)
+	console.log(fragment.expectSuccess)
+	console.log(result.success)
+	console.log(!(fragment.expectSuccess^result.success))*/
+    result.ok = (fragment.expectSuccess === result.success)
+	//console.log(result)
     return result;
     // todo: implement handeling of results - and not just if it fails compilation
   
@@ -217,18 +240,19 @@ function runTest(sql, db){
   sql = sql
           .replace(/\r|\n/g,' ')
           .replace(/[ ]{2,}/g,' ');
-  
+  //console.log(sql);
   var result;
   
   try {
       result = db.exec(sql)
+	  //result = alasql.parse(sql);
   }
   catch(err) {
-      return {succes: false, msg: err.message, sql:sql}
+      return {success: false, msg: (err.message || 'no error msg'), sql:sql}
   }
   
    
-  return {succes: true, result:result}
+  return {success: true, result:result}
 
 }
 

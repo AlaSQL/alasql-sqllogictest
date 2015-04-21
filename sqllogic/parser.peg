@@ -46,8 +46,9 @@ statement
   	{
   		return {
   					command: 'execute', 
-  					expectSucess: expect, 
-  					sql:sql
+  					expectSuccess: expect, 
+ 					sql:sql.trim(),
+  					results: {type:'void'} 
   				}
   	}
 
@@ -77,18 +78,15 @@ query
     {
     	return {
 			command: 'execute',
-			expectSucess: true,
-			sql: sql,
+			expectSuccess: true,
+			sql: sql.trim(),
 			result: result
 		}
     }
 
-nl
-	= "\n"
-
 result
-  =nl result:resultVal{return result} 
-  / !. {return {type:'void'}}
+  =nl* result:resultVal{return result} 
+
 
 resultVal
 	= resultHash
@@ -118,13 +116,7 @@ resultList
 	}
 	
 resultVoid
-	= nl* !. 
-	{
-		return{
-			type:"void"
-		}
-
-	}
+	= nl* !. {return {type:'void'}}
 	
 
 limit
@@ -173,9 +165,12 @@ label
 alphanum
 	= $[a-z0-9_-]i+
 
+
+nl
+	= "\n"
+
 _
 	= ' '
-
 
 
 
