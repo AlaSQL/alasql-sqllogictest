@@ -94,6 +94,14 @@ console.log(testfiles);
 
 
 for (var i in testfiles) {
+	
+	//If node get the flag --expose-gc we can invoke garbagecollection manually.
+	if (typeof global != 'undefined' && typeof(global.gc) === "function") {
+		console.time('Garbagecollecting')
+		global.gc();
+		console.timeEnd('Garbagecollecting')
+	}
+	
 	console.time(testfiles[i])
 
 	console.log('');

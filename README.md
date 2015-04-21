@@ -11,6 +11,10 @@ Execute run.js in the sqllogic folder. As the output is very big its suggested t
     cd sqllogic
     node run.js > results.log
 
+As the testfiles are quite big the garbagecollection can be initiated between the run of each file. To initiate it run node with the --expose-gc flag
+
+    node --expose-gc run > results.log 
+
 
 What?
 -----
