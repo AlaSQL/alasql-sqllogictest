@@ -96,12 +96,15 @@ console.log(testfiles);
 for (var i in testfiles) {
 	console.time(testfiles[i])
 
-	var name = testfiles[i].replace(/[^a-z0-1]/g,'_');
-	var db = new alasql.Database(name);
 	console.log('');
 	console.log('-----------------------------');
 	console.log('Looking at', testfiles[i]);
+	printMem()
 	console.log('');
+	
+	
+	var name = testfiles[i].replace(/[^a-z0-1]/g,'_');
+	var db = new alasql.Database(name);
 	
 
 	score.round.init();
@@ -115,7 +118,17 @@ for (var i in testfiles) {
 
 	console.timeEnd(testfiles[i]);
 
-  	console.log('');
+	printStats();
+//break;
+}
+
+console.log('***************** ALL TESTS COPMLETED ********************');
+console.timeEnd('Total script time')
+
+
+
+function printStats(){
+	  	console.log('');
 	console.log('-----------------------------');
 
 	console.log('');
@@ -126,7 +139,15 @@ for (var i in testfiles) {
 	console.log('Was OK     :', score.ok.total);
 	console.log('Was not OK :', score.fail.total);
 	console.log('Final score:', score.percent(score.ok.total, score.fail.total), '% was OK');
+
+	printMem();
 	
+	console.log('*****************');
+    console.log('');
+}
+
+function printMem(){
+		
 	var mem = process.memoryUsage();
 	console.log('mem:',util.inspect({
 				  						rss: pretty(mem.rss), 
@@ -135,16 +156,7 @@ for (var i in testfiles) {
 							}));
 	
 	
-	
-	console.log('*****************');
-    console.log('');
-//break;
 }
-
-console.log('***************** ALL TESTS COPMLETED ********************');
-console.timeEnd('Total script time')
-
-
 
 
 
@@ -244,8 +256,8 @@ function runTest(sql, db){
   var result;
   
   try {
-      result = db.exec(sql)
-	  //result = alasql.parse(sql);
+      //result = db.exec(sql)
+	  result = alasql.parse(sql);
   }
   catch(err) {
       return {success: false, msg: (err.message || 'no error msg'), sql:sql}
