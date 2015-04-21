@@ -25095,13 +25095,11 @@ SELECT pk FROM tab3 WHERE (((83 <= col0 AND 49 > col0 OR col0 BETWEEN 95 AND 24)
 ----
 
 skipif PostgreSQL # FoundationDB bug 1205456 NullPointerException from Optimizer for query with impossible condition
-
 query I rowsort label-5580
 SELECT pk FROM tab4 WHERE (((col0 >= 83 AND col0 < 49 OR col0 BETWEEN 95 AND 24) AND col1 <= 8.11 AND col3 < 81))
 ----
 
 skipif PostgreSQL # FoundationDB bug 1205456 NullPointerException from Optimizer for query with impossible condition
-
 query I rowsort label-5580
 SELECT pk FROM tab4 WHERE (((83 <= col0 AND 49 > col0 OR col0 BETWEEN 95 AND 24) AND 8.11 >= col1 AND 81 > col3))
 ----

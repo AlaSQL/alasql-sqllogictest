@@ -148,7 +148,7 @@ function runSQLtestForFile(path, db){
 	
 	
 //console.log('ran parser on',path);
-continue;
+return;
 	
     for (var i = 0; i < fragments.length; i++) { 
        if('halt' == fragments[i].command)
