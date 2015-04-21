@@ -6,7 +6,7 @@
 var fs    = require("fs")
 var util = require('util');
 var alasql = require('./../alasql.js');
-var sqllogictestparser =  require('./sqllogictestparser');
+var sqllogictestparser =  require('./sqllogictestparserV2');
 var db = alasql;
 console.time('Total script time')
 
@@ -33,8 +33,8 @@ var testfiles = walkFiles(
 							/\.test$/, 					// Regexp for files to include (all files ending with .test )
 							
 														// Regexp for files to exclude - keep one and outcomment the rest
-					//		null						// Exclude no files - As all tests contains a few million tests it can take some time. (622 files at this time)
-							/00\/|\d{2,}\.test/			// Exclude a lot of files (fastest - 125 files at the time)
+							null						// Exclude no files - As all tests contains a few million tests it can take some time. (622 files at this time)
+					//		/00\/|\d{2,}\.test/			// Exclude a lot of files (fastest - 125 files at the time)
 					//		/\/10+\//					// exclude biggest files (balance between time and depth) (410 files)
 						);
 
@@ -105,6 +105,7 @@ for (var i in testfiles) {
 
 	score.round.init();
 	runSQLtestForFile(testfiles[i],  db);
+break;
 	var roundCount = score.round.stat();
 
 	console.log('Ran', roundCount.total, 'tests');
@@ -144,6 +145,11 @@ function runSQLtestForFile(path, db){
 	
     var fragments = sqllogictestparser(path);
 
+	
+	
+//console.log('ran parser on',path);
+continue;
+	
     for (var i = 0; i < fragments.length; i++) { 
        if('halt' == fragments[i].command)
            break;

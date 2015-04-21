@@ -1,7 +1,7 @@
 /*
 
 var fs = require('fs');
-var PEG = require("pegjs");
+
 
 var parserPath = './parser.txt'
 var parserDescription = fs.readFileSync(parserPath, "ASCII");
@@ -26,251 +26,251 @@ console.log(parser.parse(testDescription));
 
 */
 
-
-
-
-
-
-
+var fs = require('fs');
+var PEG = require("pegjs");
+var _parserPath = './parser.peg';
+console.log('Initializing parser');
+console.time('Parser OK');
+var _parserDescription = fs.readFileSync(_parserPath, "ASCII");
+var _parser = PEG.buildParser(_parserDescription);
+console.timeEnd('Parser OK');
 
 
 
 module.exports = function(path) {
-  
-  var found = []
-  var fs = require('fs');
-  var fileContent = fs.readFileSync(path, "ASCII");
-  //console.log(fileContent);
-  
-  var cleanCommentsOut = function(string){
-      return string
-                    .replace(/\s*#.*/g, '')
-                    
-                  ;
-    
-  }
-  
 
-/*
-  var regexpCut = function(string){
-      var toTest = [];
-      var regex = {};
+	path = './demo.test'
+	
+	//path = './test/index/commute/10/slt_good_32.test'
+		
+	var fs = require('fs');
 
-      regex.halt = /(?:^|\n)halt/i
-      regex.setThreshold = /(?:^|\n)hash-threshold/i
-      regex.statement = /(?:^|\n)statement/i
-      regex.statement = /(?:^|\n)query/i
+	var parser = _parser;
+	
+	var commands = []
+
+	var fileContent = fs.readFileSync(path, "ASCII");
+		
+	var textCommands=fileContent
+								.replace(/#\n/g, "#")		// remove comments
+								.replace(/#[^\n]*/g, '')		// remove comments
+								.replace(/\r/g, '')             // remove \r so can focus on LF and not CR? LF
+								.replace(/\n{3,}/g, "\n\n")		// Make sure all double+ linespaces are uniform
+								.trim()							// Trim the string so we dont get empty elements first and last
+								.split("\n\n")					// Make array with one command in each chunck 
+								;
+	//console.log(textCommands);
+//return;
+
+	for (var i = 0; i < textCommands.length; i++) {
+		
+		
+		if(''==textCommands[i]){
+			continue;
+		}
+		
+
+		try{
+			commands.push(parser.parse(textCommands[i]+"\n"));
+		}catch(e){
+			// output if could not be passed
+			console.log('************ Error parseing test number', i. 'in file', path)	
+			console.log('previus test (passed):',textCommands[i-1]);
+			console.log('this test (failed):': textCommands[i]);
+			if(i+1 < textCommands.length)
+				console.log('Next test to be passed:'.textCommands[Math.max(i+1)]);
+			console.log('')	
+			console.log(JSON.stringify({error:e}))
+			console.log('----------------')		
+			console.log('')		
+		}	
+		
+
+		
+	};
+
+	
+	return commands;
 
 
 
-
-      var cuts=string
-                    .replace(/\r/g, '')
-                    .replace(/\n{3,}/g, "\n\n")
-                    .split("\n\n")
-                  ;
-
-                  
-      for (var i = 0; i < cuts.length; i++) {
-          
-        
-        
-        var tmp = {}
-        
-
-        
-        
-      
-        if(m[nameMap.is.halt]){
-            tmp.command = 'halt'
-          
-        } else if(m[nameMap.is.hashThreshold]){
-            tmp.command = 'setThreshold'
-            tmp.argument = m[nameMap.hashThreshold.maxResponses]
-          
-        } else  if(m[nameMap.is.statement]){
-            tmp.command = 'execute';    
-            tmp.argument = m[nameMap.statement.sql];
-            tmp.expectSuccess = regexOk.test(m[nameMap.statement.expected]);
-            
-            
-        } else if(m[nameMap.is.query]){
-            tmp.command = 'execute';    
-            tmp.argument = m[nameMap.query.sql]
-            tmp.expectSuccess = true;
-          
-            tmp.skipif = m[nameMap.is.skipif]?true:false;
-            if(tmp.skipif)
-              tmp.skipifVal = m[nameMap.skipif.dbName] || '';
-          
-            tmp.onlyif = m[nameMap.is.onlyif]?true:false;
-            if(tmp.onlyIf)
-              tmp.onlyifVal = m[nameMap.onlyif.dbName] || '';
-           
-            tmp.resultIsList = m[nameMap.is.resultIsList]?true:false;
-            if(tmp.resultIsList)
-                tmp.resultList = m[nameMap.query.resultList] || '';
-
-            tmp.resultIsHash = m[nameMap.is.resultIsHash]?true:false;
-            if(tmp.resultIsHash){
-                tmp.resultCount = m[nameMap.query.resultCount] || '';
-                tmp.resultHash = m[nameMap.query.resultHash] || '';
-            }
-            
-          
-                
-        } else {
-          console.log('unknkown cut', m)
-          continue;
-          
-        }
-      
-      cuts.push(tmp)
-
-  };
-
-  }
-
-*/
-
-  var regexpCut = function(string){
-    
-    // No group naming in javascript - use https://regex101.com/#javascript to help out
-    var nameMap = {
-                            is: {
-                                  statement: 1
-                                  ,
-                                  hashThreshold: 16
-                                 ,
-                                  halt: 18 
-                                  ,
-                                  query: 8
-                                  ,
-                                  skipif: 4
-                                  ,
-                                  onlyif: 6
-                                  ,
-                                  resultIsList: 15
-                                  ,
-                                  resultIsHash: 14
-                              
-                            },
-                            statement: {
-                                  expected: 2
-                                  ,
-                                  sql: 3
-                            },
-                            hashThreshold: {
-                                  maxResponses:17
-                            },
-                            query:{
-                                colType: 9
-                                ,
-                                sortType: 10
-                                ,
-                                label: 11
-                                ,
-                                sql: 12
-                                ,
-                                resultCount: 13
-                                ,
-                                resultHash: 14
-                                , 
-                                resultList: 15
-                                  
-                            },
-                            skipif :{
-                                dbName: 5
-                            },
-                            onlyif :{
-                                dbName: 7
-                            }
-      
-                          }
-    
-    
-  
-    var re = /(?:(?:\n|^)(statement) (ok|fail)((?:\r?\n.+)+))|(?:\n(?:(skipif) (\w+)\r?\n)?(?:(onlyif) (\w+)\r?\n)?(query) (\w+) (\w+)? ?(\w+)?\r?\n([\s\S]+?)\n----(?:(?:\r?\n([0-9]+) values hashing to ([0-z0-9]+))|(?:((?:\r?\n.+)+))))|(?:(?:\n|^)(hash-threshold) (\d+))|(?:\n(halt))/mig; 
-      
-    var cuts = []
-
-    var str = string;
-    var regexOk = /ok/i
-
-    while ((m = re.exec(str)) != null) {
-       /* if (m.index === re.lastIndex) {
-            re.lastIndex++;
-        }*/
-      
-        
-        var tmp = {}
-        
-
-        
-        
-      
-        if(m[nameMap.is.halt]){
-            tmp.command = 'halt'
-          
-        } else if(m[nameMap.is.hashThreshold]){
-            tmp.command = 'setThreshold'
-            tmp.argument = m[nameMap.hashThreshold.maxResponses]
-          
-        } else  if(m[nameMap.is.statement]){
-            tmp.command = 'execute';    
-            tmp.argument = m[nameMap.statement.sql];
-            tmp.expectSuccess = regexOk.test(m[nameMap.statement.expected]);
-            
-            
-        } else if(m[nameMap.is.query]){
-            tmp.command = 'execute';    
-            tmp.argument = m[nameMap.query.sql]
-            tmp.expectSuccess = true;
-          
-            tmp.skipif = m[nameMap.is.skipif]?true:false;
-            if(tmp.skipif)
-              tmp.skipifVal = m[nameMap.skipif.dbName] || '';
-          
-            tmp.onlyif = m[nameMap.is.onlyif]?true:false;
-            if(tmp.onlyIf)
-              tmp.onlyifVal = m[nameMap.onlyif.dbName] || '';
-           
-            tmp.resultIsList = m[nameMap.is.resultIsList]?true:false;
-            if(tmp.resultIsList)
-                tmp.resultList = m[nameMap.query.resultList] || '';
-
-            tmp.resultIsHash = m[nameMap.is.resultIsHash]?true:false;
-            if(tmp.resultIsHash){
-                tmp.resultCount = m[nameMap.query.resultCount] || '';
-                tmp.resultHash = m[nameMap.query.resultHash] || '';
-            }
-            
-          
-                
-        } else {
-          console.log('unknkown cut', m)
-          continue;
-          
-        }
-      
-      cuts.push(tmp)
-      
-
-    }
-    
-    return cuts;
-
-  }
-  
-  
-
-  
-  
-  
-  return regexpCut(cleanCommentsOut(fileContent))
-  
-
-  
 };
 
+ /*
  
+ {
+  function doInt(o) {
+    return parseInt(o.join(""), 10);
+  }
+
+}
+
+start 
+  = nl* c:command trim? {return c}
+
+trim
+  = ([\n\t ]*) 
+
+
+command
+  = statement 
+  / query   
+  / hash 
+  / halt 
+  
+
+
+halt
+	= "halt"i 
+  		{	
+	  		return {
+	  					command:'halt'
+	  				}	 
+	  	}
+
+hash
+	= "hash-threshold" _ maxResponses:[0-9]+ 
+  		{
+  			return {
+  						command: 'setThreshold', 
+  						maxResponses: doInt(maxResponses)
+  					} 
+  		}
+
+statement
+  = expect:statementExpectation _* nl sql:sql 
+  	{
+  		return {
+  					command: 'execute', 
+  					expectSucess: expect, 
+  					sql:sql
+  				}
+  	}
+
+statementExpectation
+  = "statement"i ' ' v:statementOption {return v}
+
+statementOption
+  = "ok"i    {return true}
+  / "fail"i  {return false}
+
+
+sql
+  = result:	(
+				t:(!delimitor .) {return t[1];}
+			)* 
+		delimitor {return result.join("");}
+
+delimitor
+	= '\n----'
+	/ !.
+
+query
+  = queryInit:queryInit? 
+    queryMain:queryMain nl
+    sql:sql nl
+    result:result
+    {
+    	return {
+			command: 'execute',
+			expectSucess: true,
+			sql: sql,
+			result: result,
+			skipif: queryInit.skipif || false,
+			onlyif: queryInit.onlyif || false,
+		}
+    }
+
+nl
+	= "\n"
+
+result
+	= resultHash
+	/ resultList
+	/ resultVoid
+
+resultHash
+	= amount:$[0-9]+ 
+		" values hashing to " 
+		hash:alphanum 
+		{
+			return {
+				type:'hash',
+				amount: amount,
+				hash:hash
+			}
+		}
+
+
+resultList
+	= list:(v:$[^\n]+ nl{return v})+
+	{
+		console.log(list)
+		return {
+			type:'list',
+			values: list
+		}
+	}
+	
+resultVoid
+	= nl* !. 
+	{
+		return{
+			type:"void"
+		}
+
+	}
+	
+
+queryInit
+  = c:queryInitCommand* 
+  	{ 
+  		var skipif = [];
+  		var onlyif = [];
+		for (var i = c.length - 1; i >= 0; i--) {
+			if('skip' == c[i].type){
+				skipif.push(c[i].val);
+			} else if('only' == c[i].type){
+				onlyif.push(c[i].val);
+			}
+		};
+  		return {skipif:skipif,onlyif:onlyif}
+  	}
+
+queryInitCommand
+  = "skipif"i ' ' v:alphanum nl {return {type:'skip', val: v}}
+  / "onlyif"i ' ' v:alphanum nl {return {type:'only', val: v}}
+
+
+queryMain
+ = "query"i _ colInfo _ sortInfo
+
+skipif
+  = "skipif"i _ alphanum
+
+
+colInfo
+  = [SDI]+
+
+sortInfo
+  = "nosort"i
+  / "rowsort"i
+
+
+alphanum
+  = $[a-z0-9]i+
+
+
+_
+	= ' '
+
+
+
+
+
+
+
+
+
+ 
+ */

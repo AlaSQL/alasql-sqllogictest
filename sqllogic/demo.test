@@ -1,3 +1,40 @@
+# So far, this only runs well on SQLite and MySQL.
+
+# skip this entire file if ms sql server
+onlyif mssql
+halt
+
+# skip this entire file if oracle
+onlyif oracle
+halt
+
+# skip this entire file if PostgreSQL-FoundationDB
+onlyif PostgreSQL # FoundationDB
+halt
+
+# EVIDENCE-OF: R-58875-56087 The IN and NOT IN operators take a single
+# scalar operand on the left and a vector operand on the right formed by
+# an explicit list of zero or more scalars or by a single subquery.
+#
+
+# EVIDENCE-OF: R-52275-55503 When the right operand is an empty set, the
+# result of IN is false and the result of NOT IN is true, regardless of
+# the left operand and even if the left operand is NULL.
+#
+
+# EVIDENCE-OF: R-13595-45863 Note that SQLite allows the parenthesized
+# list of scalar values on the right-hand side of an IN or NOT IN
+# operator to be an empty list but most other SQL database database
+# engines and the SQL92 standard require the list to contain at least
+# one element.
+#
+
+onlyif sqlite # empty RHS
+query I nosort
+SELECT 1 IN ()
+----
+0
+
 hash-threshold 8
 
 statement ok

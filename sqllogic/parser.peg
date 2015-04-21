@@ -1,19 +1,23 @@
 {
-  function doInt(o) {
-    return parseInt(o.join(""), 10);
-  }
-
+	function doInt(o) {
+		return parseInt(o.join(""), 10);
+  	}
 }
 
 start 
-  = nl* c:command trim? {return c}
+  = nl* l:limit c:command trim? 
+  	{	
+		c.skipif = l.skipif;
+		c.onlyIf = l.onlyif;
+		return c;
+	}
 
 trim
   = ([\n\t ]*) 
 
 
 command
-  =statement 
+  = statement 
   / query   
   / hash 
   / halt 
@@ -52,7 +56,7 @@ statementExpectation
 
 statementOption
   = "ok"i    {return true}
-  / "fail"i  {return false}
+  / "error"i  {return false}
 
 
 sql
@@ -60,24 +64,22 @@ sql
 				t:(!delimitor .) {return t[1];}
 			)* 
 		delimitor {return result.join("");}
+	/ !.
 
 delimitor
-	= '\n----'
+	= '\n----' _*
 	/ !.
 
 query
-  = queryInit:queryInit? 
-    queryMain:queryMain nl
-    sql:sql nl
-    result:result
+  = queryMain:queryMain nl
+    sql:sql 
+    result:result?
     {
     	return {
 			command: 'execute',
 			expectSucess: true,
 			sql: sql,
-			result: result,
-			skipif: queryInit.skipif || false,
-			onlyif: queryInit.onlyif || false,
+			result: result
 		}
     }
 
@@ -85,6 +87,10 @@ nl
 	= "\n"
 
 result
+  =nl result:resultVal{return result} 
+  / !. {return {type:'void'}}
+
+resultVal
 	= resultHash
 	/ resultList
 	/ resultVoid
@@ -103,9 +109,8 @@ resultHash
 
 
 resultList
-	= list:(v:$[^\n]+ nl{return v})+
+	= list:(v:$[^\n]+ (nl/!.){if('NULL' === v){v = null};return v})+
 	{
-		console.log(list)
 		return {
 			type:'list',
 			values: list
@@ -122,7 +127,7 @@ resultVoid
 	}
 	
 
-queryInit
+limit
   = c:queryInitCommand* 
   	{ 
   		var skipif = [];
@@ -134,36 +139,42 @@ queryInit
 				onlyif.push(c[i].val);
 			}
 		};
-  		return {skipif:skipif,onlyif:onlyif}
+  		return {
+					skipif:skipif,
+					onlyif:onlyif
+				}
   	}
 
 queryInitCommand
-  = "skipif"i ' ' v:alphanum nl {return {type:'skip', val: v}}
-  / "onlyif"i ' ' v:alphanum nl {return {type:'only', val: v}}
+  = "skipif"i ' ' v:alphanum _* nl {return {type:'skip', val: v}}
+  / "onlyif"i ' ' v:alphanum _* nl {return {type:'only', val: v}}
 
 
 queryMain
- = "query"i _ colInfo _ sortInfo
+ = "query"i _ colInfo (_ sortInfo)? (_ label)? _*
+
 
 skipif
   = "skipif"i _ alphanum
 
 
 colInfo
-  = [SDI]+
+  = [a-z]i+
 
 sortInfo
   = "nosort"i
   / "rowsort"i
+  / "valuesort"i 
 
+
+label
+	= $alphanum+
 
 alphanum
-  = $[a-z0-9]i+
-
+	= $[a-z0-9_-]i+
 
 _
 	= ' '
-
 
 
 
