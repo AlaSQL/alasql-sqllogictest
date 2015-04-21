@@ -1,3 +1,7 @@
+/*
+PEG.JS gramma for sqllogictest files as described at http://www.sqlite.org/sqllogictest/doc/trunk/about.wiki
+*/
+
 {
 	function doInt(o) {
 		return parseInt(o.join(""), 10);
@@ -171,8 +175,6 @@ nl
 
 _
 	= ' '
-
-
 
 
 
