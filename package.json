@@ -1,0 +1,23 @@
+{
+  "name": "alasql-logictest",
+  "version": "0.0.1",
+  "description": "sqllogictest of AlaSQL",
+  "main": "sqllogic/run_raw.js",
+  "scripts": {
+    "test": "cd sqllogic && node --expose-gc run_md.js > ../results.md"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mathiasrw/alasql-logictest"
+  },
+  "keywords": [
+    "sql",
+    "test"
+  ],
+  "author": "Mathias Rangel Wulff",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mathiasrw/alasql-logictest/issues"
+  },
+  "homepage": "https://github.com/mathiasrw/alasql-logictest"
+}

@@ -28,12 +28,12 @@ console.log(parser.parse(testDescription));
 
 var fs = require('fs');
 var PEG = require("pegjs");
-var _parserPath = './parser.peg';
-console.log('Initializing parser');
-console.time('Parser OK');
+var _parserPath = 'parser.peg';
+//console.log('Initializing parser');
+//console.time('Parser OK');
 var _parserDescription = fs.readFileSync(_parserPath, "ASCII");
 var _parser = PEG.buildParser(_parserDescription);
-console.timeEnd('Parser OK');
+//console.timeEnd('Parser OK');
 
 
 

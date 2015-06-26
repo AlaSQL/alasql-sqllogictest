@@ -1,0 +1,316 @@
+// Todo: verifying raw results 
+// Todo: set threshold for hashing results
+// Todo: verifying hashed results
+
+var fs    = require("fs")
+var sqllogictestparser =  require('./sqllogictestparserV2');
+var alasql = require('alasql'); 
+console.time('Total script time')
+
+
+///////////// CONFIG ////////////////////
+
+// If set to false an error will only be printed first time ic occures in all test files. 
+var printAllErrors = false;				
+
+// If set to false an error will only be printed at first occurence in all test files. If set to true an error will be printed at first occurence in each test file
+var resetErroIndexPerFile = false;		
+
+// Sometimes you would like to have more examples of the same error. Set this between 0 and 1 to set the probabillity of an error getting printed in case it has been printes before 
+var curiousErrorprinting = 0.0001;		
+
+// Incomment to use local file instead of node_module
+// alasql = require('./alasql.js');   
+
+
+// Config of what tests to run
+var testfiles = walkFiles(
+							'test', 					// Folder where to find test files 
+
+	
+							/\.test$/, 					// Regexp for files to include (all files ending with .test )
+
+	
+														// Regexp for files to exclude - keep one and outcomment the rest
+					//		/00\/|\d{2,}\.test/			// Exclude a lot of files (fastest - 125 files)
+					//		/\/10+\//					// exclude biggest files (balance between time and depth) (410 files)
+						null						// Exclude no files - As all tests contains a few million tests it can take some time. (622+ files)
+						);
+
+
+///////////////////
+
+
+
+var erroIndex = {}
+var score = {
+				ok: {
+					total:0,
+					last:0
+				},
+				fail: {
+					total:0,
+					last:0
+				},
+				round:{
+					init: function(obj){
+											obj = obj || score;
+											obj.ok.last = obj.ok.total;
+											obj.fail.last = obj.fail.total;
+										},
+					stat: function(obj){
+											obj = obj || score;
+											var tmp = {
+												ok: obj.ok.total - obj.ok.last,
+												fail: obj.fail.total - obj.fail.last,
+											};
+											tmp.total = tmp.ok+tmp.fail;
+											return tmp;
+										}
+				},
+				percent: function(a, b){
+											a = a | 0;
+											b = b | 0;
+											if(0==a+b){
+												return 0;
+											}
+											return (100.0*a/(a+b))|0
+										}
+			};
+
+
+console.log('# SQLlogic test results for AlaSQL',alasql.version)
+console.log('');
+console.log('_'+ new Date().toISOString()+'_')
+console.log('');
+console.log('Results from '+testfiles.length+' test files.')
+
+if(testfiles.length<622){ // Todo: fix hardcode
+	console.log('This is a subset of the total 622 tests.')
+}
+	
+/*
+console.log('');
+console.log('```');	
+console.log(testfiles);	
+console.log('```');	
+console.log('');
+*/
+
+for (var i in testfiles) {
+	
+	//If node get the flag --expose-gc we can invoke garbagecollection manually.
+	if (typeof global != 'undefined' && typeof(global.gc) === "function") {
+		//console.time('Garbagecollecting')
+		global.gc();
+		//console.timeEnd('Garbagecollecting')
+	}
+	
+	console.time('Time')
+
+	console.log('');
+	console.log('-----------------------------');
+	console.log('### ' + (1+i) + '/' + testfiles.length + ' `'  +  testfiles[i] + '`');
+	//printMem()
+	console.log('');
+	
+	
+	var name = testfiles[i].replace(/[^a-z0-1]/g,'_');
+	var db = new alasql.Database(name);
+	
+
+	score.round.init();
+	runSQLtestFromFile(testfiles[i],  db);
+
+	var roundCount = score.round.stat();
+
+	console.log('#### '+ (0===roundCount.fail?'✔':'☓') +' Ran', roundCount.total, 'tests');
+	console.log('');
+	console.log('* '+roundCount.fail+ " failed")
+	console.log('* '+score.percent(roundCount.ok, roundCount.fail) +'% was OK');
+	console.log('');
+	console.timeEnd('Time');
+
+	//printStats();
+
+	//break;
+	
+}
+
+//console.log('    ***************** ALL TESTS COMPLETED ******************');
+
+printStats();
+console.timeEnd('Total script time')
+console.log('');
+console.log('_Please note that repetetive errors is not always included in this document_');
+
+
+
+function printStats(){
+	  	console.log('');
+	console.log('-----------------------------');
+
+	console.log('');
+	
+	
+	console.log('## Final result')	
+	console.log('');
+	console.log('* Failed tests:', score.fail.total);
+	
+	//console.log('Was OK     :', score.ok.total);
+	console.log('* Total tested:', score.ok.total+score.fail.total);
+	console.log('* Final score:', score.percent(score.ok.total, score.fail.total), '% was OK');
+
+	//printMem();
+	
+
+	console.log('');
+
+}
+
+function printMem(){
+		
+	var mem = process.memoryUsage();
+	console.log('mem:',util.inspect({
+				  						rss: pretty(mem.rss), 
+				 						heapTotal: pretty(mem.heapTotal), 
+				 						heapUsed: pretty(mem.heapUsed) 
+							}));
+	
+	
+}
+
+
+
+function runSQLtestFromFile(path, db){
+	
+	if(resetErroIndexPerFile)
+		erroIndex = {};
+	
+    var fragments = sqllogictestparser(path);
+	
+	
+	//console.log(fragments)return;
+	
+    for (var i = 0; i < fragments.length; i++) { 
+       if('halt' == fragments[i].command)
+           break;
+
+        if('setThreshold' == fragments[i].command){
+          //console.log('setThreshold not implemented');
+          continue;
+        }
+
+       if('execute' != fragments[i].command){
+          console.log('unknown command: ',fragments[i].command);
+          continue;
+        }  
+
+		
+		if(false === fragments[i].expectSuccess){
+			//console.log('Expected error not implemented')
+			continue;
+		}
+		
+        var test = verifyTest(fragments[i], db)
+
+        if(test.ok){
+          score.ok.total++
+         } else {
+           score.fail.total++;
+		   
+			//console.log(test)	 
+			 
+		   var errHash = test.msg.split('-----^').pop()/*.split("'").unshift()*/.replace(/[^a-z]/mig, '')
+		   
+		   // The hashing of the errors gives us first error per error type. The math random is there to give os 1% of all errors so we have some different examples. Should be avoided when we have the worst error types implemented correctly.
+		   if(printAllErrors || !erroIndex[errHash] || Math.random()<curiousErrorprinting){
+			   console.log('```')
+			   console.log(test.sql)
+			   console.log('')
+			   console.log(test.msg)
+			   console.log('```')
+			   console.log('')
+			   erroIndex[errHash] = true;
+		   }
+		   
+		
+
+        }
+      
+        
+    }
+  
+  
+  
+}
+
+
+
+
+
+function verifyTest(fragment, db){
+  
+	//console.log('-----------------------------------------------')
+    var result = runTest(fragment.sql, db)
+	/*console.log(fragment)
+	console.log(result)
+	console.log(fragment.expectSuccess)
+	console.log(result.success)
+	console.log(!(fragment.expectSuccess^result.success))*/
+    result.ok = (fragment.expectSuccess === result.success)
+	//console.log(result)
+    return result;
+    // todo: implement handeling of results - and not just if it fails compilation
+  
+}
+
+
+
+
+function runTest(sql, db){
+  
+  sql = sql
+          .replace(/\r|\n/g,' ')
+          .replace(/[ ]{2,}/g,' ');
+  //console.log(sql);
+  var result;
+  
+  try {
+      //result = db.exec(sql)
+	  result = alasql.parse(sql);
+  }
+  catch(err) {
+      return {success: false, msg: (err.message || 'no error msg'), sql:sql}
+  }
+  
+   
+  return {success: true, result:result}
+
+}
+
+
+
+
+
+function walkFiles(dir, reFilterYes, reFilterNo) {
+    reFilterYes = reFilterYes || false;
+    reFilterNo = reFilterNo || false;
+  
+    var results = [];
+    var list = fs.readdirSync(dir);
+    list.forEach(function(file) {
+        file = dir + '/' + file;
+        if(reFilterNo && reFilterNo.test(file))
+            return;
+        var stat = fs.statSync(file);
+        if (stat && stat.isDirectory()) {
+          results = results.concat(walkFiles(file, reFilterYes, reFilterNo))
+        } else {
+          if(reFilterYes && !reFilterYes.test(file))
+            return;
+          results.push(file)
+        }
+    })
+    return results
+}

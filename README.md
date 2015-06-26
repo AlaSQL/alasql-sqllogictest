@@ -6,24 +6,32 @@ Testing SQL compabillity for [AlaSQL](https://github.com/agershun/alasql)
 How?
 ----
 
-Execute run.js in the sqllogic folder. As the output is very big its suggested to direct output to a file
+Go get markdown summery run the npm test; 
+
+    npm test
+
+Result will output to results.md
+
+To get more details execute `run_raw.js` in the sqllogic folder. As the output is very big its suggested to direct output to a file. As the testfiles are quite big the garbagecollection can be initiated between the run of each file. To initiate this run node with the --expose-gc flag
 
     cd sqllogic
-    node run.js > results.log
-
-As the testfiles are quite big the garbagecollection can be initiated between the run of each file. To initiate it run node with the --expose-gc flag
-
-    node --expose-gc run > results.log 
+    node --expose-gc run_raw > results.log 
 
 
 What?
 -----
 
-The output is the output of each test file followed by the total score. (so you can keep track on overall % of passed tests why its running)
+The output of `run_raw.js` is the output of each test file followed by the total score. (so you can keep track on overall % of passed tests why its running)
 
 There are about 2 million tests in the full test suite. Many of the tests will trigger the same kind of error - this is why the output will only print the same error the first time it comes forward. To have more examples it will randomly print errors even if it has been printes before. You can also choose to print all errors. Please see the config section in the run.js file.
 
 Please note that the current version of the script **ONLY TESTS IF THE SQL CAN COMPILE** - not if the returned values are correct.
+
+To make sure you are testing the lates stable release please run the following: 
+
+    cd sqllogic && npm install alasql 
+
+Please see the config section of the `run` files to run tests on local version instead of npm version.
 
 
 
@@ -45,8 +53,9 @@ ToDo
 
 - Verify that the parser parses all the tests (ongoing development in the sqllogivtestparserV2.js)
 - Implement verification of returned results. 
-- Impelment mocha testframework
 
+**Not ToDo**
+- Impelment mocha testframework (testresults does not get printed before all are done - so fills the memory)
 
 
 Output
