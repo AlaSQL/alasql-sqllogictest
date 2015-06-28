@@ -12,7 +12,7 @@ start
   = nl* l:limit c:command trim? 
   	{	
 		c.skipif = l.skipif;
-		c.onlyIf = l.onlyif;
+		c.onlyif = l.onlyif;
 		return c;
 	}
 
@@ -142,8 +142,8 @@ limit
   	}
 
 queryInitCommand
-  = "skipif"i ' ' v:alphanum _* nl {return {type:'skip', val: v}}
-  / "onlyif"i ' ' v:alphanum _* nl {return {type:'only', val: v}}
+  = "skipif"i ' ' v:alphanum _* nl {return {type:'skip', val: v.toLowerCase()}}
+  / "onlyif"i ' ' v:alphanum _* nl {return {type:'only', val: v.toLowerCase()}}
 
 
 queryMain
