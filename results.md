@@ -1,129 +1,97 @@
-# SQLlogic test results for AlaSQL 0.1.9
+# SQLlogictest results for AlaSQL 0.1.10
 
-_2015-06-26T18:41:02.949Z_
+_2015-06-28T07:50:55.661Z_
 
-Results from 622 test files.
-
------------------------------
-### 10/622 `test/evidence/in1.test`
-
-#### ✔ Ran 0 tests
-
-* 0 failed
-* 0% was OK
-
-Time: 14ms
+Results from 622 test files:
 
 -----------------------------
-### 11/622 `test/evidence/in2.test`
+### 1/622 `test/evidence/in1.test`
 
-#### ✔ Ran 50 tests
-
-* 0 failed
-* 100% was OK
-
-Time: 65ms
 
 -----------------------------
-### 12/622 `test/evidence/slt_lang_aggfunc.test`
+### 2/622 `test/evidence/in2.test`
 
-#### ✔ Ran 5 tests
-
-* 0 failed
-* 100% was OK
-
-Time: 8ms
 
 -----------------------------
-### 13/622 `test/evidence/slt_lang_createtrigger.test`
+### 3/622 `test/evidence/slt_lang_aggfunc.test`
 
-#### ✔ Ran 5 tests
-
-* 0 failed
-* 100% was OK
-
-Time: 6ms
 
 -----------------------------
-### 14/622 `test/evidence/slt_lang_createview.test`
+### 4/622 `test/evidence/slt_lang_createtrigger.test`
 
-#### ✔ Ran 15 tests
-
-* 0 failed
-* 100% was OK
-
-Time: 12ms
 
 -----------------------------
-### 15/622 `test/evidence/slt_lang_dropindex.test`
+### 5/622 `test/evidence/slt_lang_createview.test`
 
-#### ✔ Ran 6 tests
-
-* 0 failed
-* 100% was OK
-
-Time: 5ms
 
 -----------------------------
-### 16/622 `test/evidence/slt_lang_droptable.test`
+### 6/622 `test/evidence/slt_lang_dropindex.test`
 
-#### ✔ Ran 9 tests
-
-* 0 failed
-* 100% was OK
-
-Time: 13ms
 
 -----------------------------
-### 17/622 `test/evidence/slt_lang_droptrigger.test`
+### 7/622 `test/evidence/slt_lang_droptable.test`
 
-#### ✔ Ran 5 tests
-
-* 0 failed
-* 100% was OK
-
-Time: 11ms
 
 -----------------------------
-### 18/622 `test/evidence/slt_lang_dropview.test`
+### 8/622 `test/evidence/slt_lang_droptrigger.test`
 
-#### ✔ Ran 11 tests
-
-* 0 failed
-* 100% was OK
-
-Time: 12ms
 
 -----------------------------
-### 19/622 `test/evidence/slt_lang_reindex.test`
+### 9/622 `test/evidence/slt_lang_dropview.test`
 
-#### ✔ Ran 5 tests
-
-* 0 failed
-* 100% was OK
-
-Time: 4ms
 
 -----------------------------
-### 110/622 `test/evidence/slt_lang_replace.test`
+### 10/622 `test/evidence/slt_lang_reindex.test`
 
-#### ✔ Ran 0 tests
-
-* 0 failed
-* 0% was OK
-
-Time: 3ms
 
 -----------------------------
-### 111/622 `test/evidence/slt_lang_update.test`
+### 11/622 `test/evidence/slt_lang_replace.test`
 
-#### ✔ Ran 25 tests
-
-* 0 failed
-* 100% was OK
-
-Time: 21ms
 
 -----------------------------
-### 112/622 `test/index/between/1/slt_good_0.test`
+### 12/622 `test/evidence/slt_lang_update.test`
+
+
+-----------------------------
+### 13/622 `test/index/between/1/slt_good_0.test`
+
+
+-----------------------------
+### 14/622 `test/index/between/10/slt_good_0.test`
+
+
+-----------------------------
+### 15/622 `test/index/between/10/slt_good_1.test`
+
+
+-----------------------------
+### 16/622 `test/index/between/10/slt_good_2.test`
+
+
+-----------------------------
+### 17/622 `test/index/between/10/slt_good_3.test`
+
+
+-----------------------------
+### 18/622 `test/index/between/10/slt_good_4.test`
+
+
+-----------------------------
+### 19/622 `test/index/between/10/slt_good_5.test`
+
+
+-----------------------------
+### 20/622 `test/index/between/100/slt_good_0.test`
+
+
+-----------------------------
+### 21/622 `test/index/between/100/slt_good_1.test`
+
+
+-----------------------------
+### 22/622 `test/index/between/100/slt_good_2.test`
+
+
+-----------------------------
+### 23/622 `test/index/between/100/slt_good_3.test`
 

@@ -9,8 +9,6 @@ var md5    = require("MD5")
 var comparray = require('comparray');
 var sqllogictestparser =  require('./sqllogictestparserV2');
 var alasql = require('alasql');
-alasql.options.modifier = "MATRIX";
-alasql.options.cache = false;
 
 console.time('Total script time')
 
@@ -50,9 +48,10 @@ var testfiles = walkFiles(
 ///////////////////
 
 //testfiles=["./demo.test"]
+alasql.options.modifier = "MATRIX";
+alasql.options.cache = false;
 var mimic = [ 'mssql', 'mysql', 'oracle', 'postgresql', 'sqlite','unidentified DB' ]
 var mimicking = 0;
-
 var erroIndex = {}
 var score = {
 				ok: {
@@ -138,7 +137,7 @@ for (var i in testfiles) {
 
 		
 		var roundCount = score.round.stat();
-		if(!roundCount.total){
+		if(0===roundCount.total){
 			continue;
 		}
 		console.log('#### '+ (0===roundCount.fail?'✔':'☓') +' Ran', roundCount.total, 'tests as',  mimic[mimicking]);
@@ -277,7 +276,7 @@ function runSQLtestFromFile(path, db, mimic){
 function verifyTest(fragment, db){
 
 	//console.log('-----------------------------------------------')
-    var req = runTest(fragment.sql, db)
+		var req = runTest(fragment.sql, db)
 		req.ok = (fragment.expectSuccess === req.success)
 		if(fragment.result && req.success && req.ok){
 			var ok;
@@ -293,8 +292,10 @@ function verifyTest(fragment, db){
 				ok = comparray(req.result, fragment.result.values)
 
 				if(!ok){
-					req.msg = 'List of result did not match expected. Check the sorting'
-					console.log(req.result, fragment.result.values);
+					//req.msg = 'Returned results was not as expected. Check the sorting'
+					req.msg = 'Expected: '+JSON.stringify(fragment.result.values)+' but got '+JSON.stringify(req.result);
+					//console.log('Expected:',fragment.result.values,'but got', req.result );
+					//console.log();
 					req.ok = ok
 				}
 
@@ -335,23 +336,25 @@ function cleanResults(result){
 	if(!result.length){
 		return result;
 	}
-	// I expect matrix respond
-	if(result[0] && result[0][0]){
-		result = [].concat.apply([], result);
+
+	if(!result[0].length){
+		return result;
 	}
+	// I expect matrix respond		
+
+	result = [].concat.apply([], result);
 
 	return result.map(function(x){
 									if(true === x){
-										return 1;
+										return "1";
 									}else if(false === x){
-										return 0;
+										return "0";
 									}else if(null === x){
 										return "NULL";
 									}else if('' === x){
 										return "(empty)";
 									}
 									return x;
-
 									// fix %3d for floats;
 									return (''+x).replace(/[\n\r\t\x00\x08\x0B\x0C\x0E-\x1F\x7F]/gim, '@');
 								});

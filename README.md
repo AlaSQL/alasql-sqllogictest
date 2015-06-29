@@ -6,7 +6,7 @@ Testing SQL compabillity for [AlaSQL](https://github.com/agershun/alasql)
 How?
 ----
 
-Go get markdown summery run the npm test; 
+Go get markdown summery run the npm test;
 
     npm test
 
@@ -15,7 +15,7 @@ Result will output to results.md
 To get more details execute `run_raw.js` in the sqllogic folder. As the output is very big its suggested to direct output to a file. As the testfiles are quite big the garbagecollection can be initiated between the run of each file. To initiate this run node with the --expose-gc flag
 
     cd sqllogic
-    node --expose-gc run_raw > results.log 
+    node --expose-gc run_raw > results.log
 
 
 What?
@@ -27,9 +27,9 @@ There are about 2 million tests in the full test suite. Many of the tests will t
 
 Please note that the current version of the script **ONLY TESTS IF THE SQL CAN COMPILE** - not if the returned values are correct.
 
-To make sure you are testing the lates stable release please run the following: 
+To make sure you are testing the lates stable release please run the following:
 
-    cd sqllogic && npm install alasql 
+    cd sqllogic && npm install alasql
 
 Please see the config section of the `run` files to run tests on local version instead of npm version.
 
@@ -52,7 +52,23 @@ ToDo
 ----
 
 - Verify that the parser parses all the tests (ongoing development in the sqllogivtestparserV2.js)
-- Implement verification of returned results. 
+
+- Implement verification of returned valued with sortorder set
+
+- Change the compabillity flags in alasql accordng to whats mimicked 
+
+- implement:
+> The <label> argument is also optional. If included, sqllogictest stores a hash of the results of this query under the given label. If the label is reused, then sqllogictest verifies that the results are the same. This can be used to verify that two or more queries in the same test script that are logically equivalent always generate the same output.
+
+- Implement:
+> Floating point values are rendered as if by printf("%.3f").
+
+- Implement:
+> NULL values are rendered as "NULL". Empty strings are rendered as "(empty)". Within non-empty strings, all control characters and unprintable characters are rendered as "@".
+
+
+- Implement
+> The <sort-mode> argument is optional. If included, it must be one of "nosort", "rowsort", or "valuesort". The default is "nosort". In nosort mode, the results appear in exactly the order in which they were received from the database engine. The nosort mode should only be used on queries that have an ORDER BY clause or which only have a single row of result, since otherwise the order of results is undefined and might vary from one database engine to another. The "rowsort" mode gathers all output from the database engine then sorts it by rows on the client side. Sort comparisons use strcmp() on the rendered ASCII text representation of the values. Hence, "9" sorts after "10", not before. The "valuesort" mode works like rowsort except that it does not honor row groupings. Each individual result value is sorted on its own.
 
 **Not ToDo**
 - Impelment mocha testframework (testresults does not get printed before all are done - so fills the memory)
@@ -69,9 +85,9 @@ The output from run.js is structured the following way:
 - Listing path to each testfile to be used
 - For each test file
 	- Name of the test file that is about to run
-	- If errors occure the original SQL triggering the error is printed followed by the javascript error description. 
+	- If errors occure the original SQL triggering the error is printed followed by the javascript error description.
 	- Summery of error rate in this test file and time consumption
-	- Summery of error rate for all test file	
+	- Summery of error rate for all test file
 - Note stating: "ALL TESTS COPMLETED"
 
 The output from a single testfile could look like this
@@ -97,7 +113,5 @@ It makes sense, as no errors was found. But it can also look like this:
 	./test/evidence/slt_lang_update.test: 98ms
 
 	-----------------------------
-	
-That makes less sense as an error was found but was not printed. Because there are about 2 million tests in the full test set the same errors will be found many times. That is why an error only gets printed first time its seen. Settings for printing errors can be found in the config section of run.js
 
-
+making less sense as an error was found but was not printed. Because there are about 2 million tests in the full testset the same errors will be found many times. To limit noise an error only gets printed first time its seen. Settings for printing errors can be found in the config section of run_x.js
