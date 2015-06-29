@@ -13,7 +13,7 @@ var alasql = require('alasql');
 console.time('Total script time')
 
 
-///////////// CONFIG ////////////////////
+//////////////////////////// CONFIG START /////////////////////////////////////
 
 // Incomment to use local file instead of node_module
 alasql = require('./alasql.js');
@@ -27,9 +27,6 @@ var resetErroIndexPerFile = true;
 // Sometimes you would like to have more examples of the same error. Set this between 0 and 1 to set the probabillity of an error getting printed in case it has been printes before
 var curiousErrorprinting = 0.0001;
 
-
-
-
 // Config of what tests to run
 var testfiles = walkFiles(
 							'test', 					// Folder where to find test files
@@ -41,16 +38,32 @@ var testfiles = walkFiles(
 														// Regexp for files to exclude - keep one and outcomment the rest
 							/00\/|\d{2,}\.test/			// Exclude a lot of files (fastest - 125 files)
 					//		/\/10+\//					// exclude biggest files (balance between time and depth) (410 files)
-					//	null						// Exclude no files - As all tests contains a few million tests it can take some time. (622+ files)
+					//		null						// Exclude no files - As all tests contains a few million tests it can take some time. (622+ files)
 						);
 
 
-///////////////////
+//What databases to mimic when running tests
+var mimic = [ 
+				'sqlite',			
+				'postgresql', 
+				'mssql', 
+				'oracle', 
+				'mysql', 
+				'Unspecified DB'
+			]
+
+
+
+//////////////////////////// CONFIG END /////////////////////////////////////
+
+
+
+
+
 
 //testfiles=["./demo.test"]
 alasql.options.modifier = "MATRIX";
 alasql.options.cache = false;
-var mimic = [ 'mssql', 'mysql', 'oracle', 'postgresql', 'sqlite','unidentified DB' ]
 var mimicking = 0;
 var erroIndex = {}
 var score = {
@@ -112,6 +125,10 @@ console.log('');
 
 for (var i in testfiles) {
 
+	if(resetErroIndexPerFile){
+		erroIndex = {};
+	}
+	
 	//If node get the flag --expose-gc we can invoke garbagecollection manually.
 	if (typeof global != 'undefined' && typeof(global.gc) === "function") {
 		//console.time('Garbagecollecting')
@@ -133,8 +150,8 @@ for (var i in testfiles) {
 		var db = new alasql.Database(name);
 
 		score.round.init();
+		
 		runSQLtestFromFile(testfiles[i],  db, mimic[mimicking]);
-
 		
 		var roundCount = score.round.stat();
 		if(0===roundCount.total){
@@ -206,11 +223,9 @@ function printMem(){
 }
 
 function runSQLtestFromFile(path, db, mimic){
-	mimic = mimic || 'unknown';
+	mimic = mimic || 'unspecified';
 
-	if(resetErroIndexPerFile){
-		erroIndex = {};
-	}
+	
 
 
 

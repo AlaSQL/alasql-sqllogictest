@@ -1,63 +1,12 @@
 # SQLlogictest results for AlaSQL 0.1.10
 
-_2015-06-29T07:45:39.997Z_
+_2015-06-29T08:09:56.285Z_
 
 This is a subset of the total 622 tests.
 Results from 125 test files:
 
 ---- ---- ---- ---- ---- ---- ----
 ### 1/125 `test/evidence/in1.test`
-
-_Mimic mssql_
-
-`Halted`
-
-_Mimic mysql_
-```sql
-SELECT 1 IN (SELECT * FROM t1)
-
-context is not defined
-```
-
-```sql
-INSERT INTO t5 SELECT * FROM t4
-
-Cannot insert record, because it already exists in primary key index
-```
-
-```sql
-INSERT INTO t4n SELECT * FROM t4
-
-Cannot insert record, because it already exists in unique index
-```
-
-```sql
-CREATE TABLE t7(a TEXT, UNIQUE (a(1)))
-
-Parse error on line 1:
-...t7(a TEXT, UNIQUE (a(1)))
------------------------^
-Expecting 'EOF', 'WITH', 'COMMA', 'RPAR', 'PIVOT', 'UNPIVOT', 'ORDER', 'EQ', 'WHERE', 'DOT', 'UNION', 'INTERSECT', 'EXCEPT', 'FROM', 'INTO', 'CROSS', 'OUTER', 'NATURAL', 'JOIN', 'INNER', 'LEFT', 'RIGHT', 'FULL', 'SEMI', 'ANTI', 'GROUP', 'LIMIT', 'END', 'ELSE', 'SEMICOLON', 'GO', got 'LPAR'
-```
-
-```sql
-INSERT INTO t7 VALUES('b')
-
-Cannot read property 'columns' of undefined
-```
-
-#### ☓ Ran 128 tests as mysql
-
-* 54 failed
-* 57% was OK
-
-_Mimic oracle_
-
-`Halted`
-
-_Mimic postgresql_
-
-`Halted`
 
 _Mimic sqlite_
 ```sql
@@ -95,82 +44,49 @@ Cannot read property 't4n' of undefined
 * 115 failed
 * 46% was OK
 
-_Mimic unidentified DB_
-```sql
-SELECT 1 IN (SELECT * FROM t1)
+_Mimic postgresql_
 
-context is not defined
+`Halted`
+
+_Mimic mssql_
+
+`Halted`
+
+_Mimic oracle_
+
+`Halted`
+
+_Mimic mysql_
+```sql
+CREATE TABLE t7(a TEXT, UNIQUE (a(1)))
+
+Parse error on line 1:
+...t7(a TEXT, UNIQUE (a(1)))
+-----------------------^
+Expecting 'EOF', 'WITH', 'COMMA', 'RPAR', 'PIVOT', 'UNPIVOT', 'ORDER', 'EQ', 'WHERE', 'DOT', 'UNION', 'INTERSECT', 'EXCEPT', 'FROM', 'INTO', 'CROSS', 'OUTER', 'NATURAL', 'JOIN', 'INNER', 'LEFT', 'RIGHT', 'FULL', 'SEMI', 'ANTI', 'GROUP', 'LIMIT', 'END', 'ELSE', 'SEMICOLON', 'GO', got 'LPAR'
 ```
 
 ```sql
-INSERT INTO t5 SELECT * FROM t4
+INSERT INTO t7 VALUES('b')
 
-Cannot insert record, because it already exists in primary key index
+Cannot read property 'columns' of undefined
 ```
 
-```sql
-INSERT INTO t4n SELECT * FROM t4
+#### ☓ Ran 128 tests as mysql
 
-Cannot insert record, because it already exists in unique index
-```
+* 54 failed
+* 57% was OK
 
-#### ☓ Ran 132 tests as unidentified DB
+_Mimic Unspecified DB_
+#### ☓ Ran 132 tests as Unspecified DB
 
 * 43 failed
 * 67% was OK
 
-Time: 1034ms
+Time: 1038ms
 
 ---- ---- ---- ---- ---- ---- ----
 ### 2/125 `test/evidence/in2.test`
-
-_Mimic mssql_
-```sql
-SELECT 1 FROM t1 WHERE 1 IN (SELECT 1)
-
-context is not defined
-```
-
-#### ☓ Ran 45 tests as mssql
-
-* 1 failed
-* 97% was OK
-
-_Mimic mysql_
-```sql
-SELECT 1 FROM t1 WHERE 1 IN (SELECT 1)
-
-context is not defined
-```
-
-#### ☓ Ran 45 tests as mysql
-
-* 1 failed
-* 97% was OK
-
-_Mimic oracle_
-```sql
-SELECT 1 FROM t1 WHERE 1 IN (SELECT 1)
-
-context is not defined
-```
-
-#### ☓ Ran 45 tests as oracle
-
-* 1 failed
-* 97% was OK
-
-_Mimic postgresql_
-```sql
-SELECT 1 FROM t1 WHERE 1 IN (SELECT 1)
-
-context is not defined
-```
-
-#### ☓ Ran 45 tests as postgresql
-
-* 1 failed
-* 97% was OK
 
 _Mimic sqlite_
 ```sql
@@ -184,86 +100,40 @@ context is not defined
 * 1 failed
 * 98% was OK
 
-_Mimic unidentified DB_
-```sql
-SELECT 1 FROM t1 WHERE 1 IN (SELECT 1)
+_Mimic postgresql_
+#### ☓ Ran 45 tests as postgresql
 
-context is not defined
-```
+* 1 failed
+* 97% was OK
 
-#### ☓ Ran 53 tests as unidentified DB
+_Mimic mssql_
+#### ☓ Ran 45 tests as mssql
+
+* 1 failed
+* 97% was OK
+
+_Mimic oracle_
+#### ☓ Ran 45 tests as oracle
+
+* 1 failed
+* 97% was OK
+
+_Mimic mysql_
+#### ☓ Ran 45 tests as mysql
+
+* 1 failed
+* 97% was OK
+
+_Mimic Unspecified DB_
+#### ☓ Ran 53 tests as Unspecified DB
 
 * 1 failed
 * 98% was OK
 
-Time: 267ms
+Time: 772ms
 
 ---- ---- ---- ---- ---- ---- ----
 ### 3/125 `test/evidence/slt_lang_aggfunc.test`
-
-_Mimic mssql_
-`setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-
-`Halted`
-
-#### ☓ Ran 5 tests as mssql
-
-* 1 failed
-* 80% was OK
-
-_Mimic mysql_
-`setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-
-`Halted`
-
-#### ☓ Ran 5 tests as mysql
-
-* 1 failed
-* 80% was OK
-
-_Mimic oracle_
-`setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-
-`Halted`
-
-#### ☓ Ran 5 tests as oracle
-
-* 1 failed
-* 80% was OK
-
-_Mimic postgresql_
-`setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-
-`Halted`
-
-#### ☓ Ran 5 tests as postgresql
-
-* 1 failed
-* 80% was OK
 
 _Mimic sqlite_
 `setThreshold not implemented`
@@ -317,35 +187,18 @@ Expecting 'LITERAL', 'BRALITERAL', 'LPAR', 'NUMBER', 'STRING', 'SHARP', 'DOLLAR'
 * 27 failed
 * 66% was OK
 
-_Mimic unidentified DB_
+_Mimic postgresql_
 `setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
 
 `Halted`
 
-#### ☓ Ran 5 tests as unidentified DB
+#### ☓ Ran 5 tests as postgresql
 
 * 1 failed
 * 80% was OK
 
-Time: 608ms
-
----- ---- ---- ---- ---- ---- ----
-### 4/125 `test/evidence/slt_lang_createtrigger.test`
-
 _Mimic mssql_
 `setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
 
 `Halted`
 
@@ -354,65 +207,40 @@ string is not a function
 * 1 failed
 * 80% was OK
 
-_Mimic mysql_
-`setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-```sql
-CREATE TRIGGER t1r1 UPDATE ON t1 BEGIN SELECT 1; END;
-
-Parse error on line 1:
-CREATE TRIGGER t1r1 UPDATE ON t1 BE
----------------^
-Expecting 'DATABASE', got 'LITERAL'
-```
-
-#### ☓ Ran 26 tests as mysql
-
-* 21 failed
-* 19% was OK
-
 _Mimic oracle_
 `setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-```sql
-CREATE TRIGGER t1r1 UPDATE ON t1 BEGIN SELECT 1; END;
-
-Parse error on line 1:
-CREATE TRIGGER t1r1 UPDATE ON t1 BE
----------------^
-Expecting 'DATABASE', got 'LITERAL'
-```
-
-#### ☓ Ran 26 tests as oracle
-
-* 21 failed
-* 19% was OK
-
-_Mimic postgresql_
-`setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
 
 `Halted`
 
-#### ☓ Ran 5 tests as postgresql
+#### ☓ Ran 5 tests as oracle
 
 * 1 failed
 * 80% was OK
+
+_Mimic mysql_
+`setThreshold not implemented`
+
+`Halted`
+
+#### ☓ Ran 5 tests as mysql
+
+* 1 failed
+* 80% was OK
+
+_Mimic Unspecified DB_
+`setThreshold not implemented`
+
+`Halted`
+
+#### ☓ Ran 5 tests as Unspecified DB
+
+* 1 failed
+* 80% was OK
+
+Time: 98ms
+
+---- ---- ---- ---- ---- ---- ----
+### 4/125 `test/evidence/slt_lang_createtrigger.test`
 
 _Mimic sqlite_
 `setThreshold not implemented`
@@ -436,108 +264,51 @@ Expecting 'DATABASE', got 'LITERAL'
 * 21 failed
 * 19% was OK
 
-_Mimic unidentified DB_
+_Mimic postgresql_
 `setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
 
-string is not a function
-```
+`Halted`
 
-```sql
-CREATE TRIGGER t1r1 UPDATE ON t1 BEGIN SELECT 1; END;
+#### ☓ Ran 5 tests as postgresql
 
-Parse error on line 1:
-CREATE TRIGGER t1r1 UPDATE ON t1 BE
----------------^
-Expecting 'DATABASE', got 'LITERAL'
-```
+* 1 failed
+* 80% was OK
 
-#### ☓ Ran 26 tests as unidentified DB
+_Mimic mssql_
+`setThreshold not implemented`
+
+`Halted`
+
+#### ☓ Ran 5 tests as mssql
+
+* 1 failed
+* 80% was OK
+
+_Mimic oracle_
+`setThreshold not implemented`
+#### ☓ Ran 26 tests as oracle
 
 * 21 failed
 * 19% was OK
 
-Time: 52ms
+_Mimic mysql_
+`setThreshold not implemented`
+#### ☓ Ran 26 tests as mysql
+
+* 21 failed
+* 19% was OK
+
+_Mimic Unspecified DB_
+`setThreshold not implemented`
+#### ☓ Ran 26 tests as Unspecified DB
+
+* 21 failed
+* 19% was OK
+
+Time: 49ms
 
 ---- ---- ---- ---- ---- ---- ----
 ### 5/125 `test/evidence/slt_lang_createview.test`
-
-_Mimic mssql_
-`setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-```sql
-INSERT INTO view1 VALUES(2,'unknown')
-
-No exception thrown
-```
-
-#### ☓ Ran 15 tests as mssql
-
-* 2 failed
-* 86% was OK
-
-_Mimic mysql_
-`setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-```sql
-DELETE FROM view1 WHERE x>0
-
-No exception thrown
-```
-
-#### ☓ Ran 15 tests as mysql
-
-* 4 failed
-* 73% was OK
-
-_Mimic oracle_
-`setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-```sql
-DELETE FROM view1 WHERE x>0
-
-No exception thrown
-```
-
-#### ☓ Ran 15 tests as oracle
-
-* 4 failed
-* 73% was OK
-
-_Mimic postgresql_
-`setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-```sql
-DELETE FROM view1 WHERE x>0
-
-No exception thrown
-```
-
-#### ☓ Ran 15 tests as postgresql
-
-* 4 failed
-* 73% was OK
 
 _Mimic sqlite_
 `setThreshold not implemented`
@@ -558,105 +329,45 @@ No exception thrown
 * 7 failed
 * 69% was OK
 
-_Mimic unidentified DB_
+_Mimic postgresql_
 `setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-```sql
-DELETE FROM view1 WHERE x>0
-
-No exception thrown
-```
-
-#### ☓ Ran 15 tests as unidentified DB
+#### ☓ Ran 15 tests as postgresql
 
 * 4 failed
 * 73% was OK
 
-Time: 70ms
-
----- ---- ---- ---- ---- ---- ----
-### 6/125 `test/evidence/slt_lang_dropindex.test`
-
 _Mimic mssql_
 `setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
+#### ☓ Ran 15 tests as mssql
 
-string is not a function
-```
-
-```sql
-DROP INDEX t1i1;
-
-No exception thrown
-```
-
-#### ☓ Ran 8 tests as mssql
-
-* 3 failed
-* 62% was OK
-
-_Mimic mysql_
-`setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-```sql
-DROP INDEX t1i1;
-
-No exception thrown
-```
-
-#### ☓ Ran 8 tests as mysql
-
-* 3 failed
-* 62% was OK
+* 2 failed
+* 86% was OK
 
 _Mimic oracle_
 `setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
+#### ☓ Ran 15 tests as oracle
 
-string is not a function
-```
+* 4 failed
+* 73% was OK
 
-```sql
-DROP INDEX t1i1;
-
-No exception thrown
-```
-
-#### ☓ Ran 8 tests as oracle
-
-* 3 failed
-* 62% was OK
-
-_Mimic postgresql_
+_Mimic mysql_
 `setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
+#### ☓ Ran 15 tests as mysql
 
-string is not a function
-```
+* 4 failed
+* 73% was OK
 
-```sql
-DROP INDEX t1i1;
+_Mimic Unspecified DB_
+`setThreshold not implemented`
+#### ☓ Ran 15 tests as Unspecified DB
 
-No exception thrown
-```
+* 4 failed
+* 73% was OK
 
-#### ☓ Ran 8 tests as postgresql
+Time: 575ms
 
-* 3 failed
-* 62% was OK
+---- ---- ---- ---- ---- ---- ----
+### 6/125 `test/evidence/slt_lang_dropindex.test`
 
 _Mimic sqlite_
 `setThreshold not implemented`
@@ -677,105 +388,45 @@ No exception thrown
 * 3 failed
 * 62% was OK
 
-_Mimic unidentified DB_
+_Mimic postgresql_
 `setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-```sql
-DROP INDEX t1i1;
-
-No exception thrown
-```
-
-#### ☓ Ran 8 tests as unidentified DB
+#### ☓ Ran 8 tests as postgresql
 
 * 3 failed
 * 62% was OK
 
-Time: 33ms
-
----- ---- ---- ---- ---- ---- ----
-### 7/125 `test/evidence/slt_lang_droptable.test`
-
 _Mimic mssql_
 `setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
+#### ☓ Ran 8 tests as mssql
 
-string is not a function
-```
-
-```sql
-DROP INDEX t1i1;
-
-No exception thrown
-```
-
-#### ☓ Ran 10 tests as mssql
-
-* 2 failed
-* 80% was OK
-
-_Mimic mysql_
-`setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-```sql
-DROP INDEX t1i1;
-
-No exception thrown
-```
-
-#### ☓ Ran 12 tests as mysql
-
-* 2 failed
-* 83% was OK
+* 3 failed
+* 62% was OK
 
 _Mimic oracle_
 `setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
+#### ☓ Ran 8 tests as oracle
 
-string is not a function
-```
+* 3 failed
+* 62% was OK
 
-```sql
-DROP INDEX t1i1;
-
-No exception thrown
-```
-
-#### ☓ Ran 12 tests as oracle
-
-* 2 failed
-* 83% was OK
-
-_Mimic postgresql_
+_Mimic mysql_
 `setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
+#### ☓ Ran 8 tests as mysql
 
-string is not a function
-```
+* 3 failed
+* 62% was OK
 
-```sql
-DROP INDEX t1i1;
+_Mimic Unspecified DB_
+`setThreshold not implemented`
+#### ☓ Ran 8 tests as Unspecified DB
 
-No exception thrown
-```
+* 3 failed
+* 62% was OK
 
-#### ☓ Ran 12 tests as postgresql
+Time: 31ms
 
-* 2 failed
-* 83% was OK
+---- ---- ---- ---- ---- ---- ----
+### 7/125 `test/evidence/slt_lang_droptable.test`
 
 _Mimic sqlite_
 `setThreshold not implemented`
@@ -796,47 +447,47 @@ No exception thrown
 * 2 failed
 * 83% was OK
 
-_Mimic unidentified DB_
+_Mimic postgresql_
 `setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-```sql
-DROP INDEX t1i1;
-
-No exception thrown
-```
-
-#### ☓ Ran 12 tests as unidentified DB
+#### ☓ Ran 12 tests as postgresql
 
 * 2 failed
 * 83% was OK
 
-Time: 56ms
+_Mimic mssql_
+`setThreshold not implemented`
+#### ☓ Ran 10 tests as mssql
+
+* 2 failed
+* 80% was OK
+
+_Mimic oracle_
+`setThreshold not implemented`
+#### ☓ Ran 12 tests as oracle
+
+* 2 failed
+* 83% was OK
+
+_Mimic mysql_
+`setThreshold not implemented`
+#### ☓ Ran 12 tests as mysql
+
+* 2 failed
+* 83% was OK
+
+_Mimic Unspecified DB_
+`setThreshold not implemented`
+#### ☓ Ran 12 tests as Unspecified DB
+
+* 2 failed
+* 83% was OK
+
+Time: 55ms
 
 ---- ---- ---- ---- ---- ---- ----
 ### 8/125 `test/evidence/slt_lang_droptrigger.test`
 
-_Mimic mssql_
-`setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-
-`Halted`
-
-#### ☓ Ran 5 tests as mssql
-
-* 1 failed
-* 80% was OK
-
-_Mimic mysql_
+_Mimic sqlite_
 `setThreshold not implemented`
 ```sql
 CREATE INDEX t1i1 ON t1(x)
@@ -853,41 +504,13 @@ CREATE TRIGGER t1r1 UPDATE ON t1 BE
 Expecting 'DATABASE', got 'LITERAL'
 ```
 
-#### ☓ Ran 12 tests as mysql
-
-* 4 failed
-* 66% was OK
-
-_Mimic oracle_
-`setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-```sql
-CREATE TRIGGER t1r1 UPDATE ON t1 BEGIN SELECT 1; END;
-
-Parse error on line 1:
-CREATE TRIGGER t1r1 UPDATE ON t1 BE
----------------^
-Expecting 'DATABASE', got 'LITERAL'
-```
-
-#### ☓ Ran 12 tests as oracle
+#### ☓ Ran 12 tests as sqlite
 
 * 4 failed
 * 66% was OK
 
 _Mimic postgresql_
 `setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
 
 `Halted`
 
@@ -896,106 +519,41 @@ string is not a function
 * 1 failed
 * 80% was OK
 
-_Mimic sqlite_
-`setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-```sql
-CREATE TRIGGER t1r1 UPDATE ON t1 BEGIN SELECT 1; END;
-
-Parse error on line 1:
-CREATE TRIGGER t1r1 UPDATE ON t1 BE
----------------^
-Expecting 'DATABASE', got 'LITERAL'
-```
-
-#### ☓ Ran 12 tests as sqlite
-
-* 4 failed
-* 66% was OK
-
-_Mimic unidentified DB_
-`setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-```sql
-CREATE TRIGGER t1r1 UPDATE ON t1 BEGIN SELECT 1; END;
-
-Parse error on line 1:
-CREATE TRIGGER t1r1 UPDATE ON t1 BE
----------------^
-Expecting 'DATABASE', got 'LITERAL'
-```
-
-#### ☓ Ran 12 tests as unidentified DB
-
-* 4 failed
-* 66% was OK
-
-Time: 34ms
-
----- ---- ---- ---- ---- ---- ----
-### 9/125 `test/evidence/slt_lang_dropview.test`
-
 _Mimic mssql_
 `setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
 
-string is not a function
-```
+`Halted`
 
-#### ☓ Ran 13 tests as mssql
+#### ☓ Ran 5 tests as mssql
 
 * 1 failed
-* 92% was OK
-
-_Mimic mysql_
-`setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-#### ☓ Ran 13 tests as mysql
-
-* 1 failed
-* 92% was OK
+* 80% was OK
 
 _Mimic oracle_
 `setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
+#### ☓ Ran 12 tests as oracle
 
-string is not a function
-```
+* 4 failed
+* 66% was OK
 
-#### ☓ Ran 13 tests as oracle
-
-* 1 failed
-* 92% was OK
-
-_Mimic postgresql_
+_Mimic mysql_
 `setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
+#### ☓ Ran 12 tests as mysql
 
-string is not a function
-```
+* 4 failed
+* 66% was OK
 
-#### ☓ Ran 13 tests as postgresql
+_Mimic Unspecified DB_
+`setThreshold not implemented`
+#### ☓ Ran 12 tests as Unspecified DB
 
-* 1 failed
-* 92% was OK
+* 4 failed
+* 66% was OK
+
+Time: 33ms
+
+---- ---- ---- ---- ---- ---- ----
+### 9/125 `test/evidence/slt_lang_dropview.test`
 
 _Mimic sqlite_
 `setThreshold not implemented`
@@ -1010,15 +568,37 @@ string is not a function
 * 1 failed
 * 92% was OK
 
-_Mimic unidentified DB_
+_Mimic postgresql_
 `setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
+#### ☓ Ran 13 tests as postgresql
 
-string is not a function
-```
+* 1 failed
+* 92% was OK
 
-#### ☓ Ran 13 tests as unidentified DB
+_Mimic mssql_
+`setThreshold not implemented`
+#### ☓ Ran 13 tests as mssql
+
+* 1 failed
+* 92% was OK
+
+_Mimic oracle_
+`setThreshold not implemented`
+#### ☓ Ran 13 tests as oracle
+
+* 1 failed
+* 92% was OK
+
+_Mimic mysql_
+`setThreshold not implemented`
+#### ☓ Ran 13 tests as mysql
+
+* 1 failed
+* 92% was OK
+
+_Mimic Unspecified DB_
+`setThreshold not implemented`
+#### ☓ Ran 13 tests as Unspecified DB
 
 * 1 failed
 * 92% was OK
@@ -1027,70 +607,6 @@ Time: 57ms
 
 ---- ---- ---- ---- ---- ---- ----
 ### 10/125 `test/evidence/slt_lang_reindex.test`
-
-_Mimic mssql_
-`setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-
-`Halted`
-
-#### ☓ Ran 5 tests as mssql
-
-* 1 failed
-* 80% was OK
-
-_Mimic mysql_
-`setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-
-`Halted`
-
-#### ☓ Ran 5 tests as mysql
-
-* 1 failed
-* 80% was OK
-
-_Mimic oracle_
-`setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-
-`Halted`
-
-#### ☓ Ran 5 tests as oracle
-
-* 1 failed
-* 80% was OK
-
-_Mimic postgresql_
-`setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-
-`Halted`
-
-#### ☓ Ran 5 tests as postgresql
-
-* 1 failed
-* 80% was OK
 
 _Mimic sqlite_
 `setThreshold not implemented`
@@ -1114,60 +630,57 @@ Expecting 'EOF', 'COMMA', 'LPAR', 'RPAR', 'END', 'ELSE', 'COLONDASH', 'SEMICOLON
 * 2 failed
 * 71% was OK
 
-_Mimic unidentified DB_
+_Mimic postgresql_
 `setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
 
-string is not a function
-```
+`Halted`
 
-```sql
-REINDEX t1i1
+#### ☓ Ran 5 tests as postgresql
 
-Parse error on line 1:
-REINDEX t1i1
---------^
-Expecting 'EOF', 'COMMA', 'LPAR', 'RPAR', 'END', 'ELSE', 'COLONDASH', 'SEMICOLON', 'GO', got 'LITERAL'
-```
+* 1 failed
+* 80% was OK
 
-#### ☓ Ran 7 tests as unidentified DB
+_Mimic mssql_
+`setThreshold not implemented`
+
+`Halted`
+
+#### ☓ Ran 5 tests as mssql
+
+* 1 failed
+* 80% was OK
+
+_Mimic oracle_
+`setThreshold not implemented`
+
+`Halted`
+
+#### ☓ Ran 5 tests as oracle
+
+* 1 failed
+* 80% was OK
+
+_Mimic mysql_
+`setThreshold not implemented`
+
+`Halted`
+
+#### ☓ Ran 5 tests as mysql
+
+* 1 failed
+* 80% was OK
+
+_Mimic Unspecified DB_
+`setThreshold not implemented`
+#### ☓ Ran 7 tests as Unspecified DB
 
 * 2 failed
 * 71% was OK
 
-Time: 537ms
+Time: 29ms
 
 ---- ---- ---- ---- ---- ---- ----
 ### 11/125 `test/evidence/slt_lang_replace.test`
-
-_Mimic mssql_
-
-`Halted`
-
-_Mimic mysql_
-`setThreshold not implemented`
-```sql
-REPLACE INTO t1 VALUES(2, 'replace')
-
-Parse error on line 1:
-REPLACE INTO t1 VALUES(2, 'r
---------^
-Expecting 'EOF', 'COMMA', 'LPAR', 'RPAR', 'END', 'ELSE', 'COLONDASH', 'SEMICOLON', 'GO', got 'INTO'
-```
-
-#### ☓ Ran 10 tests as mysql
-
-* 2 failed
-* 80% was OK
-
-_Mimic oracle_
-
-`Halted`
-
-_Mimic postgresql_
-
-`Halted`
 
 _Mimic sqlite_
 `setThreshold not implemented`
@@ -1194,111 +707,36 @@ Expecting 'EOF', 'COMMA', 'LPAR', 'RPAR', 'END', 'ELSE', 'COLONDASH', 'SEMICOLON
 * 4 failed
 * 71% was OK
 
-_Mimic unidentified DB_
+_Mimic postgresql_
+
+`Halted`
+
+_Mimic mssql_
+
+`Halted`
+
+_Mimic oracle_
+
+`Halted`
+
+_Mimic mysql_
 `setThreshold not implemented`
-```sql
-INSERT OR REPLACE INTO t1 VALUES(2, 'insert or replace')
+#### ☓ Ran 10 tests as mysql
 
-Parse error on line 1:
-INSERT OR REPLACE INTO t1 V
--------^
-Expecting 'LITERAL', 'BRALITERAL', 'INTO', got 'OR'
-```
+* 2 failed
+* 80% was OK
 
-```sql
-REPLACE INTO t1 VALUES(2, 'replace')
-
-Parse error on line 1:
-REPLACE INTO t1 VALUES(2, 'r
---------^
-Expecting 'EOF', 'COMMA', 'LPAR', 'RPAR', 'END', 'ELSE', 'COLONDASH', 'SEMICOLON', 'GO', got 'INTO'
-```
-
-#### ☓ Ran 14 tests as unidentified DB
+_Mimic Unspecified DB_
+`setThreshold not implemented`
+#### ☓ Ran 14 tests as Unspecified DB
 
 * 4 failed
 * 71% was OK
 
-Time: 32ms
+Time: 33ms
 
 ---- ---- ---- ---- ---- ---- ----
 ### 12/125 `test/evidence/slt_lang_update.test`
-
-_Mimic mssql_
-`setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-```sql
-UPDATE t1 SET z='foo'
-
-No exception thrown
-```
-
-#### ☓ Ran 27 tests as mssql
-
-* 3 failed
-* 88% was OK
-
-_Mimic mysql_
-`setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-```sql
-UPDATE t1 SET z='foo'
-
-No exception thrown
-```
-
-#### ☓ Ran 27 tests as mysql
-
-* 3 failed
-* 88% was OK
-
-_Mimic oracle_
-`setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-```sql
-UPDATE t1 SET z='foo'
-
-No exception thrown
-```
-
-#### ☓ Ran 27 tests as oracle
-
-* 3 failed
-* 88% was OK
-
-_Mimic postgresql_
-`setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-```sql
-UPDATE t1 SET z='foo'
-
-No exception thrown
-```
-
-#### ☓ Ran 27 tests as postgresql
-
-* 3 failed
-* 88% was OK
 
 _Mimic sqlite_
 `setThreshold not implemented`
@@ -1319,79 +757,51 @@ No exception thrown
 * 3 failed
 * 88% was OK
 
-_Mimic unidentified DB_
+_Mimic postgresql_
 `setThreshold not implemented`
-```sql
-CREATE INDEX t1i1 ON t1(x)
-
-string is not a function
-```
-
-```sql
-UPDATE t1 SET z='foo'
-
-No exception thrown
-```
-
-#### ☓ Ran 27 tests as unidentified DB
+#### ☓ Ran 27 tests as postgresql
 
 * 3 failed
 * 88% was OK
 
-Time: 128ms
+_Mimic mssql_
+`setThreshold not implemented`
+#### ☓ Ran 27 tests as mssql
+
+* 3 failed
+* 88% was OK
+
+_Mimic oracle_
+`setThreshold not implemented`
+#### ☓ Ran 27 tests as oracle
+
+* 3 failed
+* 88% was OK
+
+_Mimic mysql_
+`setThreshold not implemented`
+#### ☓ Ran 27 tests as mysql
+
+* 3 failed
+* 88% was OK
+
+_Mimic Unspecified DB_
+`setThreshold not implemented`
+#### ☓ Ran 27 tests as Unspecified DB
+
+* 3 failed
+* 88% was OK
+
+Time: 131ms
 
 ---- ---- ---- ---- ---- ---- ----
 ### 13/125 `test/index/between/1/slt_good_0.test`
 
-_Mimic mssql_
+_Mimic sqlite_
 `setThreshold not implemented`
 ```sql
 INSERT INTO tab1 SELECT * FROM tab0
 
 Wrong NULL value in NOT NULL column pk
-```
-
-```sql
-SELECT pk FROM tab0 WHERE (col4 IN (5.85,5.95,6.30,0.0,1.27) AND (col4 IN (9.41,4.56,2.55,0.83,3.95,6.92) AND (col1 = 6.24)) OR col0 IN (SELECT col3 FROM tab0 WHERE (((((col0 IN (8,1) AND col0 IS NULL AND col1 < 9.21) AND col4 > 8.64 AND (col3 >= 9) OR col0 < 5)))))) AND (col1 < 7.95 OR col0 < 0) AND col3 >= 9 AND col0 < 2 OR col4 BETWEEN 1.13 AND 0.71 AND (col3 > 9) AND (col0 < 3)
-
-context is not defined
-```
-
-#### ☓ Ran 10022 tests as mssql
-
-* 88 failed
-* 99% was OK
-
-_Mimic mysql_
-`setThreshold not implemented`
-```sql
-INSERT INTO tab1 SELECT * FROM tab0
-
-Wrong NULL value in NOT NULL column pk
-```
-
-```sql
-SELECT pk FROM tab0 WHERE (col4 IN (5.85,5.95,6.30,0.0,1.27) AND (col4 IN (9.41,4.56,2.55,0.83,3.95,6.92) AND (col1 = 6.24)) OR col0 IN (SELECT col3 FROM tab0 WHERE (((((col0 IN (8,1) AND col0 IS NULL AND col1 < 9.21) AND col4 > 8.64 AND (col3 >= 9) OR col0 < 5)))))) AND (col1 < 7.95 OR col0 < 0) AND col3 >= 9 AND col0 < 2 OR col4 BETWEEN 1.13 AND 0.71 AND (col3 > 9) AND (col0 < 3)
-
-context is not defined
-```
-
-#### ☓ Ran 10022 tests as mysql
-
-* 88 failed
-* 99% was OK
-
-_Mimic oracle_
-`setThreshold not implemented`
-```sql
-INSERT INTO tab1 SELECT * FROM tab0
-
-Wrong NULL value in NOT NULL column pk
-```
-
-```sql
-SELECT pk FROM tab0 WHERE (col4 IN (5.85,5.95,6.30,0.0,1.27) AND (col4 IN (9.41,4.56,2.55,0.83,3.95,6.92) AND (col1 = 6.24)) OR col0 IN (SELECT col3 FROM tab0 WHERE (((((col0 IN (8,1) AND col0 IS NULL AND col1 < 9.21) AND col4 > 8.64 AND (col3 >= 9) OR col0 < 5)))))) AND (col1 < 7.95 OR col0 < 0) AND col3 >= 9 AND col0 < 2 OR col4 BETWEEN 1.13 AND 0.71 AND (col3 > 9) AND (col0 < 3)
-
-context is not defined
 ```
 
