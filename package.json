@@ -1,6 +1,6 @@
 {
   "name": "alasql-logictest",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "sqllogictest of AlaSQL",
   "main": "sqllogic/run_raw.js",
   "scripts": {
@@ -12,7 +12,8 @@
   },
   "keywords": [
     "sql",
-    "test"
+    "test",
+    "AlaSQL"
   ],
   "author": "Mathias Rangel Wulff",
   "license": "MIT",

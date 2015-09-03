@@ -6,13 +6,15 @@ Testing SQL compabillity for [AlaSQL](https://github.com/agershun/alasql)
 How?
 ----
 
-Go get markdown summery run the npm test;
+Go get markdown summery run npm test (will include starting node with garbagecollection set to true):
 
     npm test
 
 Result will output to results.md
 
-To get more details execute `run_raw.js` in the sqllogic folder. As the output is very big its suggested to direct output to a file. As the testfiles are quite big the garbagecollection can be initiated between the run of each file. To initiate this run node with the --expose-gc flag
+
+
+**To get more details** execute `run_raw.js` in the sqllogic folder. As the output is very big its suggested to direct output to a file and let the garbagecollection be initiated between the run of each file. To execute `run_raw.js` run node with the --expose-gc flag:
 
     cd sqllogic
     node --expose-gc run_raw > results.log
