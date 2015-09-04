@@ -44,24 +44,27 @@ var testfiles = walkFiles(
 
 //What databases to mimic when running tests
 var mimic = [ 
+				'unknown',
 				'sqlite',			
 				'postgresql', 
 				'mssql', 
 				'oracle', 
-				'mysql', 
-				'Unspecified DB'
+				'mysql'
 			]
 
 
+var runOnlyDemo = true;
 
 //////////////////////////// CONFIG END /////////////////////////////////////
 
 
 
 
+if(runOnlyDemo){
+  mimic = [mimic[0]];
+  testfiles=["./demo.test"];
+}
 
-
-//testfiles=["./demo.test"]
 alasql.options.modifier = "MATRIX";
 alasql.options.cache = false;
 var mimicking = 0;
@@ -266,7 +269,7 @@ function runSQLtestFromFile(path, db, mimic){
 		} else {
 			score.fail.total++;
 
-			//console.log(test)
+			
 
 			var errHash = test.msg.split('-----^').pop()/*.split("'").unshift()*/.replace(/[^a-z]/mig, '')
 
@@ -293,16 +296,21 @@ function verifyTest(fragment, db){
 	//console.log('-----------------------------------------------')
 		var req = runTest(fragment.sql, db)
 		req.ok = (fragment.expectSuccess === req.success)
+
+
 		
-if(false) // Converting returned values to expected result is still creating too many false positives
+//if(false) // Converting returned values to expected result is still creating too many false positives
 		if(fragment.result && req.success && req.ok){
 			var ok;
+      
+      console.log(req.result)
 			req.result = cleanResults(req.result)
-//console.log(fragment.result)
-//console.log(fragment.sql)
-//console.log(req.result)
 
-			if(! (req.result&& req.result.length)){
+      console.log(fragment.result)
+      console.log(req.result)
+
+      
+			if(! (req.result && req.result.length)){
 					req.msg = 'Query was expected to return results (but did not): '+JSON.stringify(req.result)
 					req.ok = false
 			}else if('list' === fragment.result.type){
@@ -314,7 +322,7 @@ if(false) // Converting returned values to expected result is still creating too
 					req.msg = 'Expected: '+JSON.stringify(fragment.result.values)+' but got '+JSON.stringify(req.result);
 					//console.log('Expected:',fragment.result.values,'but got', req.result );
 					//console.log();
-					//req.ok = ok
+					req.ok = ok
 				}
 
 
@@ -367,13 +375,22 @@ function cleanResults(result){
 										return "1";
 									}else if(false === x){
 										return "0";
-									}else if(null === x){
-										return "NULL";
+                  }else if('Infinity' === ''+x){
+										return null;
+									}else if('NaN' === ''+x){
+										return null;
+									}else if('undefined' === ''+x){
+										return null;
 									}else if('' === x){
 										return "(empty)";
 									}
-									//return x;
-									// fix %3d for floats;
+                  
+                  // Its a float
+                  if(x === +x && x !== (x|0)){
+                    return ''+x.toFixed(3);
+                  }
+                  
+                  // remove printable chars
 									return (''+x).replace(/[\n\r\t\x00\x08\x0B\x0C\x0E-\x1F\x7F]/gim, '@');
 								});
 

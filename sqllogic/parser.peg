@@ -1,5 +1,6 @@
 /*
 PEG.JS gramma for sqllogictest files as described at http://www.sqlite.org/sqllogictest/doc/trunk/about.wiki
+By Mathias Rangel Wulff
 */
 
 {
@@ -111,7 +112,7 @@ resultHash
 
 
 resultList
-	= list:(v:$[^\n]+ (nl/!.){if('NULL' === v){v = null};return v})+
+	= list:(v:$[^\n]+ (nl/!.){if(v.match(/NULL/i)){v = null};return v})+
 	{
 		return {
 			type:'list',

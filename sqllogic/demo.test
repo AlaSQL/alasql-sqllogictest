@@ -1,3 +1,24 @@
+query I nosort
+SELECT 1<2, 2<1, 1/0, 'NaN', 'undefined', '', 2, 1.1234, 1.123, 1.12
+----
+1
+0
+NULL
+null
+null
+(empty)
+2
+1.123
+1.123
+1.120
+
+
+halt
+
+
+
+
+
 # So far, this only runs well on SQLite and MySQL.
 
 # skip this entire file if ms sql server
