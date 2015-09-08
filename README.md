@@ -48,28 +48,31 @@ The goal (for now) is not to pass all the tests, but to help us describe (in the
 
 The format of the tests are desribed here: http://www.sqlite.org/sqllogictest/doc/trunk/about.wiki
 
+Supported
+---------
+
+- Verify that the parser parses all the tests 
+
+- Floating point values are rendered as if by printf("%.3f").
+
+- NULL values are rendered as "NULL". Empty strings are rendered as "(empty)". Within non-empty strings, all control characters and unprintable characters are rendered as "@".
+
+
 
 
 ToDo
 ----
 
-- Verify that the parser parses all the tests (ongoing development in the sqllogivtestparserV2.js)
 
-- Implement verification of returned valued with sortorder set
 
 - Change the compabillity flags in alasql accordng to whats mimicked 
 
 - implement:
 > The <label> argument is also optional. If included, sqllogictest stores a hash of the results of this query under the given label. If the label is reused, then sqllogictest verifies that the results are the same. This can be used to verify that two or more queries in the same test script that are logically equivalent always generate the same output.
 
-- Implement:
-> Floating point values are rendered as if by printf("%.3f").
-
-- Implement:
-> NULL values are rendered as "NULL". Empty strings are rendered as "(empty)". Within non-empty strings, all control characters and unprintable characters are rendered as "@".
 
 
-- Implement
+- Implement verification of returned valued with sortorder set
 > The <sort-mode> argument is optional. If included, it must be one of "nosort", "rowsort", or "valuesort". The default is "nosort". In nosort mode, the results appear in exactly the order in which they were received from the database engine. The nosort mode should only be used on queries that have an ORDER BY clause or which only have a single row of result, since otherwise the order of results is undefined and might vary from one database engine to another. The "rowsort" mode gathers all output from the database engine then sorts it by rows on the client side. Sort comparisons use strcmp() on the rendered ASCII text representation of the values. Hence, "9" sorts after "10", not before. The "valuesort" mode works like rowsort except that it does not honor row groupings. Each individual result value is sorted on its own.
 
 **Not ToDo**

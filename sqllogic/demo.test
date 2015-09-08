@@ -87,7 +87,7 @@ SELECT a+b*2+c*3+d*4+e*5,
 ----
 60 values hashing to 808146289313018fce25f1a280bd8c30
 
-halt
+#halt
 
 query IIIII nosort
 SELECT a+b*2+c*3+d*4+e*5,
@@ -114,3 +114,4 @@ SELECT CASE WHEN c>(SELECT avg(c) FROM t1) THEN a*2 ELSE b*10 END
 1000
 1180
 1240
+

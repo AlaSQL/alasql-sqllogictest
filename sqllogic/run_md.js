@@ -32,7 +32,7 @@ var testfiles = walkFiles(
 							'test', 					// Folder where to find test files
 
 
-							/\.test$/, 					// Regexp for files to include (all files ending with .test )
+							/select1\.test$/, 					// Regexp for files to include (all files ending with .test )
 
 
 														// Regexp for files to exclude - keep one and outcomment the rest
@@ -192,7 +192,7 @@ console.log('_Please note that repetetive errors is not always included in this 
 
 
 function printStats(){
-	  	console.log('');
+  console.log('');
 	console.log('-----------------------------');
 
 	console.log('');
@@ -254,13 +254,20 @@ function runSQLtestFromFile(path, db, mimic){
 			return;
 
 		} else if('setThreshold' === fragment.command){
-			console.log('`setThreshold not implemented`');
+      // Not important when we compare the results to whats in the testfiles 
+			//console.log('`setThreshold not implemented`');
 			continue;
 
 		}else if('execute' !== fragment.command){
 			console.log('Unknown command: ',fragments[i].command);
 			continue;
-		}
+		} if('execute' !== fragment.command){
+			console.log('Unknown command: ',fragments[i].command);
+			continue;
+		} if ('valuesort' === fragment.result.sort){
+      console.log('valuesort not supported.');
+      continue;
+    }
 
 		var test = verifyTest(fragment, db)
 
@@ -296,18 +303,15 @@ function verifyTest(fragment, db){
 	//console.log('-----------------------------------------------')
 		var req = runTest(fragment.sql, db)
 		req.ok = (fragment.expectSuccess === req.success)
-
-
-		
-//if(false) // Converting returned values to expected result is still creating too many false positives
+//console.log(fragment)
 		if(fragment.result && req.success && req.ok){
 			var ok;
       
-      console.log(req.result)
-			req.result = cleanResults(req.result)
+//console.log(req.result)
+			req.result = cleanResults(req.result, fragment.result.sort)
 
-      console.log(fragment.result)
-      console.log(req.result)
+//console.log(fragment.result)
+//console.log(req.result)
 
       
 			if(! (req.result && req.result.length)){
@@ -354,7 +358,7 @@ function verifyTest(fragment, db){
 
 }
 
-function cleanResults(result){
+function cleanResults(result, sortType){
 	if(!result){
 		return result;
 	}
@@ -367,32 +371,67 @@ function cleanResults(result){
 		return result;
 	}
 	// I expect matrix respond		
+  console.log(result)
 
-	result = [].concat.apply([], result);
+  for(var i = 0;i<result.length;i++){
+    result[i] = result[i].map(function(x){
+                                            if(true === x){
+                                              return "1";
+                                            }
 
-	return result.map(function(x){
-									if(true === x){
-										return "1";
-									}else if(false === x){
-										return "0";
-                  }else if('Infinity' === ''+x){
-										return null;
-									}else if('NaN' === ''+x){
-										return null;
-									}else if('undefined' === ''+x){
-										return null;
-									}else if('' === x){
-										return "(empty)";
-									}
-                  
-                  // Its a float
-                  if(x === +x && x !== (x|0)){
-                    return ''+x.toFixed(3);
-                  }
-                  
-                  // remove printable chars
-									return (''+x).replace(/[\n\r\t\x00\x08\x0B\x0C\x0E-\x1F\x7F]/gim, '@');
-								});
+                                            if(false === x){
+                                              return "0";
+                                            }
+
+                                            if(null === ''+x){
+                                              return 'NULL';
+                                            }
+
+                                            if('Infinity' === ''+x){
+                                              return 'NULL';
+                                            }
+
+                                            if('NaN' === ''+x){  
+                                              return 'NULL';
+                                            }
+
+                                            if('undefined' === ''+x){
+                                              return 'NULL';
+                                            }
+
+                                            if('' === x){
+                                              return "(empty)";
+                                            }
+
+                                            // Its a float
+                                            if(x === +x && x !== (x|0)){
+                                              return ''+x.toFixed(3);
+                                            }
+
+                                            // remove printable chars
+                                            return (''+x).replace(/[\n\r\t\x00\x08\x0B\x0C\x0E-\x1F\x7F]/gim, '@');
+                                          });
+    }
+   console.log(result)
+   
+  if('rowsort' === sortType){
+//The "rowsort" mode gathers all output from the database engine then sorts it by rows on the client side. Sort comparisons use strcmp() on the rendered ASCII text representation of the values. Hence, "9" sorts after "10", not before.
+    result.sort(function(a,b){
+                                var str1 = a.join('');
+                                var str2 = b.join('');
+                                return ( ( str1 === str2 ) ? 0 : ( ( str1 > str2 ) ? 1 : -1 ) )
+                             })
+    
+    
+  } else if('valuesort' === sortType){
+  //The "valuesort" mode works like rowsort except that it does not honor row groupings. Each individual result value is sorted on its own.
+  // MRW: i dont get this...
+    return null;
+  }
+
+  result = [].concat.apply([], result);
+
+	return result;
 
 }
 

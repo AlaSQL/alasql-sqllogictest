@@ -72,13 +72,13 @@ module.exports = function(path) {
 			commands.push(parser.parse(textCommands[i]+"\n"));
 		}catch(e){
 			// output if could not be passed
-			console.log('************ Error parseing test number', i, 'in file', path)	
-			console.log('previus test (passed):',textCommands[i-1]);
-			console.log('this test (failed):', textCommands[i]);
+			console.log('************ Error parseing test number', (i+1), 'in file', path)	
+			console.log('previus one (passed):',textCommands[i-1]);
+			console.log('this one (failed):', textCommands[i]);
 			if(i+1 < textCommands.length)
-				console.log('Next test to be passed:'.textCommands[Math.max(i+1)]);
+				console.log('Next test to be passed:', textCommands[i+1]);
 			console.log('')	
-			console.log(JSON.stringify({error:e}))
+			console.log(JSON.stringify({error:e.message}))
 			console.log('----------------')		
 			console.log('')		
 		}	
