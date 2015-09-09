@@ -32,7 +32,7 @@ var testfiles = walkFiles(
 							'test', 					// Folder where to find test files
 
 
-							/select1\.test$/, 					// Regexp for files to include (all files ending with .test )
+							/\.test$/, 					// Regexp for files to include (all files ending with .test )
 
 
 														// Regexp for files to exclude - keep one and outcomment the rest
@@ -44,16 +44,17 @@ var testfiles = walkFiles(
 
 //What databases to mimic when running tests
 var mimic = [ 
-				'unknown',
+			/*	'unknown',
 				'sqlite',			
 				'postgresql', 
 				'mssql', 
-				'oracle', 
+				'oracle', */
 				'mysql'
 			]
 
 
-var runOnlyDemo = true;
+var runOnlyDemo = false;
+
 
 //////////////////////////// CONFIG END /////////////////////////////////////
 
@@ -261,14 +262,8 @@ function runSQLtestFromFile(path, db, mimic){
 		}else if('execute' !== fragment.command){
 			console.log('Unknown command: ',fragments[i].command);
 			continue;
-		} if('execute' !== fragment.command){
-			console.log('Unknown command: ',fragments[i].command);
-			continue;
-		} if ('valuesort' === fragment.result.sort){
-      console.log('valuesort not supported.');
-      continue;
-    }
-
+		} 
+      
 		var test = verifyTest(fragment, db)
 
 		if(test.ok){
@@ -339,7 +334,7 @@ function verifyTest(fragment, db){
 					ok = md5(req.result.join(''))===fragment.result.hash
 
 					if(!ok){
-						req.msg = 'The hash of ' + req.result.length + ' returned values was different than expected. Check the sorting. '
+						req.msg = 'The hash of ' + req.result.length + ' returned values was different than expected. Check the sorting: '+req.result.join(', ')
 						req.ok = ok
 					}
 				}
@@ -371,7 +366,7 @@ function cleanResults(result, sortType){
 		return result;
 	}
 	// I expect matrix respond		
-  console.log(result)
+//  console.log(result)
 
   for(var i = 0;i<result.length;i++){
     result[i] = result[i].map(function(x){
@@ -412,7 +407,7 @@ function cleanResults(result, sortType){
                                             return (''+x).replace(/[\n\r\t\x00\x08\x0B\x0C\x0E-\x1F\x7F]/gim, '@');
                                           });
     }
-   console.log(result)
+//   console.log(result)
    
   if('rowsort' === sortType){
 //The "rowsort" mode gathers all output from the database engine then sorts it by rows on the client side. Sort comparisons use strcmp() on the rendered ASCII text representation of the values. Hence, "9" sorts after "10", not before.
@@ -423,14 +418,14 @@ function cleanResults(result, sortType){
                              })
     
     
-  } else if('valuesort' === sortType){
-  //The "valuesort" mode works like rowsort except that it does not honor row groupings. Each individual result value is sorted on its own.
-  // MRW: i dont get this...
-    return null;
-  }
+  } 
 
   result = [].concat.apply([], result);
 
+  if('valuesort' === sortType){
+    result.sort()
+  }
+    
 	return result;
 
 }
