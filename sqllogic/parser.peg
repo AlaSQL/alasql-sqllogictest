@@ -1,5 +1,6 @@
 /*
 PEG.JS gramma for sqllogictest files as described at http://www.sqlite.org/sqllogictest/doc/trunk/about.wiki
+By Mathias Rangel Wulff
 */
 
 {
@@ -80,12 +81,17 @@ query
     sql:sql 
     result:result?
     {
-    	return {
-			command: 'execute',
-			expectSuccess: true,
-			sql: sql.trim(),
-			result: result
-		}
+      if(result){
+        result.colType = queryMain.colInfo,
+        result.sort = queryMain.sortInfo
+      }
+      return {
+        command: 'execute',
+        expectSuccess: true,
+        sql: sql.trim(),
+        result: result,
+        label:queryMain.label
+      }
     }
 
 result
@@ -111,7 +117,7 @@ resultHash
 
 
 resultList
-	= list:(v:$[^\n]+ (nl/!.){if('NULL' === v){v = null};return v})+
+	= list:(v:$[^\n]+ (nl/!.){if(v.match(/NULL/i)){v = 'NULL'};return v})+
 	{
 		return {
 			type:'list',
@@ -147,7 +153,7 @@ queryInitCommand
 
 
 queryMain
- = "query"i _ colInfo (_ sortInfo)? (_ label)? _*
+ = "query"i _ colInfo:colInfo _? sortInfo:sortInfo? _? label:label? _* { return {colInfo:colInfo, sortInfo:sortInfo, label:label}}
 
 
 skipif
@@ -158,9 +164,9 @@ colInfo
   = [a-z]i+
 
 sortInfo
-  = "nosort"i
-  / "rowsort"i
-  / "valuesort"i 
+  = "nosort"i {return 'nosort'}
+  / "rowsort"i {return 'rowsort'}
+  / "valuesort"i {return 'valuesort'}
 
 
 label

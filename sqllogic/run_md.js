@@ -2,15 +2,15 @@
 // Todo: set threshold for hashing results
 // Todo: verifying hashed results
 
-var fs    = require("fs")
+var fs    = require("fs");
 var util = require('util');
 var pretty = require('prettysize');
-var md5    = require("MD5")
+var md5    = require("MD5");
 var comparray = require('comparray');
 var sqllogictestparser =  require('./sqllogictestparserV2');
 var alasql = require('./alasql');
 
-console.time('Total script time')
+console.time('Total script time');
 
 
 //////////////////////////// CONFIG START /////////////////////////////////////
@@ -19,7 +19,7 @@ console.time('Total script time')
 alasql = require('./alasql.js');
 
 // If set to false an error will only be printed first time ic occures in all test files.
-var printAllErrors = false;
+var printAllErrors = true;
 
 // If set to false an error will only be printed at first occurence in all test files. If set to true an error will be printed at first occurence in each test file
 var resetErroIndexPerFile = true;
@@ -40,10 +40,11 @@ var testfiles = walkFiles(
 					//		/\/10+\//					// exclude biggest files (balance between time and depth) (410 files)
 					//		null						// Exclude no files - As all tests contains a few million tests it can take some time. (622+ files)
 						);
-
+testfiles=['test/index/between/10/slt_good_0.test'];
 
 //What databases to mimic when running tests
 var mimic = [ 
+
 				'sqlite'/*,			
 				'postgresql', 
 				'mssql', 
@@ -53,19 +54,25 @@ var mimic = [
 			];
 
 
+var runOnlyDemo = false;
+
+
+
 
 //////////////////////////// CONFIG END /////////////////////////////////////
 
 
 
 
+if(runOnlyDemo){
+  mimic = [mimic[0]];
+  testfiles=["./demo.test"];
+}
 
-
-//testfiles=["./demo.test"]
 alasql.options.modifier = "MATRIX";
 alasql.options.cache = false;
 var mimicking = 0;
-var erroIndex = {}
+var erroIndex = {};
 var score = {
 				ok: {
 					total:0,
@@ -94,24 +101,24 @@ var score = {
 				percent: function(a, b){
 											a = a | 0;
 											b = b | 0;
-											if(0==a+b){
+											if(0===a+b){
 												return 0;
 											}
-											return (100.0*a/(a+b))|0
+											return (100.0*a/(a+b))|0;
 										}
 			};
 
 
-console.log('# SQLlogictest results for AlaSQL',alasql.version)
+console.log('# SQLlogictest results for AlaSQL',alasql.version);
 console.log('');
-console.log('_'+ new Date().toISOString()+'_')
+console.log('_'+ new Date().toISOString()+'_');
 console.log('');
 
 if(testfiles.length<622){ // Todo: fix hardcode
-	console.log('This is a subset of the total 622 tests.')
+	console.log('This is a subset of the total 622 tests.');
 }
 
-console.log('Results from '+testfiles.length+' test files:')
+console.log('Results from '+testfiles.length+' test files:');
 
 
 
@@ -122,7 +129,7 @@ console.log(testfiles);
 console.log('```');
 console.log('');
 */
-
+var debugSQL = '';
 for (var i in testfiles) {
 
 	if(resetErroIndexPerFile){
@@ -136,7 +143,7 @@ for (var i in testfiles) {
 		//console.timeEnd('Garbagecollecting')
 	}
 
-	console.time('Time')
+	console.time('Time');
 
 	console.log('');
 	console.log('---- ---- ---- ---- ---- ---- ----');
@@ -159,11 +166,10 @@ for (var i in testfiles) {
 		}
 		console.log('#### '+ (0===roundCount.fail?'✔':'☓') +' Ran', roundCount.total, 'tests as',  mimic[mimicking]);
 		console.log('');
-		console.log('* '+roundCount.fail+ " failed")
+		console.log('* '+roundCount.fail+ " failed");
 		console.log('* '+score.percent(roundCount.ok, roundCount.fail) +'% was OK');
 		console.log('');
-
-	};
+	}
 
 
 
@@ -182,20 +188,20 @@ for (var i in testfiles) {
 //console.log('    ***************** ALL TESTS COMPLETED ******************');
 
 printStats();
-console.timeEnd('Total script time')
+console.timeEnd('Total script time');
 console.log('');
 console.log('_Please note that repetetive errors is not always included in this document_');
 
-
+console.log(debugSQL);
 
 function printStats(){
-	  	console.log('');
+  console.log('');
 	console.log('-----------------------------');
 
 	console.log('');
 
 
-	console.log('## Final result')
+	console.log('## Final result');
 	console.log('');
 	console.log('* Failed tests:', score.fail.total);
 
@@ -231,7 +237,7 @@ function runSQLtestFromFile(path, db, mimic){
 
     var fragments = sqllogictestparser(path);
 
-	console.log('_Mimic '+mimic+'_');
+	console.log('_Mimic '+mimic+"_");
 
     for (var i = 0; i < fragments.length; i++) {
 	    var fragment =fragments[i];
@@ -251,34 +257,38 @@ function runSQLtestFromFile(path, db, mimic){
 			return;
 
 		} else if('setThreshold' === fragment.command){
-			console.log('`setThreshold not implemented`');
+      // Not important when we compare the results to whats in the testfiles 
+			//console.log('`setThreshold not implemented`');
 			continue;
 
 		}else if('execute' !== fragment.command){
 			console.log('Unknown command: ',fragments[i].command);
 			continue;
-		}
-
-		var test = verifyTest(fragment, db)
+		} 
+      
+		var test = verifyTest(fragment, db);
 
 		if(test.ok){
 			score.ok.total++;
 		} else {
 			score.fail.total++;
 
-			//console.log(test)
+			
 
-			var errHash = test.msg.split('-----^').pop()/*.split("'").unshift()*/.replace(/[^a-z]/mig, '')
+			var errHash = test.msg.split('-----^').pop()/*.split("'").unshift()*/.replace(/[^a-z]/mig, '');
 
 			// The hashing of the errors gives us first error per error type. The math random is there to give os 1% of all errors so we have some different examples. Should be avoided when we have the worst error types implemented correctly.
 			if(printAllErrors || !erroIndex[errHash] || Math.random()<curiousErrorprinting){
-				console.log('```sql')
-				console.log(test.sql)
-				console.log('')
-				console.log(test.msg)
+				console.log('');
+				console.log('```sql');
+				console.log(test.sql);
+				console.log('');
+				console.log(test.msg);
 			//	console.log('Mimicking '+mimic)
-				console.log('```')
-				console.log('')
+				console.log('```');
+				console.log('');
+
+				
 				erroIndex[errHash] = true;
 			}
 		}
@@ -291,22 +301,24 @@ function runSQLtestFromFile(path, db, mimic){
 function verifyTest(fragment, db){
 
 	//console.log('-----------------------------------------------')
-		var req = runTest(fragment.sql, db)
-		req.ok = (fragment.expectSuccess === req.success)
-		
-if(false) // Converting returned values to expected result is still creating too many false positives
+		var req = runTest(fragment.sql, db);
+		req.ok = (fragment.expectSuccess === req.success);
+//console.log(fragment)
 		if(fragment.result && req.success && req.ok){
 			var ok;
-			req.result = cleanResults(req.result)
+      
+//console.log(req.result)
+			req.result = cleanResults(req.result, fragment.result.sort);
+
 //console.log(fragment.result)
-//console.log(fragment.sql)
 //console.log(req.result)
 
-			if(! (req.result&& req.result.length)){
-					req.msg = 'Query was expected to return results (but did not): '+JSON.stringify(req.result)
-					req.ok = false
+      
+			if(! (req.result && req.result.length)){
+					req.msg = 'Query was expected to return results (but did not): '+JSON.stringify(req.result);
+					req.ok = false;
 			}else if('list' === fragment.result.type){
-				ok = comparray(req.result, fragment.result.values)
+				ok = comparray(req.result, fragment.result.values);
 
 				if(!ok){
 					
@@ -314,21 +326,28 @@ if(false) // Converting returned values to expected result is still creating too
 					req.msg = 'Expected: '+JSON.stringify(fragment.result.values)+' but got '+JSON.stringify(req.result);
 					//console.log('Expected:',fragment.result.values,'but got', req.result );
 					//console.log();
-					//req.ok = ok
+					req.ok = ok;
 				}
 
 
 			} else if('hash' === fragment.result.type){
-				ok = req.result.length === +fragment.result.amount
+				ok = req.result.length === +fragment.result.amount;
 				if(!ok){
-					req.msg = req.result.length + ' results returned but expected ' + fragment.result.amount
-					req.ok = ok
+					req.msg = req.result.length + ' results returned but expected ' + fragment.result.amount;
+					req.ok = ok;
 				}else{
-					ok = md5(req.result.join(''))===fragment.result.hash
+					ok = md5(req.result.join(''))===fragment.result.hash;
 
 					if(!ok){
-						req.msg = 'The hash of ' + req.result.length + ' returned values was different than expected. Check the sorting. '
-						req.ok = ok
+						req.msg = 'The hash of ' + req.result.length + ' returned values was different than expected. Check the sorting: '+req.result.join(', ');
+						req.ok = ok;
+
+						/*
+						console.log('');
+						console.log(JSON.stringify(fragment));
+						console.log(JSON.stringify(req));
+						console.log('');
+						//*/
 					}
 				}
 			}
@@ -346,7 +365,7 @@ if(false) // Converting returned values to expected result is still creating too
 
 }
 
-function cleanResults(result){
+function cleanResults(result, sortType){
 	if(!result){
 		return result;
 	}
@@ -359,46 +378,93 @@ function cleanResults(result){
 		return result;
 	}
 	// I expect matrix respond		
+//  console.log('result:', result)
 
-	result = [].concat.apply([], result);
+  for(var i = 0;i<result.length;i++){
+    result[i] = result[i].map(function(x){
 
-	return result.map(function(x){
-									if(true === x){
-										return "1";
-									}else if(false === x){
-										return "0";
-									}else if(null === x){
-										return "NULL";
-									}else if('' === x){
-										return "(empty)";
-									}
-									//return x;
-									// fix %3d for floats;
-									return (''+x).replace(/[\n\r\t\x00\x08\x0B\x0C\x0E-\x1F\x7F]/gim, '@');
-								});
+                                            if(true === x){
+                                              return "1";
+                                            }
+
+                                            if(false === x){
+                                              return "0";
+                                            }
+
+                                            if(null === x){
+                                              return 'NULL';
+                                            }
+
+                                            if('Infinity' === ''+x){
+                                              return 'NULL';
+                                            }
+
+                                            if('NaN' === ''+x){  
+                                              return 'NULL';
+                                            }
+
+                                            if('undefined' === ''+x){
+                                              return 'NULL';
+                                            }
+
+                                            if('' === x){
+                                              return "(empty)";
+                                            }
+
+                                            // Its a float
+                                            if(x === +x && x !== (x|0)){
+                                              return ''+x.toFixed(3);
+                                            }
+
+                                            // remove printable chars
+                                            return (''+x).replace(/[\n\r\t\x00\x08\x0B\x0C\x0E-\x1F\x7F]/gim, '@');
+                                          });
+    }
+//   console.log(result)
+   
+  if('rowsort' === sortType){
+//The "rowsort" mode gathers all output from the database engine then sorts it by rows on the client side. Sort comparisons use strcmp() on the rendered ASCII text representation of the values. Hence, "9" sorts after "10", not before.
+    result.sort(function(a,b){
+                                var str1 = a.join('');
+                                var str2 = b.join('');
+                                return ( ( str1 === str2 ) ? 0 : ( ( str1 > str2 ) ? 1 : -1 ) );
+                             });
+    
+    
+  } 
+
+  result = [].concat.apply([], result);
+
+  if('valuesort' === sortType){
+    result.sort();
+  }
+    
+	return result;
 
 }
 
 
 
 function runTest(sql, db){
-
+//sql = "SELECT 1<2, 2<1, 1/0, 'NaN', 'undefined', '', 2, 1.1234, 1.123, 1.12";
   sql = sql
           .replace(/\r|\n/g,' ')
           .replace(/[ ]{2,}/g,' ');
   //console.log(sql);
   var result;
 
+	//debugSQL += sql+";\n\n";
+
   try {
-    result = db.exec(sql)
+    result = db.exec(sql);
 	  //result = alasql.parse(sql);
   }
   catch(err) {
-      return {success: false, msg: (err.message || 'no error msg'), sql:sql}
+      return {success: false, msg: (err.message || 'no error msg'), sql:sql};
   }
 
-
-  return {success: true, msg: 'No exception thrown', result:result, sql:sql}
+// console.log('resultPre:', result);
+  return {success: true, msg: 'No exception thrown', result:result, sql:sql};
 
 }
 
@@ -418,12 +484,12 @@ function walkFiles(dir, reFilterYes, reFilterNo) {
             return;
         var stat = fs.statSync(file);
         if (stat && stat.isDirectory()) {
-          results = results.concat(walkFiles(file, reFilterYes, reFilterNo))
+          results = results.concat(walkFiles(file, reFilterYes, reFilterNo));
         } else {
           if(reFilterYes && !reFilterYes.test(file))
             return;
-          results.push(file)
+          results.push(file);
         }
-    })
-    return results
+    });
+    return results;
 }
