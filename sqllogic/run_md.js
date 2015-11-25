@@ -8,7 +8,7 @@ var pretty = require('prettysize');
 var md5    = require("MD5")
 var comparray = require('comparray');
 var sqllogictestparser =  require('./sqllogictestparserV2');
-var alasql = require('alasql');
+var alasql = require('./alasql');
 
 console.time('Total script time')
 
@@ -44,13 +44,13 @@ var testfiles = walkFiles(
 
 //What databases to mimic when running tests
 var mimic = [ 
-				'sqlite',			
+				'sqlite'/*,			
 				'postgresql', 
 				'mssql', 
 				'oracle', 
 				'mysql', 
-				'Unspecified DB'
-			]
+				'Unspecified DB'*/
+			];
 
 
 
