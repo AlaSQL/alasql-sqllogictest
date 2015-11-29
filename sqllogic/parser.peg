@@ -53,7 +53,7 @@ statement
   					command: 'execute', 
   					expectSuccess: expect, 
  					sql:sql.trim(),
-  					results: {type:'void'} 
+  					result: {type:'statement'} 
   				}
   	}
 

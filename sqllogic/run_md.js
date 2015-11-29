@@ -9,6 +9,7 @@ var md5    = require("MD5");
 var comparray = require('comparray');
 var sqllogictestparser =  require('./sqllogictestparserV2');
 var alasql = require('./alasql');
+//var sql = require('sql.js');
 
 console.time('Total script time');
 
@@ -19,13 +20,25 @@ console.time('Total script time');
 alasql = require('./alasql.js');
 
 // If set to false an error will only be printed first time ic occures in all test files.
-var printAllErrors = true;
+var printAllErrors = false;
 
 // If set to false an error will only be printed at first occurence in all test files. If set to true an error will be printed at first occurence in each test file
 var resetErroIndexPerFile = true;
 
 // Sometimes you would like to have more examples of the same error. Set this between 0 and 1 to set the probabillity of an error getting printed in case it has been printes before
 var curiousErrorprinting = 0.0001;
+
+// Max string length of sql printed out when error
+var truncSQLStatement = 400;
+
+// Run only debug.test as first mimic value
+var runOnlyDemo = false;
+
+// run tests on sql.js instead of AlaSQL
+var useSqliteDb = false;
+
+// output debug info for errors
+var debugErrorInfo = false;
 
 // Config of what tests to run
 var testfiles = walkFiles(
@@ -40,7 +53,7 @@ var testfiles = walkFiles(
 					//		/\/10+\//					// exclude biggest files (balance between time and depth) (410 files)
 					//		null						// Exclude no files - As all tests contains a few million tests it can take some time. (622+ files)
 						);
-testfiles=['test/index/between/10/slt_good_0.test'];
+//testfiles=['test/index/between/10/slt_good_0.test'];
 
 //What databases to mimic when running tests
 var mimic = [ 
@@ -52,11 +65,6 @@ var mimic = [
 				'mysql', 
 				'Unspecified DB'*/
 			];
-
-
-var runOnlyDemo = false;
-
-
 
 
 //////////////////////////// CONFIG END /////////////////////////////////////
@@ -82,19 +90,25 @@ var score = {
 					total:0,
 					last:0
 				},
+				skip: {
+					total:0,
+					last:0
+				},
 				round:{
 					init: function(obj){
 											obj = obj || score;
 											obj.ok.last = obj.ok.total;
 											obj.fail.last = obj.fail.total;
+											obj.skip.last = obj.skip.total;
 										},
 					stat: function(obj){
 											obj = obj || score;
 											var tmp = {
 												ok: obj.ok.total - obj.ok.last,
 												fail: obj.fail.total - obj.fail.last,
+												skip: obj.skip.total - obj.skip.last,
 											};
-											tmp.total = tmp.ok+tmp.fail;
+											tmp.total = tmp.ok+tmp.fail+tmp.skip;
 											return tmp;
 										}
 				},
@@ -109,7 +123,8 @@ var score = {
 			};
 
 
-console.log('# SQLlogictest results for AlaSQL',alasql.version);
+
+console.log('# SQLlogictest results for', useSqliteDb?'sql.js':'AlaSQL '+alasql.version);
 console.log('');
 console.log('_'+ new Date().toISOString()+'_');
 console.log('');
@@ -147,7 +162,8 @@ for (var i in testfiles) {
 
 	console.log('');
 	console.log('---- ---- ---- ---- ---- ---- ----');
-	console.log('### ' + (+i+1) + '/' + testfiles.length + ' `'  +  testfiles[i] + '`');
+	//console.log('### ' + (+i+1) + '/' + testfiles.length + ' `'  +  testfiles[i] + '`');
+	console.log('### ' + (+i+1) + '/' + testfiles.length + ' [`'  +  testfiles[i] + '`](https://github.com/mathiasrw/alasql-logictest/blob/master/sqllogic/'+testfiles[i]+')');
 	//printMem()
 	console.log('');
 
@@ -155,6 +171,10 @@ for (var i in testfiles) {
 			
 		var name = testfiles[i].replace(/[^a-z0-9]/mig,'_') + mimic[mimicking];
 		var db = new alasql.Database(name);
+
+		if(useSqliteDb){
+			db = new sql.Database();
+		}
 
 		score.round.init();
 		
@@ -166,8 +186,19 @@ for (var i in testfiles) {
 		}
 		console.log('#### '+ (0===roundCount.fail?'✔':'☓') +' Ran', roundCount.total, 'tests as',  mimic[mimicking]);
 		console.log('');
-		console.log('* '+roundCount.fail+ " failed");
-		console.log('* '+score.percent(roundCount.ok, roundCount.fail) +'% was OK');
+		
+		if(roundCount.skip){
+			console.log('* '+roundCount.skip+ " skipped");
+		}
+
+		if(roundCount.fail){
+			console.log('* '+roundCount.fail+ " failed");
+		}
+		
+		
+		
+		console.log('* '+score.percent(roundCount.ok, roundCount.fail+roundCount.skip) +'% was OK');
+		
 		console.log('');
 	}
 
@@ -190,7 +221,7 @@ for (var i in testfiles) {
 printStats();
 console.timeEnd('Total script time');
 console.log('');
-console.log('_Please note that repetetive errors is not always included in this document_');
+console.log('_Please note that repetetive errors are not always printed again_');
 
 console.log(debugSQL);
 
@@ -203,11 +234,13 @@ function printStats(){
 
 	console.log('## Final result');
 	console.log('');
+	console.log('* Skipped tests:', score.skip.total);
+
 	console.log('* Failed tests:', score.fail.total);
 
 	//console.log('Was OK     :', score.ok.total);
-	console.log('* Total tested:', score.ok.total+score.fail.total);
-	console.log('* Final score:', score.percent(score.ok.total, score.fail.total), '% was OK');
+	console.log('* Total tested:', score.ok.total+score.fail.total+score.skip.total);
+	console.log('* Final score:', score.percent(score.ok.total, score.fail.total+score.skip.total), '% was OK');
 
 	//printMem();
 
@@ -230,10 +263,10 @@ function printMem(){
 
 function runSQLtestFromFile(path, db, mimic){
 	mimic = mimic || 'unspecified';
-
 	
-
-
+	// A statement is an SQL command that is to be evaluated but from which we do not expect to get results (other than success or failure). A statement might be a CREATE TABLE or an INSERT or an UPDATE or a DROP INDEX.
+	// If a statement fils it does not make sense to peform the rest of the tests in the file as the data is not present.
+	var statementFaild = false; 
 
     var fragments = sqllogictestparser(path);
 
@@ -242,6 +275,12 @@ function runSQLtestFromFile(path, db, mimic){
     for (var i = 0; i < fragments.length; i++) {
 	    var fragment =fragments[i];
 		
+		if(statementFaild){			
+			score.skip.total += fragments.length-i;
+			console.log("_Fail found for statement setting up data so skipping rest of tests_\n");			
+			break;	
+		} 
+
 		if(fragment.skipif && fragment.skipif.length && -1<fragment.skipif.indexOf(mimic)){
 			continue;
 		} 
@@ -273,15 +312,23 @@ function runSQLtestFromFile(path, db, mimic){
 		} else {
 			score.fail.total++;
 
-			
+
+			if('statement' === fragment.result.type){
+				//console.log(fragment);
+				//console.log(test);
+				statementFaild = true;
+			}
 
 			var errHash = test.msg.split('-----^').pop()/*.split("'").unshift()*/.replace(/[^a-z]/mig, '');
 
 			// The hashing of the errors gives us first error per error type. The math random is there to give os 1% of all errors so we have some different examples. Should be avoided when we have the worst error types implemented correctly.
-			if(printAllErrors || !erroIndex[errHash] || Math.random()<curiousErrorprinting){
+			if(statementFaild || printAllErrors || !erroIndex[errHash] || Math.random()<curiousErrorprinting){
+				
+				
+
 				console.log('');
 				console.log('```sql');
-				console.log(test.sql);
+				console.log(trunc(test.sql, truncSQLStatement));
 				console.log('');
 				console.log(test.msg);
 			//	console.log('Mimicking '+mimic)
@@ -313,9 +360,12 @@ function verifyTest(fragment, db){
 //console.log(fragment.result)
 //console.log(req.result)
 
-      
-			if(! (req.result && req.result.length)){
-					req.msg = 'Query was expected to return results (but did not): '+JSON.stringify(req.result);
+      		if('void' === fragment.result.type){
+      				req.ok = true;   // no results to compare
+      		} else if('statement' === fragment.result.type){
+      				req.ok = true;   // no results to compare
+      		} else if(! (req.result && req.result.length)){
+					req.msg = 'Query was expected to return results (but did not) ';//+JSON.stringify(req.result);
 					req.ok = false;
 			}else if('list' === fragment.result.type){
 				ok = comparray(req.result, fragment.result.values);
@@ -336,23 +386,26 @@ function verifyTest(fragment, db){
 					req.msg = req.result.length + ' results returned but expected ' + fragment.result.amount;
 					req.ok = ok;
 				}else{
-					ok = md5(req.result.join(''))===fragment.result.hash;
+					ok = md5(req.result.join("\n")+"\n")===fragment.result.hash; // check line 514 in sqllogictest.c (https://www.sqlite.org/sqllogictest/artifact/25519cdda12b91e8)
 
 					if(!ok){
-						req.msg = 'The hash of ' + req.result.length + ' returned values was different than expected. Check the sorting: '+req.result.join(', ');
+						req.msg = 'Correct amount of values returned but hash was different than expected.';// Check the sorting: '+req.result.join(', ');
 						req.ok = ok;
 
-						/*
-						console.log('');
-						console.log(JSON.stringify(fragment));
-						console.log(JSON.stringify(req));
-						console.log('');
-						//*/
+					
 					}
 				}
 			}
 
 
+		}
+		if(debugErrorInfo && !req.ok){
+			//*
+			console.log('---- DEBUG ----');
+			console.log(JSON.stringify(fragment));
+			console.log('');
+			console.log(JSON.stringify(req));
+			//*/
 		}
 
 		/*
@@ -396,6 +449,10 @@ function cleanResults(result, sortType){
                                             }
 
                                             if('Infinity' === ''+x){
+                                              return 'NULL';
+                                            }
+                                            
+                                            if('-Infinity' === ''+x){
                                               return 'NULL';
                                             }
 
@@ -451,20 +508,27 @@ function runTest(sql, db){
           .replace(/\r|\n/g,' ')
           .replace(/[ ]{2,}/g,' ');
   //console.log(sql);
-  var result;
-
-	//debugSQL += sql+";\n\n";
+  var result = null;
 
   try {
     result = db.exec(sql);
-	  //result = alasql.parse(sql);
+	//result = alasql.parse(sql);
+	
+	if(useSqliteDb){
+		 result = result[0] || {};
+		 result = result.values || null;
+  	}
   }
   catch(err) {
-      return {success: false, msg: (err.message || 'no error msg'), sql:sql};
+  	if(0){
+  		console.log('rawError:', err);
+  	}
+    return {success: false, msg: (err.message || 'no error msg'), sql:sql};
   }
-
-// console.log('resultPre:', result);
-  return {success: true, msg: 'No exception thrown', result:result, sql:sql};
+ 	if(0){
+		console.log('rawResult:', result);
+	}
+	return {success: true, msg: 'No exception thrown', result:result, sql:sql};
 
 }
 
@@ -493,3 +557,11 @@ function walkFiles(dir, reFilterYes, reFilterNo) {
     });
     return results;
 }
+
+function trunc(str, n){
+	if(n<2){
+		return str;
+	}
+ 	return (str.length > n) ? str.substr(0,n-1)+'…' : str;
+};
+
