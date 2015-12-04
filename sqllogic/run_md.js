@@ -7,8 +7,8 @@ var util = require('util');
 var pretty = require('prettysize');
 var md5    = require("MD5");
 var comparray = require('comparray');
-var sqllogictestparser =  require('./sqllogictestparserV2');
-var alasql = require('./alasql');
+var sqllogictestparser =  require(__dirname+'/sqllogictestparserV2');
+var alasql = require('alasql');
 //var sql = require('sql.js');
 
 console.time('Total script time');
@@ -16,8 +16,8 @@ console.time('Total script time');
 
 //////////////////////////// CONFIG START /////////////////////////////////////
 
-// Incomment to use local file instead of node_module
-alasql = require('./alasql.js');
+// outcomment to use node_module version instead of local file
+// alasql = require(__dirname+'/alasql');
 
 // If set to false an error will only be printed first time ic occures in all test files.
 var printAllErrors = false;
@@ -42,18 +42,19 @@ var debugErrorInfo = false;
 
 // Config of what tests to run
 var testfiles = walkFiles(
-							'test', 					// Folder where to find test files
+							'./test', 			// Folder where to find test files
 
 
 							/\.test$/, 					// Regexp for files to include (all files ending with .test )
 
 
 														// Regexp for files to exclude - keep one and outcomment the rest
-							/00\/|\d{2,}\.test/			// Exclude a lot of files (fastest - 125 files)
+					//		/00\/|\d{2,}\.test/			// Exclude a lot of files (fastest - 125 files)
 					//		/\/10+\//					// exclude biggest files (balance between time and depth) (410 files)
-					//		null						// Exclude no files - As all tests contains a few million tests it can take some time. (622+ files)
+							null						// Exclude no files - As all tests contains a few million tests it can take some time. (622+ files)
 						);
 //testfiles=['test/index/between/10/slt_good_0.test'];
+//testfiles=['./test/select5.test'];
 
 //What databases to mimic when running tests
 var mimic = [ 
@@ -170,7 +171,14 @@ for (var i in testfiles) {
 	for (mimicking = 0; mimicking < mimic.length; mimicking++) {
 			
 		var name = testfiles[i].replace(/[^a-z0-9]/mig,'_') + mimic[mimicking];
+		
 		var db = new alasql.Database(name);
+		
+		/*
+		var db = alasqlFn();
+		db.options.modifier = "MATRIX";
+		db.options.cache = false;
+		*/
 
 		if(useSqliteDb){
 			db = new sql.Database();
@@ -178,7 +186,7 @@ for (var i in testfiles) {
 
 		score.round.init();
 		
-		runSQLtestFromFile(testfiles[i],  db, mimic[mimicking]);
+		runSQLtestFromFile(__dirname+'/'+testfiles[i],  db, mimic[mimicking]);
 		
 		var roundCount = score.round.stat();
 		if(0===roundCount.total){
@@ -324,7 +332,7 @@ function runSQLtestFromFile(path, db, mimic){
 			// The hashing of the errors gives us first error per error type. The math random is there to give os 1% of all errors so we have some different examples. Should be avoided when we have the worst error types implemented correctly.
 			if(statementFaild || printAllErrors || !erroIndex[errHash] || Math.random()<curiousErrorprinting){
 				
-				
+				//console.log(JSON.stringify(db.tables, null, 4));
 
 				console.log('');
 				console.log('```sql');
