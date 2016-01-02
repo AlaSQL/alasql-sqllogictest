@@ -44,7 +44,7 @@ var useSqliteDb = false;
 var debugErrorInfo = false;
 
 // only check if SQL can be parsed. does not work with sqlite
-var onlyParseSql = true;
+var onlyParseSql = false;
 
 // Config of what tests to run
 var testfiles = walkFiles(
@@ -53,13 +53,14 @@ var testfiles = walkFiles(
 
 							/\.test$/, 					// Regexp for files to include (all files ending with .test )
 
-
 														// Regexp for files to exclude - keep one and outcomment the rest
-							/00\/|\d{2,}\.test/			// Exclude a lot of files (fastest - 125 files)
+					//		/00\/|\d{2,}\.test/			// Exclude a lot of files (fastest - 125 files)
 					//		/\/10+\//					// exclude biggest files (balance between time and depth) (410 files)
 					//		null						// Exclude no files - As all tests contains a few million tests it can take some time. (622+ files)
+					/select5\.test/
+
 						);
-//testfiles=['./test/select5.test'];
+
 
 //What databases to mimic when running tests
 var mimic = [ 
