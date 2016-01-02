@@ -1,4 +1,4 @@
-# SQLlogictest results for AlaSQL 0.2.2-pre-develop+151231.53429
+# SQLlogictest detailed results for AlaSQL 0.2.2-pre-develop+151231.53429
 
 _2016-01-02T03:00:43.073Z_
 
