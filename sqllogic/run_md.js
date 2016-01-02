@@ -8,7 +8,10 @@ var pretty = require('prettysize');
 var md5    = require("MD5");
 var comparray = require('comparray');
 var sqllogictestparser =  require(__dirname+'/sqllogictestparserV2');
-var alasql = require('alasql');
+
+var alasql = require(__dirname+'/../../alasql/dist/alasql'); //todo: make parameter to set path
+//var alasql = require('alasql');
+
 //var sql = require('sql.js');
 
 console.time('Total script time');
@@ -19,7 +22,7 @@ console.time('Total script time');
 // outcomment to use node_module version instead of local file
 // alasql = require(__dirname+'/alasql');
 
-// If set to false an error will only be printed first time ic occures in all test files.
+// If set to false an error will only be printed first time it occures in all test files.
 var printAllErrors = false;
 
 // If set to false an error will only be printed at first occurence in all test files. If set to true an error will be printed at first occurence in each test file
@@ -40,6 +43,9 @@ var useSqliteDb = false;
 // output debug info for errors
 var debugErrorInfo = false;
 
+// only check if SQL can be parsed. does not work with sqlite
+var onlyParseSql = true;
+
 // Config of what tests to run
 var testfiles = walkFiles(
 							'./test', 			// Folder where to find test files
@@ -49,11 +55,10 @@ var testfiles = walkFiles(
 
 
 														// Regexp for files to exclude - keep one and outcomment the rest
-					//		/00\/|\d{2,}\.test/			// Exclude a lot of files (fastest - 125 files)
+							/00\/|\d{2,}\.test/			// Exclude a lot of files (fastest - 125 files)
 					//		/\/10+\//					// exclude biggest files (balance between time and depth) (410 files)
-							null						// Exclude no files - As all tests contains a few million tests it can take some time. (622+ files)
+					//		null						// Exclude no files - As all tests contains a few million tests it can take some time. (622+ files)
 						);
-//testfiles=['test/index/between/10/slt_good_0.test'];
 //testfiles=['./test/select5.test'];
 
 //What databases to mimic when running tests
@@ -71,6 +76,9 @@ var mimic = [
 //////////////////////////// CONFIG END /////////////////////////////////////
 
 
+
+
+//testfiles=["./test/evidence/slt_lang_replace.test"];
 
 
 if(runOnlyDemo){
@@ -357,6 +365,12 @@ function verifyTest(fragment, db){
 
 	//console.log('-----------------------------------------------')
 		var req = runTest(fragment.sql, db);
+
+		if(onlyParseSql){
+			req.ok = req.success;
+			return req;
+		}
+
 		req.ok = (fragment.expectSuccess === req.success);
 //console.log(fragment)
 		if(fragment.result && req.success && req.ok){
@@ -511,31 +525,31 @@ function cleanResults(result, sortType){
 
 
 function runTest(sql, db){
-//sql = "SELECT 1<2, 2<1, 1/0, 'NaN', 'undefined', '', 2, 1.1234, 1.123, 1.12";
-  sql = sql
-          .replace(/\r|\n/g,' ')
-          .replace(/[ ]{2,}/g,' ');
-  //console.log(sql);
-  var result = null;
+	//sql = "SELECT 1<2, 2<1, 1/0, 'NaN', 'undefined', '', 2, 1.1234, 1.123, 1.12";
+	sql = sql
+			.replace(/\r|\n/g,' ')
+			.replace(/[ ]{2,}/g,' ');
+	//console.log(sql);
+	var result = null;
 
-  try {
-    result = db.exec(sql);
-	//result = alasql.parse(sql);
-	
-	if(useSqliteDb){
-		 result = result[0] || {};
-		 result = result.values || null;
-  	}
-  }
-  catch(err) {
-  	if(0){
-  		console.log('rawError:', err);
-  	}
-    return {success: false, msg: (err.message || 'no error msg'), sql:sql};
-  }
- 	if(0){
-		console.log('rawResult:', result);
+	try {
+		if(onlyParseSql){
+			result = alasql.parse(sql);
+		} else {
+
+			result = db.exec(sql);
+
+			if(useSqliteDb){
+				result = result[0] || {};
+				result = result.values || null;
+			}
+		}
+	} catch(err) {
+		// console.log('rawError:', err);
+		return {success: false, msg: (err.message || 'no error msg'), sql:sql};
 	}
+
+	// console.log('rawResult:', result);
 	return {success: true, msg: 'No exception thrown', result:result, sql:sql};
 
 }

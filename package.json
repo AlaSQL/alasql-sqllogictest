@@ -1,6 +1,6 @@
 {
   "name": "alasql-logictest",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "sqllogictest of AlaSQL",
   "main": "sqllogic/run_raw.js",
   "scripts": {
