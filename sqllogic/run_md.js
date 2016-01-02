@@ -200,7 +200,8 @@ for (var i in testfiles) {
 		if(0===roundCount.total){
 			continue;
 		}
-		console.log('#### '+ (0===roundCount.fail?'✔':'☓') +' Ran', roundCount.total, 'tests as',  mimic[mimicking]);
+		
+		console.log('#### '+ (0===roundCount.fail?'★':'☓') +' Ran', roundCount.total, 'tests as',  mimic[mimicking]);
 		console.log('');
 		
 		if(roundCount.skip){
