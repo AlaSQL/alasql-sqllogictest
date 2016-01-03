@@ -8,6 +8,8 @@ var pretty = require('prettysize');
 var md5    = require("MD5");
 var comparray = require('comparray');
 var sqllogictestparser =  require(__dirname+'/sqllogictestparserV2');
+var numeral = require('numeral'); // var string = numeral(1000).format('0,0');
+
 
 var alasql = require(__dirname+'/../../alasql/dist/alasql'); //todo: make parameter to set path
 //var alasql = require('alasql');
@@ -57,7 +59,7 @@ var testfiles = walkFiles(
 					//		/00\/|\d{2,}\.test/			// Exclude a lot of files (fastest - 125 files)
 					//		/\/10+\//					// exclude biggest files (balance between time and depth) (410 files)
 					//		null						// Exclude no files - As all tests contains a few million tests it can take some time. (622+ files)
-					/select5\.test/
+					/select5\.test/						// get all exept select5.test - as its taking days to complete
 
 						);
 
@@ -91,6 +93,7 @@ alasql.options.modifier = "MATRIX";
 alasql.options.cache = false;
 var mimicking = 0;
 var erroIndex = {};
+var format = function(val){ return numeral(val).format('0,0') }
 var score = {
 				ok: {
 					total:0,
@@ -134,7 +137,7 @@ var score = {
 
 
 
-console.log('# SQLlogictest results for', useSqliteDb?'sql.js':'AlaSQL '+alasql.version);
+console.log('# SQLlogictest '+(onlyParseSql?' compile ':'')+'results for', useSqliteDb?'sql.js':'AlaSQL '+alasql.version);
 console.log('');
 console.log('_'+ new Date().toISOString()+'_');
 console.log('');
@@ -201,16 +204,16 @@ for (var i in testfiles) {
 		if(0===roundCount.total){
 			continue;
 		}
-		
-		console.log('#### '+ (0===roundCount.fail?'★':'☓') +' Ran', roundCount.total, 'tests as',  mimic[mimicking]);
+numeral(1000).format('0,0')		
+		console.log('#### '+ (0===roundCount.fail?'★':'☓') +' Ran', format(roundCount.total), 'tests as',  mimic[mimicking]);
 		console.log('');
 		
 		if(roundCount.skip){
-			console.log('* '+roundCount.skip+ " skipped");
+			console.log('* '+format(roundCount.skip)+ " skipped");
 		}
 
 		if(roundCount.fail){
-			console.log('* '+roundCount.fail+ " failed");
+			console.log('* '+format(roundCount.fail)+ " failed");
 		}
 		
 		
@@ -252,12 +255,12 @@ function printStats(){
 
 	console.log('## Final result');
 	console.log('');
-	console.log('* Skipped tests:', score.skip.total);
+	console.log('* Skipped tests:', format(score.skip.total));
 
-	console.log('* Failed tests:', score.fail.total);
+	console.log('* Failed tests:', format(score.fail.total));
 
 	//console.log('Was OK     :', score.ok.total);
-	console.log('* Total tested:', score.ok.total+score.fail.total+score.skip.total);
+	console.log('* Total tested:', format(score.ok.total+score.fail.total+score.skip.total));
 	console.log('* Final score:', score.percent(score.ok.total, score.fail.total+score.skip.total), '% was OK');
 
 	//printMem();

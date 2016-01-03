@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/mathiasrw/alasql-logictest/issues"
   },
-  "homepage": "https://github.com/mathiasrw/alasql-logictest"
+  "homepage": "https://github.com/mathiasrw/alasql-logictest",
+  "devDependencies": {
+    "numeral": "^1.5.3"
+  }
 }
