@@ -12,7 +12,10 @@ Go get markdown summery run npm test (will include starting node with garbagecol
 
 Result will output to results.md
 
-**The rest of this file is probably outdated**
+
+----
+
+**==> The rest of this file is probably outdated <==**
 
 ----
 
