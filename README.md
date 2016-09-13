@@ -13,6 +13,11 @@ Go get markdown summery run npm test (will include starting node with garbagecol
 Result will output to results.md
 
 
+----
+
+**==> The rest of this file is probably outdated <==**
+
+----
 
 **To get more details** execute `run_raw.js` in the sqllogic folder. As the output is very big its suggested to direct output to a file and let the garbagecollection be initiated between the run of each file. To execute `run_raw.js` run node with the --expose-gc flag:
 
