@@ -653,7 +653,17 @@ function spawnTest(){
 	
 	new Parallel(envelope[i]).spawn(webworkerResults).then(result=>{
 		
-		console.log(result.output);
+		
+
+		var printError = false;
+		do{	
+			try{
+				console.log(result.output);
+			} catch(e){
+				printError = true;
+			}
+		} while(printError) // as we are logging async we risk to try to write to a locked file. 
+
 		score.ok.total += result.score.ok.total;
 		score.fail.total += result.score.fail.total;
 		score.skip.total += result.score.skip.total;
