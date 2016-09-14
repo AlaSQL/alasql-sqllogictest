@@ -4,21 +4,27 @@
 
 var fs    = require("fs");
 var util = require('util');
-var pretty = require('prettysize');
-var md5    = require("MD5");
+// var pretty = require('prettysize');
+var md5    = require("md5");
 var comparray = require('comparray');
 var sqllogictestparser =  require(__dirname+'/sqllogictestparserV2');
+var numeral = require('numeral'); // var string = numeral(1000).format('0,0');
+var argv = require('yargs').argv;
 
-//var alasql = require(__dirname+'/../../alasql/dist/alasql'); //todo: make parameter to set path
-var alasql = require('./alasql'); //todo: make parameter to set path
-//var alasql = require('alasql');
 
-//var sql = require('sql.js');
+var alasql = require('alasql');
+//var alasql = require('../alasql/dist/alasql.js'); // its better to have it default where its probably is and give error if its not there... 
+if(argv.alasql){
+	alasql = require(argv.alasql);
+}
 
-console.time('Total script time');
+var sql = require('sql.js');
+
 
 
 //////////////////////////// CONFIG START /////////////////////////////////////
+
+// Todo: make parameter controled
 
 // outcomment to use node_module version instead of local file
 // alasql = require(__dirname+'/alasql');
@@ -26,15 +32,14 @@ console.time('Total script time');
 // If set to false an error will only be printed first time it occures in all test files.
 var printAllErrors = false;
 
-// If set to false an error will only be printed at first occurence in all test files. 
-// If set to true an error will be printed at first occurence in each test file
+// If set to false an error will only be printed at first occurence in all test files. If set to true an error will be printed at first occurence in each test file
 var resetErroIndexPerFile = true;
 
 // Sometimes you would like to have more examples of the same error. Set this between 0 and 1 to set the probabillity of an error getting printed in case it has been printes before
 var curiousErrorprinting = 0.0001;
 
 // Max string length of sql printed out when error
-var truncSQLStatement = 400;
+var truncSQLStatement = 300;
 
 // Run only debug.test as first mimic value
 var runOnlyDemo = false;
@@ -48,6 +53,10 @@ var debugErrorInfo = false;
 // only check if SQL can be parsed. does not work with sqlite
 var onlyParseSql = false;
 
+// If set to true previus tests who had 100% OK will be skipped
+var skipTests = true;	
+var skipTestsFile = "skipTests.line";	
+
 // Config of what tests to run
 var testfiles = walkFiles(
 							'./test', 			// Folder where to find test files
@@ -55,14 +64,14 @@ var testfiles = walkFiles(
 
 							/\.test$/, 					// Regexp for files to include (all files ending with .test )
 
-
 														// Regexp for files to exclude - keep one and outcomment the rest
-							/00\/|\d{2,}\.test/			// Exclude a lot of files (fastest - 125 files)
+							/(00\/|\d{2,}|select[45])\.test/			// Exclude a lot of files (fastest - 125 files)
 					//		/\/10+\//					// exclude biggest files (balance between time and depth) (410 files)
 					//		null						// Exclude no files - As all tests contains a few million tests it can take some time. (622+ files)
+					//      /select[45]\.test/						// get all exept select5.test - as its taking days to complete
+
 						);
-//testfiles=['test/index/between/10/slt_good_0.test'];
-//testfiles=['./test/select5.test'];
+
 
 //What databases to mimic when running tests
 var mimic = [ 
@@ -80,8 +89,9 @@ var mimic = [
 
 
 
+console.time('Total script time');
 
-testfiles=["./test/select5.test"];
+//testfiles=["./test/evidence/slt_lang_replace.test"];
 
 
 if(runOnlyDemo){
@@ -89,10 +99,18 @@ if(runOnlyDemo){
   testfiles=["./demo.test"];
 }
 
+
+var skipTestsContent = '';
+if(skipTests){
+	skipTestsContent = fs.readFileSync(skipTestsFile, "utf8");	
+}
+
+
 alasql.options.modifier = "MATRIX";
 alasql.options.cache = false;
 var mimicking = 0;
 var erroIndex = {};
+var format = function(val){ return numeral(val).format('0,0') }
 var score = {
 				ok: {
 					total:0,
@@ -105,6 +123,9 @@ var score = {
 				skip: {
 					total:0,
 					last:0
+				},
+				assumedOk: {
+					total:0
 				},
 				round:{
 					init: function(obj){
@@ -136,9 +157,9 @@ var score = {
 
 
 
-console.log('# SQLlogictest raw results for', useSqliteDb?'sql.js':'AlaSQL '+alasql.version);
+console.log('# SQLlogictest '+(onlyParseSql?' compile ':'')+'results for', useSqliteDb?'sql.js':'AlaSQL ');
 console.log('');
-console.log('_'+ new Date().toISOString()+'_');
+console.log('`'+ new Date().toISOString() + ' target: ' + (useSqliteDb?'sql.js':'alasql@'+alasql.version)+ '`');
 console.log('');
 
 if(testfiles.length<622){ // Todo: fix hardcode
@@ -163,7 +184,12 @@ for (var i in testfiles) {
 		erroIndex = {};
 	}
 	
-
+	//If node get the flag --expose-gc we can invoke garbagecollection manually.
+	if (typeof global != 'undefined' && typeof(global.gc) === "function") {
+		//console.time('Garbagecollecting')
+		global.gc();
+		//console.timeEnd('Garbagecollecting')
+	}
 
 	console.time('Time');
 
@@ -176,6 +202,16 @@ for (var i in testfiles) {
 
 	for (mimicking = 0; mimicking < mimic.length; mimicking++) {
 			
+		var re = new RegExp(mimic[mimicking]+' (\\d+) OK: '+testfiles[i], "");
+
+		var m;
+
+		if(skipTests && (m = re.exec(skipTestsContent)) !== null){
+			score.assumedOk.total += (+m[1]);
+			console.log("#### ★ Assuming all "+format(m[1])+" tests still passes as _"+mimic[mimicking]+"_\n");
+			continue;	
+		}
+
 		var name = testfiles[i].replace(/[^a-z0-9]/mig,'_') + mimic[mimicking];
 		
 		var db = new alasql.Database(name);
@@ -198,15 +234,15 @@ for (var i in testfiles) {
 		if(0===roundCount.total){
 			continue;
 		}
-		console.log('#### '+ (0===roundCount.fail?'✔':'☓') +' Ran', roundCount.total, 'tests as',  mimic[mimicking]);
+		console.log('#### '+ (0===roundCount.fail?'★':'☓') +' Ran', format(roundCount.total), 'tests as _'+mimic[mimicking]+'_');
 		console.log('');
 		
 		if(roundCount.skip){
-			console.log('* '+roundCount.skip+ " skipped");
+			console.log('* '+format(roundCount.skip)+ " skipped");
 		}
 
 		if(roundCount.fail){
-			console.log('* '+roundCount.fail+ " failed");
+			console.log('* '+format(roundCount.fail)+ " failed");
 		}
 		
 		
@@ -214,6 +250,12 @@ for (var i in testfiles) {
 		console.log('* '+score.percent(roundCount.ok, roundCount.fail+roundCount.skip) +'% was OK');
 		
 		console.log('');
+
+
+		if(0===roundCount.fail){
+			console.log('`'+mimic[mimicking]+' '+roundCount.ok+' OK: '+testfiles[i]+'`');
+			console.log('');
+		}
 	}
 
 
@@ -248,13 +290,22 @@ function printStats(){
 
 	console.log('## Final result');
 	console.log('');
-	console.log('* Skipped tests:', score.skip.total);
-
-	console.log('* Failed tests:', score.fail.total);
 
 	//console.log('Was OK     :', score.ok.total);
-	console.log('* Total tested:', score.ok.total+score.fail.total+score.skip.total);
-	console.log('* Final score:', score.percent(score.ok.total, score.fail.total+score.skip.total), '% was OK');
+	console.log('* Total tested:', format(score.ok.total+score.fail.total+score.skip.total));
+
+	console.log('* Failed tests:', format(score.fail.total));
+
+	console.log('* Skipped tests:', format(score.skip.total));
+
+	if(score.assumedOk.total){
+		console.log('* Assumed still OK:', format(score.assumedOk.total));
+	}	
+
+	console.log('* Final score:', score.percent(score.ok.total+score.assumedOk.total, score.fail.total+score.skip.total), '% was OK');
+
+
+score.assumedOk.total
 
 	//printMem();
 
@@ -275,7 +326,6 @@ function printMem(){
 
 }
 
-
 function runSQLtestFromFile(path, db, mimic){
 	mimic = mimic || 'unspecified';
 	
@@ -286,29 +336,9 @@ function runSQLtestFromFile(path, db, mimic){
     var fragments = sqllogictestparser(path);
 
 	console.log('_Mimic '+mimic+"_");
-console.time('It took')
 
     for (var i = 0; i < fragments.length; i++) {
-console.timeEnd('It took');
-	//If node get the flag --expose-gc we can invoke garbagecollection manually.
-console.log();
-printMem();
-	if (typeof global != 'undefined' && typeof(global.gc) === "function") {
-		
-		console.time('Garbagecollecting')
-		global.gc();
-		console.timeEnd('Garbagecollecting')
-	}
-
 	    var fragment =fragments[i];
-
-console.time('It took');
-var x = (i+1)+"/"+fragments.length;
-console.log();
-console.log("Running " + x);
-console.log('`'+fragment.sql.replace(/\r|\n/g,' ').replace(/[ ]{2,}/g,' ')+'`');
-
-
 		
 		if(statementFaild){			
 			score.skip.total += fragments.length-i;
@@ -348,13 +378,16 @@ console.log('`'+fragment.sql.replace(/\r|\n/g,' ').replace(/[ ]{2,}/g,' ')+'`');
 			score.fail.total++;
 
 
-			if('statement' === fragment.result.type){
+			if('statement' === fragment.result.type && fragment.expectSuccess){
 				//console.log(fragment);
 				//console.log(test);
 				statementFaild = true;
 			}
 
+			
 			var errHash = test.msg.split('-----^').pop()/*.split("'").unshift()*/.replace(/[^a-z]/mig, '');
+			
+
 
 			// The hashing of the errors gives us first error per error type. The math random is there to give os 1% of all errors so we have some different examples. Should be avoided when we have the worst error types implemented correctly.
 			if(statementFaild || printAllErrors || !erroIndex[errHash] || Math.random()<curiousErrorprinting){
@@ -365,7 +398,7 @@ console.log('`'+fragment.sql.replace(/\r|\n/g,' ').replace(/[ ]{2,}/g,' ')+'`');
 				console.log('```sql');
 				console.log(trunc(test.sql, truncSQLStatement));
 				console.log('');
-				console.log(test.msg);
+				console.log(trunc(test.msg, truncSQLStatement));
 			//	console.log('Mimicking '+mimic)
 				console.log('```');
 				console.log('');
@@ -375,8 +408,6 @@ console.log('`'+fragment.sql.replace(/\r|\n/g,' ').replace(/[ ]{2,}/g,' ')+'`');
 			}
 		}
 	}
-
-
 }
 
 
@@ -571,7 +602,12 @@ function runTest(sql, db){
 	}
 
 	// console.log('rawResult:', result);
-	return {success: true, msg: 'No exception thrown', result:result, sql:sql};
+	return {
+				success: true, 
+				msg: 'Expected to get an error but did not',/*msg used for when error was expected*/ 
+				result:result, 
+				sql:sql
+			};
 
 }
 
@@ -579,27 +615,27 @@ function runTest(sql, db){
 
 
 
-function walkFiles(dir, reFilterYes, reFilterNo) {
+function walkFiles(dir, reFilterYes, reFilterNo, oneFolderOnly, onlyFileName) {
     reFilterYes = reFilterYes || false;
     reFilterNo = reFilterNo || false;
 
     var results = [];
     var list = fs.readdirSync(dir);
-    list.forEach(function(file) {
-        file = dir + '/' + file;
+    list.forEach(function(fileName) {
+        var file = dir + '/' + fileName;
         if(reFilterNo && reFilterNo.test(file))
             return;
         var stat = fs.statSync(file);
-        if (stat && stat.isDirectory()) {
+        if (!oneFolderOnly && stat && stat.isDirectory()) {
           results = results.concat(walkFiles(file, reFilterYes, reFilterNo));
         } else {
           if(reFilterYes && !reFilterYes.test(file))
             return;
-          results.push(file);
+          results.push(onlyFileName?fileName:file);
         }
     });
     return results;
-}
+}   
 
 function trunc(str, n){
 	if(n<2){
