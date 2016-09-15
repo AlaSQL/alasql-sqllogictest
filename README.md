@@ -10,7 +10,7 @@ Go get markdown summery run npm test :
 
     npm test
 
-Result will output to `results/results.md`
+Result will output to `results/output.md`
 
 
 

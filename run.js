@@ -11,7 +11,7 @@ var Parallel = require('paralleljs');
 
 
 var alasqlPath = argv.alasql || 'alasql';
-
+var alasql = require(alasqlPath);
 
 
 //////////////////////////// CONFIG START /////////////////////////////////////
@@ -177,7 +177,7 @@ for (var i in testfiles) {
 		testfile:testfiles[i],
 		preText:preText.join("\n"),
 		mimic:mimic,
-		alasql:alasql,
+		alasqlPath:alasqlPath,
 		//score:score, // cant pass the functions...
 		config:config,
 		dirname:__dirname
@@ -197,7 +197,7 @@ function webworkerResults(data){
 	var comparray = require('comparray');
 	var numeral = require('numeral');
 	var sqllogictestparser =  require(dirname+'/sqllogictestparserV2');
-	var alasql = require('alasql');
+	var alasql = require(data.alasqlPath);
 	alasql.options.modifier = "MATRIX";
 	alasql.options.cache = false;
 
@@ -678,7 +678,7 @@ function spawnTest(){
 	});
 }
 
-for (var i = require('os').cpus().length - 1; i >= 0; i--) {
+for (var i = require('os').cpus().length - 1; i >= 1; i--) {
 	spawnTest();
 }
 
@@ -749,5 +749,6 @@ function printStats(){
 
 				
 		
+
 
 
