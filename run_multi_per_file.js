@@ -20,7 +20,7 @@ var config = {}
 config.printAllErrors = false;
 
 // Sometimes you would like to have more examples of the same error. Set this between 0 and 1 to set the probabillity of an error getting printed in case it has been printes before
-config.curiousErrorprinting = 0.0003;
+config.curiousErrorprinting = 0.0001;
 
 // Max string length of sql printed out when error
 config.truncSQLStatement = 300;
@@ -97,7 +97,7 @@ if(config.skipTests){
 	skipTestsContent = fs.readFileSync(config.skipTestsFile, "utf8");	
 }
 
-var errorIndex = {};
+var erroIndex = {};
 var format = function(val){ return numeral(val).format('0,0') }
 var score = {
 				ok: {
@@ -170,7 +170,11 @@ var envelope = [];
 function initiateTestrun(){
 	logOutput = [];
 	var log = function(){logOutput.push(Array.prototype.slice.call(arguments).join(" "));};
-	var flush = function(){var tmp=logOutput.join("\n");logOutput=[];return tmp;};
+	var flush = function(){
+							var tmp=logOutput.join("\n");
+							logOutput=[];
+							return tmp;
+						};
 
 	for (var i = 0; i < testfiles.length; i++) {
 		log('');
@@ -238,9 +242,14 @@ function runNextSQLtest(){
 
 
 function runSQLtest(envelope){
-    
-	rounds = wrapTurn(
-						require('os').cpus().length||1,
+    envelope.fragments = sqllogictestparser(envelope.path);
+
+	
+
+	rounds = roundSplit(
+						envelope.fragments.length, 
+						require('os').cpus().length||1, 
+						300, 
 						{
 							mimic: 		envelope.mimic,
 							name: 		envelope.name,
@@ -249,7 +258,7 @@ function runSQLtest(envelope){
 							config: 	config, 
 							alasqlPath: alasqlPath,
 							dirname:__dirname,
-							errorIndex: errorIndex
+							erroIndex: erroIndex
 						})
 
 	//console.log(JSON.stringify(rounds, null, 2))
@@ -274,14 +283,11 @@ function outputTestResults(data, mimic, testfile, preText){
 		console.log(preText);
 
 		score.round.init();
-		var output=[];
 
 		for(var i in data){
-			for(var ii in data[i].output){
-				if(data[i].output[ii].length){
-					output[ii]=data[i].output[ii].join("\n");
-				}
-			}		
+			if(data[i].output.length){
+				console.log(data[i].output)
+			}
 
 			score.ok.total += data[i].score.ok.total;
 			score.fail.total += data[i].score.fail.total;
@@ -291,10 +297,6 @@ function outputTestResults(data, mimic, testfile, preText){
 				errorIndex[hash] = data[i].errorIndex[hash]; 
 			}	
 
-		}
-		
-		for(i in output){
-			console.log(output[i]);
 		}
 		
 
@@ -355,7 +357,7 @@ function webWorkerTest(data){
 	alasql.options.cache = false;
 
 	var fragments = sqllogictestparser(data.cargo.dirname + '/' + data.cargo.path);
-	var errorIndex = data.cargo.errorIndex;
+	var erroIndex = data.cargo.erroIndex;
 	var mimic = data.cargo.mimic;		
 	var config = data.cargo.config;		
 	var score = {
@@ -364,9 +366,9 @@ function webWorkerTest(data){
 					skip: {total:0}
 				};
 	
-	var output = [[]];
-	var outputRow = 0;
-	console.log = function(){output[outputRow].push(Array.prototype.slice.call(arguments).join(" "));};
+	var output = [];
+	console.log = function(){output.push(Array.prototype.slice.call(arguments).join(" "));};
+
 	
    
 
@@ -575,20 +577,23 @@ function webWorkerTest(data){
 			return str;
 		}
 	 	return (str.length > n) ? str.substr(0,n-1)+'…' : str;
-	}
+	};
 
 
+    min_round = data.min-1
+    max_round = data.max-1
 
 
-	 for (var i = 0; i < fragments.length; i++) {
+	 for (var i = 0; i <= max_round; i++) {
 	    var fragment =fragments[i];
-		outputRow=i;
-	    output[outputRow]=[];
 
-	    var myTurn = (i%data.total == data.turn);
+	    if(!fragment){
+	    	throw JSON.stringify({i: i, data: data}, null, 2)
+	    }
 
         var statementFaild = false;
 
+		
 		if(fragment.skipif && fragment.skipif.length && -1<fragment.skipif.indexOf(mimic)){
 			continue;
 		} 
@@ -613,13 +618,10 @@ function webWorkerTest(data){
 			continue;
 		} 
 		
-		// Only tests from my round should be run - but statements setting up SQL must always be run...
-		if(!myTurn){
+		// tests before min_round should not be peformed, but all statements "setting up the data" must be executed
+		if(i<min_round){
 			if('statement' === fragment.result.type){
-				var tmp = verifyTest(fragment, alasql);
-				if(!tmp.ok && fragment.expectSuccess){
-					break;
-				}
+				verifyTest(fragment, alasql);
 			}
 			continue;
 		}
@@ -642,7 +644,7 @@ function webWorkerTest(data){
 			var errHash = test.msg.split('-----^').pop()/*.split("'").unshift()*/.replace(/[^a-z]/mig, '');
 			
 			// The hashing of the errors gives us first error per error type. The math random is there to give os x percent of all errors so we have some different examples. Should be avoided when we have the worst error types implemented correctly.
-			if(config.statementFaild || config.printAllErrors || !errorIndex[errHash] || !(i%(1/config.curiousErrorprinting)) ){
+			if(config.statementFaild || config.printAllErrors || !erroIndex[errHash] || Math.random()<config.curiousErrorprinting){
 				
 				console.log('');
 				console.log('```sql');
@@ -652,22 +654,21 @@ function webWorkerTest(data){
 				console.log('```');
 				console.log('');
 				
-				errorIndex[errHash] = 1;
+				erroIndex[errHash] = true;
 			}
 		}
 
-		if(statementFaild && myTurn){			
+		if(statementFaild){			
 			score.skip.total += fragments.length-i;
-			console.log("_Fail found in statement setting up data so skipping rest of tests_\n");			
+			console.log("_Fail found for statement setting up data so skipping rest of tests_\n");			
 			break;	
 		} 
-
 	}
 
 	return {
-				output:output,
+				output:output.join("\n"),
 				score:score,
-				errorIndex:errorIndex,
+				erroIndex:erroIndex,
 				mimic:mimic
 			};	
 }
@@ -696,17 +697,7 @@ function walkFiles(dir, reFilterYes, reFilterNo, oneFolderOnly, onlyFileName) {
 }   
 
 
-
-function wrapTurn(total, cargo){
-	cargo = cargo || {};
-	var holder = [];
-	for (var i = 0; i < total; i++) {
-		holder.push({turn:i, total:total, cargo:cargo});
-	}	
-	return holder;
-}
-
-/*function roundSplit(total, slices, min, cargo){
+function roundSplit(total, slices, min, cargo){
 	cargo = cargo || {}
 	min = Math.min(total, min || 1)
 	if(total<1 || slices<1 || min<1){
@@ -722,7 +713,7 @@ function wrapTurn(total, cargo){
 							/*total:total,
 							slices:slices,
 							minimum:min,
-							amount: total-i+1,* /
+							amount: total-i+1,*/
 							min:i,
 							max:total,
 							cargo:cargo
@@ -733,14 +724,14 @@ function wrapTurn(total, cargo){
 						/*total:total,
 						slices:slices,
 						minimum:min,
-						amount: i-1+size-i+1,* /
+						amount: i-1+size-i+1,*/
 						min:i,
 						max:i-1+size,
 						cargo:cargo
 					});
 	}
 	return holder;
-}*/
+}
 
 
 
