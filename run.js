@@ -51,8 +51,8 @@ var testfiles = walkFiles(
 													// Regexp for files to exclude - keep one and outcomment the rest
 					//		/(00\/|\d{2,}|select[45])\.test/		// Exclude a lot of files (fastest - 125 files)
 					//		/\/10+\//					// exclude biggest files (balance between time and depth) (410 files)
-							null						// Exclude no files - As all tests contains a few million tests it can take some time. (622+ files)
-					//		 /select[45]\.test/				// get all exept select5.test - as its taking days to complete
+					//		null						// Exclude no files - As all tests contains a few million tests it can take some time. (622+ files)
+							 /select[45]\.test/				// get all exept select5.test - as its taking days to complete
 
 						);
 
