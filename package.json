@@ -4,7 +4,9 @@
   "description": "sqllogictest of AlaSQL",
   "main": "sqllogic/run_raw.js",
   "scripts": {
-    "test": "node --expose-gc run.js > results/output.md"
+    "test": "node --expose-gc run.js > results/output.md",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -29,6 +31,8 @@
     "paralleljs": "^0.2.1",
     "pegjs": "^0.10.0",
     "sql.js": "^0.2.21",
-    "yargs": "^3.31.0"
-  }
+    "yargs": "^3.31.0",
+    "snyk": "^1.316.1"
+  },
+  "snyk": true
 }
