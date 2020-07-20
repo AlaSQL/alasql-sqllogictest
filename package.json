@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/mathiasrw/alasql-logictest",
   "dependencies": {
-    "alasql": "^0.3.2",
+    "alasql": "^0.6.0",
     "comparray": "^1.1.2",
     "md5": "^2.2.1",
     "numeral": "^1.5.3",
