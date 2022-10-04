@@ -448,10 +448,10 @@ source-map-generator@0.8.0:
   resolved "https://registry.yarnpkg.com/source-map-generator/-/source-map-generator-0.8.0.tgz#10d5ca0651e2c9302ea338739cbd4408849c5d00"
   integrity sha512-psgxdGMwl5MZM9S3FWee4EgsEaIjahYV5AzGnwUvPhWeITz/j6rKpysQHlQ4USdxvINlb8lKfWGIXwfkrgtqkA==
 
-sql.js@0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/sql.js/-/sql.js-0.5.0.tgz#f880dea18280a840e41df2209dc967422dfa8d81"
-  integrity sha512-E80yfgPSOvkbEweROP8kUg+8YfvuWht2RYhPMngkJuKD7IgFVWPP/pAhSAUVZMY9UPf5m10Pi0yW9e4CRnmYGg==
+sql.js@1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/sql.js/-/sql.js-1.8.0.tgz#cb45d957e17a2239662fe2f614c9b678990867a6"
+  integrity sha512-3HD8pSkZL+5YvYUI8nlvNILs61ALqq34xgmF+BHpqxe68yZIJ1H+sIVIODvni25+CcxHUxDyrTJUL0lE/m7afw==
 
 ssf@~0.11.2:
   version "0.11.2"
