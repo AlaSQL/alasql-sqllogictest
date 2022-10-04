@@ -26,7 +26,7 @@
     "comparray": "1.1.2",
     "md5": "2.3.0",
     "numeral": "1.5.3",
-    "paralleljs": "0.2.1",
+    "paralleljs": "1.1.0",
     "peggy": "^2.0.1",
     "pegjs": "0.10.0",
     "sql.js": "0.5.0",
