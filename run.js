@@ -52,7 +52,7 @@ var testfiles = walkFiles(
 					//		/(00\/|\d{2,}|select[45])\.test/		// Exclude a lot of files (fastest - 125 files)
 					//		/\/10+\//					// exclude biggest files (balance between time and depth) (410 files)
 					//		null						// Exclude no files - As all tests contains a few million tests it can take some time. (622+ files)
-							 /select[45]\.test/				// get all exept select5.test - as its taking days to complete
+							 /select[45]\.test/				// get all exept select4.test and select5.test - as its taking days to complete
 
 						);
 
@@ -175,7 +175,7 @@ function initiateTestrun(){
 	for (var i = 0; i < testfiles.length; i++) {
 		log('');
 		log('---- ---- ---- ---- ---- ---- ----');
-		log('### ' + (i+1) + '/' + testfiles.length + ' [`' +  testfiles[i] + '`](https://github.com/alasql/alasql-logictest/blob/master/test/'+testfiles[i]+')');
+		log('### ' + (i+1) + '/' + testfiles.length + ' [`' +  testfiles[i] + '`](https://github.com/alasql/alasql-logictest/blob/master/'+testfiles[i]+')');
 		log('');
 
 		for (var mimicking = 0; mimicking < mimic.length; mimicking++) {
@@ -227,7 +227,7 @@ function runNextSQLtest(){
 
 	//If node get the flag --expose-gc we can invoke garbagecollection manually.
 	if (typeof global !== 'undefined' && typeof global.gc === 'function') {
-		//global.gc();
+		global.gc();
 	}
 
 	runSQLtest(envelope[counter++]);

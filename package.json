@@ -4,9 +4,7 @@
   "description": "sqllogictest of AlaSQL",
   "main": "sqllogic/run_raw.js",
   "scripts": {
-    "test": "node --expose-gc run.js > results/output.md",
-    "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect"
+    "test": "node --expose-gc run.js > results/output.md"
   },
   "repository": {
     "type": "git",
@@ -24,15 +22,15 @@
   },
   "homepage": "https://github.com/mathiasrw/alasql-logictest",
   "dependencies": {
-    "alasql": "^2.0.0",
-    "comparray": "^1.1.2",
-    "md5": "^2.2.1",
-    "numeral": "^1.5.3",
-    "paralleljs": "^0.2.1",
-    "pegjs": "^0.10.0",
-    "sql.js": "^0.5.0",
-    "yargs": "^16.0.0",
-    "snyk": "^1.316.1"
-  },
-  "snyk": true
+    "alasql": "2.1.1",
+    "comparray": "1.1.2",
+    "md5": "2.3.0",
+    "numeral": "2.0.6",
+    "paralleljs": "1.1.0",
+    "peggy": "^2.0.1",
+    "pegjs": "0.10.0",
+    "sql.js": "1.8.0",
+    "ts-pegjs": "^2.1.0",
+    "yargs": "17.6.0"
+  }
 }

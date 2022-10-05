@@ -1,15 +1,15 @@
 var fs = require('fs');
-var PEG = require("pegjs");
+var PEG = require("peggy");
 var _parserPath = __dirname+'/parser.peg';
 //console.log('Initializing parser');
 //console.time('Parser OK');
 var _parserDescription = fs.readFileSync(_parserPath, "ASCII");
-var _parser = PEG.buildParser(_parserDescription);
+var _parser = PEG.generate(_parserDescription);
 //console.timeEnd('Parser OK');
 
 
 
-module.exports = function(path) {
+module.exports = function(path, ) {
 
 	//path = './demo.test'
 	
@@ -59,9 +59,6 @@ module.exports = function(path) {
 		
 	}
 
-	
 	return commands;
-
-
 
 };
