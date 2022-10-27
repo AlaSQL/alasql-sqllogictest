@@ -1,6 +1,6 @@
 # SQLlogictest results for AlaSQL 
 
-`2022-10-26T08:13:31.100Z target: alasql@2.1.5-develop-eec33e2f`
+`2022-10-26T09:04:58.648Z target: alasql@2.1.5-develop-eec33e2f`
 
 This is a subset of the total 622 tests.
 Results from 620 test files:
@@ -3980,16 +3980,6 @@ _Mimic sqlite_
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 216/620 [`./test/index/view/10/slt_good_5.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/index/view/10/slt_good_5.test)
-
-_Mimic sqlite_
-#### ☓ Ran 7,237 tests as _sqlite_
-
-* 1,565 failed
-* 78% was OK
-
-
----- ---- ---- ---- ---- ---- ----
 ### 217/620 [`./test/index/view/10/slt_good_6.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/index/view/10/slt_good_6.test)
 
 _Mimic sqlite_
@@ -3997,6 +3987,16 @@ _Mimic sqlite_
 
 * 1,415 failed
 * 76% was OK
+
+
+---- ---- ---- ---- ---- ---- ----
+### 216/620 [`./test/index/view/10/slt_good_5.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/index/view/10/slt_good_5.test)
+
+_Mimic sqlite_
+#### ☓ Ran 7,237 tests as _sqlite_
+
+* 1,565 failed
+* 78% was OK
 
 
 ---- ---- ---- ---- ---- ---- ----
@@ -4248,16 +4248,6 @@ _Mimic sqlite_
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 226/620 [`./test/index/view/10000/slt_good_0.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/index/view/10000/slt_good_0.test)
-
-_Mimic sqlite_
-#### ☓ Ran 10,622 tests as _sqlite_
-
-* 271 failed
-* 97% was OK
-
-
----- ---- ---- ---- ---- ---- ----
 ### 233/620 [`./test/random/aggregates/slt_good_103.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/aggregates/slt_good_103.test)
 
 _Mimic sqlite_
@@ -4265,6 +4255,16 @@ _Mimic sqlite_
 
 * 1,435 failed
 * 85% was OK
+
+
+---- ---- ---- ---- ---- ---- ----
+### 226/620 [`./test/index/view/10000/slt_good_0.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/index/view/10000/slt_good_0.test)
+
+_Mimic sqlite_
+#### ☓ Ran 10,622 tests as _sqlite_
+
+* 271 failed
+* 97% was OK
 
 
 ---- ---- ---- ---- ---- ---- ----
@@ -5766,16 +5766,6 @@ _Mimic sqlite_
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 382/620 [`./test/random/expr/slt_good_13.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/expr/slt_good_13.test)
-
-_Mimic sqlite_
-#### ☓ Ran 10,012 tests as _sqlite_
-
-* 1,537 failed
-* 84% was OK
-
-
----- ---- ---- ---- ---- ---- ----
 ### 381/620 [`./test/random/expr/slt_good_12.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/expr/slt_good_12.test)
 
 _Mimic sqlite_
@@ -5783,6 +5773,16 @@ _Mimic sqlite_
 
 * 1,978 failed
 * 80% was OK
+
+
+---- ---- ---- ---- ---- ---- ----
+### 382/620 [`./test/random/expr/slt_good_13.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/expr/slt_good_13.test)
+
+_Mimic sqlite_
+#### ☓ Ran 10,012 tests as _sqlite_
+
+* 1,537 failed
+* 84% was OK
 
 
 ---- ---- ---- ---- ---- ---- ----
@@ -5806,22 +5806,22 @@ _Mimic sqlite_
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 386/620 [`./test/random/expr/slt_good_17.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/expr/slt_good_17.test)
-
-_Mimic sqlite_
-#### ☓ Ran 10,012 tests as _sqlite_
-
-* 1,937 failed
-* 80% was OK
-
-
----- ---- ---- ---- ---- ---- ----
 ### 385/620 [`./test/random/expr/slt_good_16.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/expr/slt_good_16.test)
 
 _Mimic sqlite_
 #### ☓ Ran 10,012 tests as _sqlite_
 
 * 1,914 failed
+* 80% was OK
+
+
+---- ---- ---- ---- ---- ---- ----
+### 386/620 [`./test/random/expr/slt_good_17.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/expr/slt_good_17.test)
+
+_Mimic sqlite_
+#### ☓ Ran 10,012 tests as _sqlite_
+
+* 1,937 failed
 * 80% was OK
 
 
@@ -5906,22 +5906,22 @@ _Mimic sqlite_
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 396/620 [`./test/random/expr/slt_good_26.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/expr/slt_good_26.test)
-
-_Mimic sqlite_
-#### ☓ Ran 10,012 tests as _sqlite_
-
-* 1,730 failed
-* 82% was OK
-
-
----- ---- ---- ---- ---- ---- ----
 ### 395/620 [`./test/random/expr/slt_good_25.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/expr/slt_good_25.test)
 
 _Mimic sqlite_
 #### ☓ Ran 10,012 tests as _sqlite_
 
 * 1,716 failed
+* 82% was OK
+
+
+---- ---- ---- ---- ---- ---- ----
+### 396/620 [`./test/random/expr/slt_good_26.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/expr/slt_good_26.test)
+
+_Mimic sqlite_
+#### ☓ Ran 10,012 tests as _sqlite_
+
+* 1,730 failed
 * 82% was OK
 
 
@@ -6456,16 +6456,6 @@ _Mimic sqlite_
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 450/620 [`./test/random/expr/slt_good_75.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/expr/slt_good_75.test)
-
-_Mimic sqlite_
-#### ☓ Ran 10,012 tests as _sqlite_
-
-* 1,906 failed
-* 80% was OK
-
-
----- ---- ---- ---- ---- ---- ----
 ### 451/620 [`./test/random/expr/slt_good_76.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/expr/slt_good_76.test)
 
 _Mimic sqlite_
@@ -6473,6 +6463,16 @@ _Mimic sqlite_
 
 * 1,537 failed
 * 84% was OK
+
+
+---- ---- ---- ---- ---- ---- ----
+### 450/620 [`./test/random/expr/slt_good_75.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/expr/slt_good_75.test)
+
+_Mimic sqlite_
+#### ☓ Ran 10,012 tests as _sqlite_
+
+* 1,906 failed
+* 80% was OK
 
 
 ---- ---- ---- ---- ---- ---- ----
@@ -6556,22 +6556,22 @@ _Mimic sqlite_
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 460/620 [`./test/random/expr/slt_good_84.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/expr/slt_good_84.test)
-
-_Mimic sqlite_
-#### ☓ Ran 10,012 tests as _sqlite_
-
-* 1,831 failed
-* 81% was OK
-
-
----- ---- ---- ---- ---- ---- ----
 ### 461/620 [`./test/random/expr/slt_good_85.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/expr/slt_good_85.test)
 
 _Mimic sqlite_
 #### ☓ Ran 10,012 tests as _sqlite_
 
 * 1,890 failed
+* 81% was OK
+
+
+---- ---- ---- ---- ---- ---- ----
+### 460/620 [`./test/random/expr/slt_good_84.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/expr/slt_good_84.test)
+
+_Mimic sqlite_
+#### ☓ Ran 10,012 tests as _sqlite_
+
+* 1,831 failed
 * 81% was OK
 
 
@@ -6596,16 +6596,6 @@ _Mimic sqlite_
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 465/620 [`./test/random/expr/slt_good_89.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/expr/slt_good_89.test)
-
-_Mimic sqlite_
-#### ☓ Ran 10,012 tests as _sqlite_
-
-* 1,841 failed
-* 81% was OK
-
-
----- ---- ---- ---- ---- ---- ----
 ### 464/620 [`./test/random/expr/slt_good_88.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/expr/slt_good_88.test)
 
 _Mimic sqlite_
@@ -6613,6 +6603,16 @@ _Mimic sqlite_
 
 * 1,918 failed
 * 80% was OK
+
+
+---- ---- ---- ---- ---- ---- ----
+### 465/620 [`./test/random/expr/slt_good_89.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/expr/slt_good_89.test)
+
+_Mimic sqlite_
+#### ☓ Ran 10,012 tests as _sqlite_
+
+* 1,841 failed
+* 81% was OK
 
 
 ---- ---- ---- ---- ---- ---- ----
@@ -6716,16 +6716,6 @@ _Mimic sqlite_
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 477/620 [`./test/random/groupby/slt_good_0.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/groupby/slt_good_0.test)
-
-_Mimic sqlite_
-#### ☓ Ran 10,012 tests as _sqlite_
-
-* 4,255 failed
-* 57% was OK
-
-
----- ---- ---- ---- ---- ---- ----
 ### 476/620 [`./test/random/expr/slt_good_99.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/expr/slt_good_99.test)
 
 _Mimic sqlite_
@@ -6733,6 +6723,16 @@ _Mimic sqlite_
 
 * 1,908 failed
 * 80% was OK
+
+
+---- ---- ---- ---- ---- ---- ----
+### 477/620 [`./test/random/groupby/slt_good_0.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/groupby/slt_good_0.test)
+
+_Mimic sqlite_
+#### ☓ Ran 10,012 tests as _sqlite_
+
+* 4,255 failed
+* 57% was OK
 
 
 ---- ---- ---- ---- ---- ---- ----
@@ -7602,16 +7602,6 @@ _Mimic sqlite_
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 550/620 [`./test/random/select/slt_good_38.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/select/slt_good_38.test)
-
-_Mimic sqlite_
-#### ☓ Ran 10,012 tests as _sqlite_
-
-* 1,234 failed
-* 87% was OK
-
-
----- ---- ---- ---- ---- ---- ----
 ### 549/620 [`./test/random/select/slt_good_37.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/select/slt_good_37.test)
 
 _Mimic sqlite_
@@ -7619,6 +7609,16 @@ _Mimic sqlite_
 
 * 1,197 failed
 * 88% was OK
+
+
+---- ---- ---- ---- ---- ---- ----
+### 550/620 [`./test/random/select/slt_good_38.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/select/slt_good_38.test)
+
+_Mimic sqlite_
+#### ☓ Ran 10,012 tests as _sqlite_
+
+* 1,234 failed
+* 87% was OK
 
 
 ---- ---- ---- ---- ---- ---- ----
@@ -7762,22 +7762,22 @@ _Mimic sqlite_
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 566/620 [`./test/random/select/slt_good_52.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/select/slt_good_52.test)
-
-_Mimic sqlite_
-#### ☓ Ran 10,010 tests as _sqlite_
-
-* 1,291 failed
-* 87% was OK
-
-
----- ---- ---- ---- ---- ---- ----
 ### 565/620 [`./test/random/select/slt_good_51.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/select/slt_good_51.test)
 
 _Mimic sqlite_
 #### ☓ Ran 10,011 tests as _sqlite_
 
 * 1,232 failed
+* 87% was OK
+
+
+---- ---- ---- ---- ---- ---- ----
+### 566/620 [`./test/random/select/slt_good_52.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/select/slt_good_52.test)
+
+_Mimic sqlite_
+#### ☓ Ran 10,010 tests as _sqlite_
+
+* 1,291 failed
 * 87% was OK
 
 
@@ -7862,22 +7862,22 @@ _Mimic sqlite_
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 576/620 [`./test/random/select/slt_good_61.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/select/slt_good_61.test)
-
-_Mimic sqlite_
-#### ☓ Ran 10,012 tests as _sqlite_
-
-* 1,281 failed
-* 87% was OK
-
-
----- ---- ---- ---- ---- ---- ----
 ### 575/620 [`./test/random/select/slt_good_60.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/select/slt_good_60.test)
 
 _Mimic sqlite_
 #### ☓ Ran 10,011 tests as _sqlite_
 
 * 1,288 failed
+* 87% was OK
+
+
+---- ---- ---- ---- ---- ---- ----
+### 576/620 [`./test/random/select/slt_good_61.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/select/slt_good_61.test)
+
+_Mimic sqlite_
+#### ☓ Ran 10,012 tests as _sqlite_
+
+* 1,281 failed
 * 87% was OK
 
 
@@ -8122,22 +8122,22 @@ _Mimic sqlite_
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 602/620 [`./test/random/select/slt_good_85.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/select/slt_good_85.test)
-
-_Mimic sqlite_
-#### ☓ Ran 10,012 tests as _sqlite_
-
-* 1,315 failed
-* 86% was OK
-
-
----- ---- ---- ---- ---- ---- ----
 ### 601/620 [`./test/random/select/slt_good_84.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/select/slt_good_84.test)
 
 _Mimic sqlite_
 #### ☓ Ran 10,011 tests as _sqlite_
 
 * 1,314 failed
+* 86% was OK
+
+
+---- ---- ---- ---- ---- ---- ----
+### 602/620 [`./test/random/select/slt_good_85.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/select/slt_good_85.test)
+
+_Mimic sqlite_
+#### ☓ Ran 10,012 tests as _sqlite_
+
+* 1,315 failed
 * 86% was OK
 
 
@@ -8242,22 +8242,22 @@ _Mimic sqlite_
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 614/620 [`./test/random/select/slt_good_96.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/select/slt_good_96.test)
-
-_Mimic sqlite_
-#### ☓ Ran 10,012 tests as _sqlite_
-
-* 1,223 failed
-* 87% was OK
-
-
----- ---- ---- ---- ---- ---- ----
 ### 613/620 [`./test/random/select/slt_good_95.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/select/slt_good_95.test)
 
 _Mimic sqlite_
 #### ☓ Ran 10,011 tests as _sqlite_
 
 * 1,280 failed
+* 87% was OK
+
+
+---- ---- ---- ---- ---- ---- ----
+### 614/620 [`./test/random/select/slt_good_96.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/select/slt_good_96.test)
+
+_Mimic sqlite_
+#### ☓ Ran 10,012 tests as _sqlite_
+
+* 1,223 failed
 * 87% was OK
 
 
@@ -8273,6 +8273,16 @@ _Mimic sqlite_
 
 ---- ---- ---- ---- ---- ---- ----
 ### 616/620 [`./test/random/select/slt_good_98.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/select/slt_good_98.test)
+
+_Mimic sqlite_
+#### ☓ Ran 10,012 tests as _sqlite_
+
+* 1,263 failed
+* 87% was OK
+
+
+---- ---- ---- ---- ---- ---- ----
+### 617/620 [`./test/random/select/slt_good_99.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/select/slt_good_99.test)
 
 _Mimic sqlite_
 #### ☓ Ran 10,012 tests as _sqlite_
@@ -8306,16 +8316,6 @@ Expected: ["NULL","1","NULL","114","NULL","18","NULL","207"] but got ["NULL","18
 * 85% was OK
 
 
----- ---- ---- ---- ---- ---- ----
-### 617/620 [`./test/random/select/slt_good_99.test`](https://github.com/alasql/alasql-logictest/blob/master/./test/random/select/slt_good_99.test)
-
-_Mimic sqlite_
-#### ☓ Ran 10,012 tests as _sqlite_
-
-* 1,263 failed
-* 87% was OK
-
-
 -----------------------------
 
 ## Final result
@@ -8327,7 +8327,7 @@ _Mimic sqlite_
 * Assumed still OK: 887,332
 * Final score: 88 % was OK
 
-Total script time: 41:10.874 (m:ss.mmm)
+Total script time: 5:03:24.590 (h:mm:ss.mmm)
 
 _Please note that repetetive errors are not always printed again_
 
