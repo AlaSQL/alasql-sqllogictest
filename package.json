@@ -4,7 +4,11 @@
   "description": "sqllogictest of AlaSQL",
   "main": "sqllogic/run_raw.js",
   "scripts": {
-    "test": "node --expose-gc run.js > results/output.md"
+    "test": "node --expose-gc node-run/run.js > results/output.md",
+    "test-node": "node --expose-gc node-run/run.js > results/output.md",
+    "test-bun": "bun run bun-run/run.js > results/output-bun.md",
+    "test-demo-node": "node --expose-gc node-run/run.js",
+    "test-demo-bun": "bun run bun-run/run.js"
   },
   "repository": {
     "type": "git",
@@ -22,7 +26,7 @@
   },
   "homepage": "https://github.com/mathiasrw/alasql-logictest",
   "dependencies": {
-    "alasql": "4.5.2",
+    "alasql": "^4.8.0",
     "comparray": "1.1.2",
     "md5": "2.3.0",
     "numeral": "2.0.6",

@@ -20,17 +20,40 @@ The format of the tests are desribed here: http://www.sqlite.org/sqllogictest/do
 How?
 ----
 
-Install dependencies `npm install and run all the tests with:
+Install dependencies:
 
-    npm test
+    npm install
+    # or
+    bun install
 
-The result will output to `results/output.md`
+Run tests with Node.js:
 
-To make sure you are testing the most recent version of AlaSQL please run the following:
+    npm run test-node
+    # or run demo only
+    npm run test-demo-node
+
+Run tests with Bun (faster):
+
+    npm run test-bun
+    # or run demo only
+    npm run test-demo-bun
+
+The results will output to:
+- Node.js: `results/output.md`
+- Bun: `results/output-bun.md`
+
+To make sure you are testing the most recent version of AlaSQL please run:
 
     npm install alasql
 
-Please see the config section of the `run` files to run tests on local version instead of npm version.
+## Test Runners
+
+This project includes two test runner implementations:
+
+- **`node-run/`** - Original Node.js implementation using paralleljs for multi-threading
+- **`bun-run/`** - Bun-optimized implementation leveraging Bun's native file I/O and faster runtime (2-3x performance improvement)
+
+Please see the config section in the respective `run.js` files to customize test execution.
 
 
 

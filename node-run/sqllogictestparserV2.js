@@ -1,6 +1,7 @@
 var fs = require('fs');
 var PEG = require("peggy");
-var _parserPath = __dirname+'/parser.peg';
+var path = require('path');
+var _parserPath = path.resolve(__dirname, '../parser.peg');
 //console.log('Initializing parser');
 //console.time('Parser OK');
 var _parserDescription = fs.readFileSync(_parserPath, "ASCII");
