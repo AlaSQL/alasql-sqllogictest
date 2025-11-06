@@ -25,8 +25,8 @@ config.curiousErrorprinting = 0.0003;
 // Max string length of sql printed out when error
 config.truncSQLStatement = 300;
 
-// Run only debug.test as first mimic value
-config.runOnlyDemo = true;
+// Run only demo.test - enable with --demo flag
+config.runOnlyDemo = argv.demo === true;
 
 // output debug info for errors
 config.debugErrorInfo = false;

@@ -11,6 +11,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const projectRoot = resolve(__dirname, '..');
 
+// Parse command line arguments
+const args = Bun.argv.slice(2);
+const isDemoMode = args.includes('--demo');
+
 //////////////////////////// CONFIG START /////////////////////////////////////
 
 const config = {
@@ -23,8 +27,8 @@ const config = {
 	// Max string length of sql printed out when error
 	truncSQLStatement: 300,
 	
-	// Run only demo.test as first mimic value
-	runOnlyDemo: true,
+	// Run only demo.test - enable with --demo flag
+	runOnlyDemo: isDemoMode,
 	
 	// output debug info for errors
 	debugErrorInfo: false,
@@ -45,6 +49,10 @@ let testfiles = walkFiles(
 	/\.test$/,
 	/select[45]\.test/  // get all except select4.test and select5.test
 );
+
+// Ensure deterministic order similar to Node's traversal
+// Sorting paths makes directories like 'evidence' come before files like 'select1.test'
+testfiles = testfiles.sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
 
 // What databases to mimic when running tests
 let mimic = ['sqlite'];
@@ -124,8 +132,9 @@ async function runAllTests() {
 		for (let mimicking = 0; mimicking < mimic.length; mimicking++) {
 			console.log('_Mimic '+mimic[mimicking]+"_");
 			
-			const re = new RegExp(mimic[mimicking]+' (\\\\d+) OK: '+testfiles[i], "");
-			const m = re.exec(skipTestsContent);
+			// Match skipTests using absolute path like the Node runner
+            const re = new RegExp(mimic[mimicking]+' (\\d+) OK: '+testfiles[i].replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "");
+            const m = re.exec(skipTestsContent);
 			
 			if(config.skipTests && m !== null){
 				score.assumedOk.total += (+m[1]);
@@ -144,14 +153,15 @@ async function runAllTests() {
 async function runSQLtest(testPath, mimicDb) {
 	score.round.init();
 	
+	// Reset AlaSQL database to get a clean state for each test file
+	// This mimics the Node version which uses separate worker processes
+	// Direct manipulation of internal structures is much faster than SQL DROP statements
+	if (alasql.databases && alasql.databases.alasql) {
+		alasql.databases.alasql.tables = {};
+	}
+	
 	// Parse test file using Bun's fast file I/O
 	const fragments = await parseTestFile(testPath);
-	
-	let roundScore = {
-		ok: { total: 0 },
-		fail: { total: 0 },
-		skip: { total: 0 }
-	};
 	
 	let statementFailed = false;
 	
@@ -181,10 +191,8 @@ async function runSQLtest(testPath, mimicDb) {
 		const test = verifyTest(fragment, alasql);
 		
 		if(test.ok){
-			roundScore.ok.total++;
 			score.ok.total++;
 		} else {
-			roundScore.fail.total++;
 			score.fail.total++;
 			
 			if('statement' === fragment.result.type && fragment.expectSuccess){
@@ -207,37 +215,39 @@ async function runSQLtest(testPath, mimicDb) {
 		}
 		
 		if(statementFailed){
-			roundScore.skip.total += fragments.length - i;
-			score.skip.total += fragments.length - i;
-			console.log("_Fail found in statement setting up data so skipping rest of tests_\n");
-			break;
-		}
+            // Match Node's skip counting (includes current index in remaining count)
+            score.skip.total += fragments.length - i;
+            console.log("_Fail found in statement setting up data so skipping rest of tests_\n");
+            break;
+        }
 	}
 	
-	const roundCount = roundScore;
+	// Calculate round statistics
+	const roundCount = score.round.stat();
 	
-	if(roundCount.total === 0 || (roundCount.ok.total + roundCount.fail.total + roundCount.skip.total) === 0){
+	if(roundCount.total === 0){
 		return;
 	}
 	
-	console.log('#### '+ (roundCount.fail.total === 0 ? '★' : '☓') +' Ran', format(roundCount.ok.total + roundCount.fail.total + roundCount.skip.total), 'tests as _'+mimicDb+'_');
+	console.log('#### '+ (roundCount.fail === 0 ? '★' : '☓') +' Ran', format(roundCount.total), 'tests as _'+mimicDb+'_');
 	console.log('');
 	
-	if(roundCount.skip.total){
-		console.log('* '+format(roundCount.skip.total)+ " skipped");
+	if(roundCount.skip){
+		console.log('* '+format(roundCount.skip)+ " skipped");
 	}
 	
-	if(roundCount.fail.total){
-		console.log('* '+format(roundCount.fail.total)+ " failed");
+	if(roundCount.fail){
+		console.log('* '+format(roundCount.fail)+ " failed");
 	}
 	
-	console.log('* '+score.percent(roundCount.ok.total, roundCount.fail.total + roundCount.skip.total) +'% was OK');
+	console.log('* '+score.percent(roundCount.ok, roundCount.fail + roundCount.skip) +'% was OK');
 	console.log('');
 	
-	if(roundCount.fail.total === 0){
-		console.log('`'+mimicDb+' '+roundCount.ok.total+' OK: '+testPath+'`');
-		console.log('');
-	}
+    if(roundCount.fail === 0){
+        // Use absolute path like the Node runner
+        console.log('`'+mimicDb+' '+roundCount.ok+' OK: '+testPath+'`');
+        console.log('');
+    }
 }
 
 function verifyTest(fragment, db){

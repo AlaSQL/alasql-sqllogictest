@@ -4,11 +4,11 @@
   "description": "sqllogictest of AlaSQL",
   "main": "sqllogic/run_raw.js",
   "scripts": {
-    "test": "node --expose-gc node-run/run.js > results/output.md",
-    "test-node": "node --expose-gc node-run/run.js > results/output.md",
+    "test": "bun test-bun",
+    "test-node": "node --expose-gc node-run/run.js > results/output-node.md",
     "test-bun": "bun run bun-run/run.js > results/output-bun.md",
-    "test-demo-node": "node --expose-gc node-run/run.js",
-    "test-demo-bun": "bun run bun-run/run.js"
+    "test-demo-node": "node --expose-gc node-run/run.js --demo",
+    "test-demo-bun": "bun run bun-run/run.js --demo"
   },
   "repository": {
     "type": "git",
