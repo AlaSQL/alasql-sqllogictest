@@ -785,7 +785,6 @@ function printMem(){
 
 
 
-console.time('Total script time');
 initiateTestrun()
 
 

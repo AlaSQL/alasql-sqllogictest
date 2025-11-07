@@ -34,7 +34,7 @@ const config = {
 	debugErrorInfo: false,
 	
 	// only check if SQL can be parsed. does not work with sqlite
-	onlyParseSql: false,
+	onlyParseSql: args.includes('--light') || args.includes('--onlyParseSql'),
 	
 	// If set to true previous tests who had 100% OK will be skipped
 	skipTests: true,

@@ -32,7 +32,7 @@ config.runOnlyDemo = argv.demo === true;
 config.debugErrorInfo = false;
 
 // only check if SQL can be parsed. does not work with sqlite
-config.onlyParseSql = false;
+config.onlyParseSql = argv.light === true || argv.onlyParseSql === true;
 
 // If set to true previus tests who had 100% OK will be skipped
 config.skipTests = true;	
@@ -797,7 +797,6 @@ function printMem(){
 
 
 
-console.time('Total script time');
 initiateTestrun()
 
 
