@@ -1,3 +1,6 @@
+# We can ignore test to avoid any changes to accidently be comitted. It also avoid AIs spending time looking at it. 
+/test/
+
 # Logs
 logs
 *.log

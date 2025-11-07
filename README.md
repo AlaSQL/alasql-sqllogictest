@@ -2,7 +2,7 @@
 
 > Testing SQL compabillity for [AlaSQL](https://github.com/agershun/alasql) on the 5,047,257 tests from http://www.sqlite.org/sqllogictest
 
-_See the [most recent result](./results/output.md)_
+_See the [most recent result](./results/output-bun2.md) - also available: [Bun](./results/output-bun.md) | [Node.js](./results/output-node.md)_
 
 
 Why?
@@ -20,17 +20,99 @@ The format of the tests are desribed here: http://www.sqlite.org/sqllogictest/do
 How?
 ----
 
-Install dependencies `npm install and run all the tests with:
+Install dependencies:
 
-    npm test
+    bun install
 
-The result will output to `results/output.md`
+To make sure you are testing the most recent version of AlaSQL please run:
 
-To make sure you are testing the most recent version of AlaSQL please run the following:
+    bun install alasql
 
-    npm install alasql
+## Running Tests
 
-Please see the config section of the `run` files to run tests on local version instead of npm version.
+### Bun2 (Recommended) - Multi-threaded Workers
+Run tests with Bun2 using parallel workers across multiple threads:
+
+    bun run test-bun2
+    # or run demo only
+    bun run test-bun2-demo
+
+**Results output to:** `results/output-bun2.md`
+
+### Bun (Legacy) - Single-threaded
+Run tests with Bun (single-threaded, faster than Node.js):
+
+    bun run test-bun
+    # or run demo only
+    bun run test-bun-demo
+
+**Results output to:** `results/output-bun.md`
+
+### Node.js (Legacy) - Single-threaded
+Run tests with Node.js (single-threaded, slowest):
+
+    bun run test-node
+    # or run demo only
+    bun run test-node-demo
+
+**Results output to:** `results/output-node.md`
+
+### All Available Scripts
+
+| Script | Command | Description |
+|--------|---------|-------------|
+| `bun test` | `bun test-bun2` | Default test command (runs Bun2) |
+| `bun run test-bun2` | `bun run bun2-run/run.js --light > results/output-bun2.md` | Bun2 multi-threaded tests (recommended) |
+| `bun run test-bun2-demo` | `bun run bun2-run/run.js --demo --light` | Bun2 demo tests only |
+| `bun run test-bun` | `bun run bun-run/run.js --light > results/output-bun.md` | Bun single-threaded tests |
+| `bun run test-bun-demo` | `bun run bun-run/run.js --demo --light` | Bun demo tests only |
+| `bun run test-node` | `node --expose-gc node-run/run.js --light > results/output-node.md` | Node.js single-threaded tests |
+| `bun run test-node-demo` | `node --expose-gc node-run/run.js --demo --light` | Node.js demo tests only |
+
+**Note:** The `--light` flag means the tests will only parse the SQL and not execute the queries. This is faster and useful for identifying SQL compilation issues.
+
+### Configuration Options
+
+You can customize test execution by passing flags to the run scripts:
+
+| Flag | Description |
+|------|-------------|
+| `--light` | Only parse SQL, don't execute queries (faster) |
+| `--demo` | Run demo tests only (quick validation during devleopment of test parser) |
+| `--concurrency=N` | Set number of worker threads (Bun2 only) |
+| `--include=PATTERN` | Only run test files matching regex pattern |
+| `--exclude=PATTERN` | Skip test files matching regex pattern |
+| `--printAllErrors` | Print all errors instead of sampling |
+| `--no-skipTests` | Don't skip previously passed tests |
+| `--mimic=DIALECTS` | Test against specific SQL dialects |
+
+## Test Runners
+
+This project includes three test runner implementations:
+
+- **`bun2-run/`** - **(Recommended)** Bun implementation using persistent worker pool for true multi-threading across multiple CPU cores. Provides the best performance by utilizing all available CPU cores with parallel workers.
+- **`bun-run/`** - Bun-optimized implementation leveraging Bun's native file I/O and faster runtime (single-threaded, 2-3x faster than Node.js)
+- **`node-run/`** - Original Node.js implementation using paralleljs for multi-threading (legacy, slowest)
+
+### Performance Comparison
+
+| Runner | Threading | Performance | Use Case |
+|--------|-----------|-------------|----------|
+| **Bun2** | Multi-threaded workers | **Fastest** | Recommended for all testing |
+| Bun | Single-threaded | Fast (2-3x vs Node) | Legacy Bun support |
+| Node.js | Single-threaded | Baseline | Legacy Node.js support |
+
+### Bun2 Architecture
+
+Bun2 uses a persistent worker pool with the following advantages:
+- **True parallelism**: Tests run simultaneously across multiple CPU cores
+- **Worker reuse**: Workers are created once and reused across test files
+- **Isolated state**: Each worker maintains isolated AlaSQL state (reset per job)
+- **Shared parser**: PEG parser is generated once at startup and shared via file URL
+- **Buffered output**: Test output is buffered per-file to avoid interleaving
+- **Graceful shutdown**: Workers terminate cleanly when all jobs complete
+
+Please see the config section in the respective `run.js` files to customize test execution.
 
 
 
@@ -114,3 +196,13 @@ ToDo
 
 ## Not ToDo
 - Implement mocha testframework (testresults does not get printed before all are done - so it fills the memory)
+
+
+## Ideas
+
+Potential improvements and features for this repository:
+
+- `--bail` option to stop on first error for faster turnaround during AI-driven try-and-retry sessions for fixing AlaSQL
+- Error categorization to automatically group and categorize errors by type (syntax, function, operator, etc.) for easier debugging
+- Comparison mode to compare test results between AlaSQL versions or against other SQL engines
+- Performance profiling to track and visualize performance metrics across test runs

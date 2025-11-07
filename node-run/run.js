@@ -25,25 +25,25 @@ config.curiousErrorprinting = 0.0003;
 // Max string length of sql printed out when error
 config.truncSQLStatement = 300;
 
-// Run only debug.test as first mimic value
-config.runOnlyDemo = false;
+// Run only demo.test - enable with --demo flag
+config.runOnlyDemo = argv.demo === true;
 
 // output debug info for errors
 config.debugErrorInfo = false;
 
 // only check if SQL can be parsed. does not work with sqlite
-config.onlyParseSql = false;
+config.onlyParseSql = argv.light === true || argv.onlyParseSql === true;
 
 // If set to true previus tests who had 100% OK will be skipped
 config.skipTests = true;	
-config.skipTestsFile = "skipTests.line";	
+config.skipTestsFile = require('path').resolve(__dirname, "../skipTests.line");	
 
 config.parserPath = ('./sqllogictestparserV2')
 
 
 // Config of what tests to run
 var testfiles = walkFiles(
-							'./test', 			// Folder where to find test files
+							require('path').resolve(__dirname, '../test'), 			// Folder where to find test files
 
 
 							/\.test$/, 					// Regexp for files to include (all files ending with .test )
@@ -89,7 +89,7 @@ var sqllogictestparser =  require(__dirname + '/' + config.parserPath);
 
 if(config.runOnlyDemo){
   mimic = [mimic[0]];
-  testfiles=["./demo.test"];
+  testfiles=[require('path').resolve(__dirname, "../demo.test")];
 }
 
 var skipTestsContent = '';
@@ -346,6 +346,7 @@ function outputTestResults(data, mimic, testfile, preText){
 function webWorkerTest(data){
 
 	var fs    		= require("fs");
+	var path 		= require("path");
 	var md5    		= require("md5");
 	var comparray 	= require('comparray');
 	var numeral 	= require('numeral');
@@ -354,7 +355,9 @@ function webWorkerTest(data){
 	alasql.options.modifier = "MATRIX";
 	alasql.options.cache = false;
 
-	var fragments = sqllogictestparser(data.cargo.dirname + '/' + data.cargo.path);
+	// Handle both absolute and relative paths
+	var testPath = path.isAbsolute(data.cargo.path) ? data.cargo.path : path.join(data.cargo.dirname, data.cargo.path);
+	var fragments = sqllogictestparser(testPath);
 	var errorIndex = data.cargo.errorIndex;
 	var mimic = data.cargo.mimic;		
 	var config = data.cargo.config;		
@@ -794,7 +797,6 @@ function printMem(){
 
 
 
-console.time('Total script time');
 initiateTestrun()
 
 
