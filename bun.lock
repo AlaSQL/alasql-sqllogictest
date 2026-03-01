@@ -1,5 +1,6 @@
 {
   "lockfileVersion": 1,
+  "configVersion": 0,
   "workspaces": {
     "": {
       "name": "alasql-logictest",
@@ -9,7 +10,7 @@
         "md5": "2.3.0",
         "numeral": "2.0.6",
         "paralleljs": "1.1.0",
-        "peggy": "^2.0.1",
+        "peggy": "^5.0.0",
         "pegjs": "0.10.0",
         "sql.js": "1.9.0",
         "ts-pegjs": "^2.1.0",
@@ -18,6 +19,8 @@
     },
   },
   "packages": {
+    "@peggyjs/from-mem": ["@peggyjs/from-mem@3.1.3", "", { "dependencies": { "semver": "7.7.4" } }, "sha512-LLlgtfXIaeYXoOYovOI0spLM8ZXaqkAlmcRRrLzHJzLMqkU6Sw0R4KMoCoHx1PjaP815pSCBlS+BN6aD8t1Jgg=="],
+
     "alasql": ["alasql@4.8.0", "", { "dependencies": { "cross-fetch": "4.1.0", "yargs": "16" }, "bin": { "alasql": "bin/alasql-cli.js" } }, "sha512-MPqPvoISuTI20J55cBINp+wAjuKc7sVueDo5jfFfuN0XZIfZ9kCQiaQT7HTOdK1VWPdEw5SLMjX3Rbom7jSlxw=="],
 
     "ansi-regex": ["ansi-regex@5.0.1", "", {}, "sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ=="],
@@ -32,7 +35,7 @@
 
     "color-name": ["color-name@1.1.4", "", {}, "sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA=="],
 
-    "commander": ["commander@9.5.0", "", {}, "sha512-KRs7WVDKg86PWiuAqhDrAQnTXZKraVcCc6vFdL14qrZ/DcWwuRo7VoiYXalXO7S5GKpqYiVEwCbgFDfxNHKJBQ=="],
+    "commander": ["commander@14.0.3", "", {}, "sha512-H+y0Jo/T1RZ9qPP4Eh1pkcQcLRglraJaSLoyOtHxu6AapkjWVCy2Sit1QQ4x3Dng8qDlSsZEet7g5Pq06MvTgw=="],
 
     "comparray": ["comparray@1.1.2", "", {}, "sha512-oQSUHVrLdoMJfwSVAVDuSSYHg3Q696jyn80G+NeqPLOmH7SfN419scKNYcFZB1ZqR4AJatJTaQFgWcF+2s3WzA=="],
 
@@ -58,13 +61,15 @@
 
     "paralleljs": ["paralleljs@1.1.0", "", {}, "sha512-5sYLAEzM+qMDYzQeVWyNdqINU4h+/Fhr0CrZs3+HCYPIhOWuA2BCzn74js2qzX+LKFwRQR6sSJBZhgT+WWhbfw=="],
 
-    "peggy": ["peggy@2.0.1", "", { "dependencies": { "commander": "^9.3.0", "source-map-generator": "0.8.0" }, "bin": { "peggy": "bin/peggy.js" } }, "sha512-mBqfmdUAOVn7RILpXTbcRBhLfTR4Go0SresSnivGDdRylBOyVFJncFiVyCNNpPWq8HmgeRleXHs/Go4o8kQVXA=="],
+    "peggy": ["peggy@5.1.0", "", { "dependencies": { "@peggyjs/from-mem": "3.1.3", "commander": "^14.0.3", "source-map-generator": "2.0.6" }, "bin": { "peggy": "bin/peggy.js" } }, "sha512-IEo5aYRZ2kXH4Qby06cjtL114PZnwLoTiA41vUmg2vPZgANn+c87m5BUurhuDr5/cu758ZlpgsAfBVx+hhO5+w=="],
 
     "pegjs": ["pegjs@0.10.0", "", { "bin": { "pegjs": "bin/pegjs" } }, "sha512-qI5+oFNEGi3L5HAxDwN2LA4Gg7irF70Zs25edhjld9QemOgp0CbvMtbFcMvFtEo1OityPrcCzkQFB8JP/hxgow=="],
 
     "require-directory": ["require-directory@2.1.1", "", {}, "sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q=="],
 
-    "source-map-generator": ["source-map-generator@0.8.0", "", {}, "sha512-psgxdGMwl5MZM9S3FWee4EgsEaIjahYV5AzGnwUvPhWeITz/j6rKpysQHlQ4USdxvINlb8lKfWGIXwfkrgtqkA=="],
+    "semver": ["semver@7.7.4", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-vFKC2IEtQnVhpT78h1Yp8wzwrf8CM+MzKMHGJZfBtzhZNycRFnXsHk6E5TxIkkMsgNS7mdX3AGB7x2QM2di4lA=="],
+
+    "source-map-generator": ["source-map-generator@2.0.6", "", {}, "sha512-IlassDs1Ve8nV6uyQZXF9kdkJpVKnMte2JZQXu13M0A5zwc+vu6+LNHfmxsHBMDtoZE21RHiKI0/xvpecZRCNg=="],
 
     "sql.js": ["sql.js@1.9.0", "", {}, "sha512-+QMN8NU5KJxofT+lEaSLYdhh+Pdq7ZYS6X5bSbpmD+4SKFf+qBmr+coKT07LZ+keUNh1sf3Nz9dQwD8WNI2i/Q=="],
 
