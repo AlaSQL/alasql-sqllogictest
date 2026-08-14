@@ -1,5 +1,6 @@
 {
   "lockfileVersion": 1,
+  "configVersion": 0,
   "workspaces": {
     "": {
       "name": "alasql-logictest",
@@ -11,7 +12,7 @@
         "paralleljs": "1.1.0",
         "peggy": "^2.0.1",
         "pegjs": "0.10.0",
-        "sql.js": "1.9.0",
+        "sql.js": "1.14.2",
         "ts-pegjs": "^2.1.0",
         "yargs": "17.6.0",
       },
@@ -66,7 +67,7 @@
 
     "source-map-generator": ["source-map-generator@0.8.0", "", {}, "sha512-psgxdGMwl5MZM9S3FWee4EgsEaIjahYV5AzGnwUvPhWeITz/j6rKpysQHlQ4USdxvINlb8lKfWGIXwfkrgtqkA=="],
 
-    "sql.js": ["sql.js@1.9.0", "", {}, "sha512-+QMN8NU5KJxofT+lEaSLYdhh+Pdq7ZYS6X5bSbpmD+4SKFf+qBmr+coKT07LZ+keUNh1sf3Nz9dQwD8WNI2i/Q=="],
+    "sql.js": ["sql.js@1.14.2", "", {}, "sha512-3ZGPovObMFrdw79zrUHbfdE/DLIsy8jdNdssmMSQuRAymedU6q84asPt0kgiqrdMYlPegDItiIMfmIXzZnYFcw=="],
 
     "string-width": ["string-width@4.2.3", "", { "dependencies": { "emoji-regex": "^8.0.0", "is-fullwidth-code-point": "^3.0.0", "strip-ansi": "^6.0.1" } }, "sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g=="],
 
