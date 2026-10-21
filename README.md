@@ -2,7 +2,7 @@
 
 > Testing SQL compabillity for [AlaSQL](https://github.com/agershun/alasql) on the 5,047,257 tests from http://www.sqlite.org/sqllogictest
 
-_See the [most recent result](./results/output-bun2.md) - also available: [Bun](./results/output-bun.md) | [Node.js](./results/output-node.md)_
+_See the [most recent result](./results/output.md)_
 
 
 Why?
@@ -61,9 +61,9 @@ Run tests with Node.js (single-threaded, slowest):
 
 | Script | Command | Description |
 |--------|---------|-------------|
-| `bun test` | `bun test-bun2` | Default test command (runs Bun2) |
-| `bun run test-bun2` | `bun run bun2-run/run.js --light > results/output-bun2.md` | Bun2 multi-threaded tests (recommended) |
-| `bun run test-bun2-demo` | `bun run bun2-run/run.js --demo --light` | Bun2 demo tests only |
+| `yarn test [flags]` | `cmdmix 'bun run bun2-run/run.js %1 > results/output.md'` | Default test command (runs Bun2); flags go to `run.js`, for example `yarn test --debug --include evidence` |
+| `bun run test-bun2` | `bun run bun2-run/run.js > results/output.md` | Bun2 multi-threaded tests (recommended) |
+| `bun run test-bun2-demo` | `bun run bun2-run/run.js --demo` | Bun2 demo tests only |
 | `bun run test-bun` | `bun run bun-run/run.js --light > results/output-bun.md` | Bun single-threaded tests |
 | `bun run test-bun-demo` | `bun run bun-run/run.js --demo --light` | Bun demo tests only |
 | `bun run test-node` | `node --expose-gc node-run/run.js --light > results/output-node.md` | Node.js single-threaded tests |
@@ -80,6 +80,7 @@ You can customize test execution by passing flags to the run scripts:
 | `--light` | Only parse SQL, don't execute queries (faster) |
 | `--demo` | Run demo tests only (quick validation during devleopment of test parser) |
 | `--concurrency=N` | Set number of worker threads (Bun2 only) |
+| `--only-run=FILE[,FILE]` | Run exactly these test files (paths from the repo root, also `select4.test` and `select5.test`), ignoring `--include`, `--exclude` and `skipTests.line`; for example `yarn test --only-run=test/evidence/in1.test` (Bun2 only) |
 | `--include=PATTERN` | Only run test files matching regex pattern |
 | `--exclude=PATTERN` | Skip test files matching regex pattern |
 | `--printAllErrors` | Print all errors instead of sampling |
@@ -206,3 +207,9 @@ Potential improvements and features for this repository:
 - Error categorization to automatically group and categorize errors by type (syntax, function, operator, etc.) for easier debugging
 - Comparison mode to compare test results between AlaSQL versions or against other SQL engines
 - Performance profiling to track and visualize performance metrics across test runs
+
+## Failures as JSON lines (`--debug`)
+
+`yarn test --debug` also writes every failure, with the full SQL, to `results/debug.jsonl`: one JSON object per line with `file`, `mimic`, `sql`, `msg`, `expected` and `got`. `output.md` is written as before. The file is replaced on every `--debug` run and is in `.gitignore`.
+
+`bun bun2-run/triage.js` sorts that file into known patterns, each with the AlaSQL issue that covers it, and lists the rest as new (`--new-only`, `--examples=N`, `--json`). Add a pattern to `KNOWN` in `triage.js` once its issue exists.

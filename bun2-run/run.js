@@ -14,7 +14,8 @@ import path from "path";
 import { fileURLToPath, pathToFileURL } from "url";
 import numeral from "numeral";
 import PEG from "peggy";
-import alasql from "alasql";
+// ALASQL=/path/to/dist/alasql.fs.js tests another build (for example develop); default is the npm package
+const alasql = require(process.env.ALASQL ? path.resolve(process.env.ALASQL) : "alasql");
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -43,11 +44,16 @@ const config = {
   truncSQLStatement: Number(getArg("--truncSQLStatement", "300")),
   skipTests: !isFlag("--no-skipTests"),
   skipTestsFile: path.resolve(projectRoot, "skipTests.line"),
+  // --only-run=test/evidence/in1.test[,other.test]: exactly these files, ignoring --include, --exclude,
+  // the select4/select5 exclusion and skipTests.line
+  onlyRun: getArg("--only-run", ""),
   include: getArg("--include", ""),
   exclude: getArg("--exclude", ""),
   mimic: (getArg("--mimic", "sqlite") || "sqlite").split(",").map(s => s.trim()).filter(Boolean),
   concurrency: Math.max(1, Number(getArg("--concurrency", String(Bun.availableParallelism?.() || 4)))) ,
   quiet: isFlag("--quiet") || isFlag("--summary-only"),
+  // --debug: also write every failure as one JSON line (full SQL) to results/debug.jsonl
+  debug: isFlag("--debug"),
 };
 
 // Ensure deterministic walk order
@@ -84,6 +90,20 @@ let testfiles = walkFiles(
 if (config.runOnlyDemo) {
   testfiles = [path.resolve(projectRoot, "./demo.test")];
 }
+if (config.onlyRun) {
+  if (config.onlyRun === true) {
+    console.error("--only-run needs a file: --only-run=test/evidence/in1.test");
+    process.exit(1);
+  }
+  testfiles = config.onlyRun.split(",").map(f => path.resolve(projectRoot, f.trim()));
+  const missing = testfiles.filter(f => !fs.existsSync(f));
+  if (missing.length) {
+    console.error("No such test file: " + missing.join(", "));
+    process.exit(1);
+  }
+  config.include = config.exclude = "";
+  config.skipTests = false;
+}
 // Include/exclude filters (treat as regex if provided)
 if (config.include) {
   const re = new RegExp(config.include);
@@ -115,13 +135,17 @@ function ensureParserModule() {
 ensureParserModule();
 
 // Header
+// One file per run, replaced each time (gitignored), written only by this process
+const debugPath = path.resolve(projectRoot, "results/debug.jsonl");
+if (config.debug) fs.writeFileSync(debugPath, "");
+
 console.time("Total script time");
-console.log("# SQLlogictest " + (config.onlyParseSql ? " compile " : "") + "results for AlaSQL (Bun runtime, workers)\n");
-console.log("`" + new Date().toISOString() + " (Bun " + Bun.version + ")`");
+console.log("# SQLlogictest " + (config.onlyParseSql ? " compile " : "") + "results for AlaSQL\n");
+console.log("`" + new Date().toISOString() + " target: alasql@" + alasql.version + "`\n");
 if (!config.runOnlyDemo && testfiles.length < 622) {
   console.log("This is a subset of the total 622 tests.");
 }
-console.log("Results from " + testfiles.length + " test files\n");
+console.log("Results from " + testfiles.length + " test files:\n");
 
 // Stats
 const format = v => numeral(v).format("0,0");
@@ -145,16 +169,16 @@ for (const file of testfiles) {
       const match = re.exec(skipTestsContent);
       if (match) {
         score.assumedOk += (+match[1]);
-        if (!config.quiet) {
-          // print a compact assumed line immediately
-          console.log('`' + m + ' ' + match[1] + ' OK: ' + file + '`');
-        }
+        // Don't print skip lines - they clutter the output
         skipped = true;
       }
     }
     if (!skipped) jobs.push({ file, mimic: m });
   }
 }
+
+// Largest files first, so no big file starts last and keeps the run going while the other workers idle
+jobs.sort((a, b) => fs.statSync(b.file).size - fs.statSync(a.file).size);
 
 // Worker pool with reuse
 const concurrency = config.concurrency;
@@ -204,6 +228,7 @@ async function runWorkerJob(slot, job, fileIndex, totalFiles) {
       curiousErrorprinting: config.curiousErrorprinting,
       truncSQLStatement: config.truncSQLStatement,
       quiet: config.quiet,
+      debug: config.debug,
       genParserPath: genParserUrl,
       projectRoot,
     },
@@ -226,6 +251,9 @@ async function runWorkerJob(slot, job, fileIndex, totalFiles) {
   score.ok += result.ok || 0;
   score.fail += result.fail || 0;
   score.skip += result.skip || 0;
+  if (config.debug && result.failures && result.failures.length) {
+    fs.appendFileSync(debugPath, result.failures.map(f => JSON.stringify(f)).join("\n") + "\n");
+  }
 }
 
 function finish() {

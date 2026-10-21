@@ -1,5 +1,11 @@
-import alasql from "alasql";
 import comparray from "comparray";
+
+// The same build as run.js: ALASQL=/path/to/dist/alasql.fs.js, or the npm package
+// loaded synchronously: with a top-level await the message listener below would be registered too late
+const alasql = require(process.env.ALASQL ? require("path").resolve(process.env.ALASQL) : "alasql");
+
+// Rows as arrays of values, as cleanResults() and the expected results need (the other runners set this too)
+alasql.options.modifier = "MATRIX";
 
 // Simple number formatter similar to numeral('0,0')
 const fmt = new Intl.NumberFormat('en-US');
@@ -151,11 +157,25 @@ self.addEventListener("message", async (ev) => {
     if (alasql.databases.alasql.sqlCache) {
       alasql.databases.alasql.sqlCache = {};
     }
+    // Parsed statements are cached too; without this a reused worker keeps every AST of the run
+    if (alasql.databases.alasql.astCache) {
+      alasql.databases.alasql.astCache = {};
+    }
+    // Triggers and indices outlive their tables otherwise
+    alasql.databases.alasql.triggers = {};
+    alasql.databases.alasql.indices = {};
     // Reset options to defaults for this database
     if (alasql.databases.alasql.engineid) {
       alasql.databases.alasql.engineid = undefined;
     }
+    // alasql.tables is an alias of the current database's tables (OBJECT_ID() reads it)
+    alasql.tables = alasql.databases.alasql.tables;
   }
+  // Databases a test created, and the IN-list cache: it is keyed by the list's text, so a list from
+  // an earlier file can answer for this one (AlaSQL#2753), and it grows with every file the worker runs
+  for (const id of Object.keys(alasql.databases)) if (id !== "alasql" && id !== "dbo") delete alasql.databases[id];
+  alasql.useid = "alasql";
+  alasql.sets = {};
   // Clear global query cache
   if (alasql.srch) {
     alasql.srch = {};
@@ -175,6 +195,7 @@ self.addEventListener("message", async (ev) => {
   // Parse and execute
   const fragments = await parseTestFile(file, parser);
   let ok = 0, fail = 0, skip = 0;
+  const failures = []; // with --debug: every failure, untruncated, for results/debug.jsonl
   let statementFailed = false;
 
   for (let i = 0; i < fragments.length; i++){
@@ -209,6 +230,19 @@ self.addEventListener("message", async (ev) => {
       ok++;
     } else {
       fail++;
+      if (options.debug) {
+        failures.push({
+          file: file.replace(options.projectRoot + "/", ""),
+          mimic,
+          sql: test.sql,
+          msg: test.msg,
+          expected: fragment.result ? (fragment.result.type === "hash" ? {amount: fragment.result.amount, hash: fragment.result.hash} : fragment.result.values) : fragment.expectSuccess ? "success" : "error",
+          got: test.success ? test.result : null,
+          // the declared column types (I, R, T) and sort mode, which the comparison above does not apply
+          colType: fragment.result && fragment.result.colType,
+          sort: fragment.result && fragment.result.sort,
+        });
+      }
       if('statement' === fragment.result?.type && fragment.expectSuccess){
         statementFailed = true;
       }
@@ -254,5 +288,5 @@ self.addEventListener("message", async (ev) => {
     }
   }
 
-  self.postMessage({ output: out, ok, fail, skip });
+  self.postMessage({ output: out, ok, fail, skip, failures });
 });

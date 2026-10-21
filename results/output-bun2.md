@@ -1,104 +1,10 @@
-# SQLlogictest results for AlaSQL (Bun runtime, workers)
+# SQLlogictest results for AlaSQL
 
-`2025-11-06T16:33:20.632Z (Bun 1.3.1)`
-This may be a subset of the total tests.
-Results from 620 test files
+`2025-11-08T13:16:44.571Z target: alasql@4.7.0`
 
-`sqlite 7 OK: /Users/mwulff/git/alasql-sqllogictest/test/evidence/slt_lang_reindex.test`
-`sqlite 14 OK: /Users/mwulff/git/alasql-sqllogictest/test/evidence/slt_lang_replace.test`
-`sqlite 10032 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_16.test`
-`sqlite 10031 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_17.test`
-`sqlite 10033 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_22.test`
-`sqlite 10031 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_26.test`
-`sqlite 10032 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_3.test`
-`sqlite 10032 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_8.test`
-`sqlite 10123 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/commute/100/slt_good_9.test`
-`sqlite 4741 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/commute/1000/slt_good_0.test`
-`sqlite 10907 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/delete/1/slt_good_0.test`
-`sqlite 10730 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/delete/10/slt_good_0.test`
-`sqlite 10774 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/delete/10/slt_good_1.test`
-`sqlite 9390 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/delete/10/slt_good_2.test`
-`sqlite 10065 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/delete/10/slt_good_3.test`
-`sqlite 10599 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/delete/10/slt_good_4.test`
-`sqlite 10353 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/delete/10/slt_good_5.test`
-`sqlite 11145 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/delete/100/slt_good_0.test`
-`sqlite 10895 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/delete/100/slt_good_1.test`
-`sqlite 11033 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/delete/100/slt_good_2.test`
-`sqlite 10942 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/delete/100/slt_good_3.test`
-`sqlite 11924 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/delete/1000/slt_good_0.test`
-`sqlite 11838 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/delete/1000/slt_good_1.test`
-`sqlite 20347 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/delete/10000/slt_good_0.test`
-`sqlite 10053 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby/10/slt_good_0.test`
-`sqlite 10054 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby/10/slt_good_1.test`
-`sqlite 10051 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby/10/slt_good_10.test`
-`sqlite 10053 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby/10/slt_good_11.test`
-`sqlite 10053 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby/10/slt_good_12.test`
-`sqlite 10053 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby/10/slt_good_14.test`
-`sqlite 10052 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby/10/slt_good_15.test`
-`sqlite 10054 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby/10/slt_good_17.test`
-`sqlite 10053 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby/10/slt_good_18.test`
-`sqlite 10052 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby/10/slt_good_19.test`
-`sqlite 10051 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby/10/slt_good_2.test`
-`sqlite 10053 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby/10/slt_good_21.test`
-`sqlite 10052 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby/10/slt_good_22.test`
-`sqlite 10053 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby/10/slt_good_23.test`
-`sqlite 10051 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby/10/slt_good_24.test`
-`sqlite 10053 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby/10/slt_good_25.test`
-`sqlite 10051 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby/10/slt_good_3.test`
-`sqlite 10052 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby/10/slt_good_4.test`
-`sqlite 10051 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby/10/slt_good_5.test`
-`sqlite 10048 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby/10/slt_good_6.test`
-`sqlite 10052 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby/10/slt_good_7.test`
-`sqlite 10051 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby/10/slt_good_8.test`
-`sqlite 10050 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby/10/slt_good_9.test`
-`sqlite 10141 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby/100/slt_good_0.test`
-`sqlite 10140 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby/100/slt_good_1.test`
-`sqlite 10142 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby/100/slt_good_2.test`
-`sqlite 10053 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_0.test`
-`sqlite 10051 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_1.test`
-`sqlite 10052 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_11.test`
-`sqlite 10051 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_12.test`
-`sqlite 10053 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_13.test`
-`sqlite 10052 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_14.test`
-`sqlite 10054 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_15.test`
-`sqlite 10050 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_17.test`
-`sqlite 10050 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_18.test`
-`sqlite 10052 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_2.test`
-`sqlite 10053 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_20.test`
-`sqlite 10052 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_21.test`
-`sqlite 10054 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_22.test`
-`sqlite 10051 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_23.test`
-`sqlite 10052 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_25.test`
-`sqlite 10053 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_26.test`
-`sqlite 10052 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_28.test`
-`sqlite 10050 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_29.test`
-`sqlite 10052 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_32.test`
-`sqlite 10050 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_33.test`
-`sqlite 10052 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_34.test`
-`sqlite 10049 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_35.test`
-`sqlite 10052 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_36.test`
-`sqlite 10052 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_37.test`
-`sqlite 10052 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_38.test`
-`sqlite 10052 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_39.test`
-`sqlite 10053 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_4.test`
-`sqlite 10052 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_5.test`
-`sqlite 10053 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_6.test`
-`sqlite 10052 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/10/slt_good_7.test`
-`sqlite 10141 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/100/slt_good_1.test`
-`sqlite 10142 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/100/slt_good_2.test`
-`sqlite 10143 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/100/slt_good_3.test`
-`sqlite 10141 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/100/slt_good_4.test`
-`sqlite 10142 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/100/slt_good_5.test`
-`sqlite 10144 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/100/slt_good_6.test`
-`sqlite 11040 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/1000/slt_good_0.test`
-`sqlite 11043 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/orderby_nosort/1000/slt_good_1.test`
-`sqlite 1056 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/random/1000/slt_good_1.test`
-`sqlite 1027 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/random/1000/slt_good_2.test`
-`sqlite 1033 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/random/1000/slt_good_3.test`
-`sqlite 1032 OK: /Users/mwulff/git/alasql-sqllogictest/test/index/random/1000/slt_good_4.test`
-`sqlite 12 OK: /Users/mwulff/git/alasql-sqllogictest/test/random/select/slt_good_125.test`
-`sqlite 12 OK: /Users/mwulff/git/alasql-sqllogictest/test/random/select/slt_good_126.test`
-`sqlite 1031 OK: /Users/mwulff/git/alasql-sqllogictest/test/select1.test`
+This is a subset of the total 622 tests.
+Results from 620 test files:
+
 
 ---- ---- ---- ---- ---- ---- ----
 ### 1/525 [`/Users/mwulff/git/alasql-sqllogictest/test/evidence/slt_lang_createtrigger.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/evidence/slt_lang_createtrigger.test)
@@ -140,6 +46,42 @@ Expected to get an error but did not
 
 * 9 failed
 * 60% was OK
+
+
+
+---- ---- ---- ---- ---- ---- ----
+### 3/525 [`/Users/mwulff/git/alasql-sqllogictest/test/evidence/slt_lang_dropindex.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/evidence/slt_lang_dropindex.test)
+
+_Mimic sqlite_
+
+```sql
+DROP INDEX t1i1;
+
+Expected to get an error but did not
+```
+
+#### ☓ Ran 8 tests as _sqlite_
+
+* 2 failed
+* 75% was OK
+
+
+
+---- ---- ---- ---- ---- ---- ----
+### 4/525 [`/Users/mwulff/git/alasql-sqllogictest/test/evidence/slt_lang_droptable.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/evidence/slt_lang_droptable.test)
+
+_Mimic sqlite_
+
+```sql
+DROP INDEX t1i1;
+
+Expected to get an error but did not
+```
+
+#### ☓ Ran 12 tests as _sqlite_
+
+* 1 failed
+* 91% was OK
 
 
 
@@ -358,6 +300,50 @@ Expected: ["NULL"] but got [{"SUM(DISTINCT x)":0}]
 
 
 ---- ---- ---- ---- ---- ---- ----
+### 5/525 [`/Users/mwulff/git/alasql-sqllogictest/test/evidence/slt_lang_droptrigger.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/evidence/slt_lang_droptrigger.test)
+
+_Mimic sqlite_
+#### ★ Ran 12 tests as _sqlite_
+
+* 100% was OK
+
+`sqlite 12 OK: ./test/evidence/slt_lang_droptrigger.test`
+
+
+
+---- ---- ---- ---- ---- ---- ----
+### 1/525 [`/Users/mwulff/git/alasql-sqllogictest/test/evidence/in2.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/evidence/in2.test)
+
+_Mimic sqlite_
+
+```sql
+SELECT 1 FROM t1 WHERE 1 NOT IN (2)
+
+Expected: ["1","1","1"] but got [{"1":1},{"1":1},{"1":1}]
+```
+
+
+```sql
+SELECT 1 FROM t1 WHERE NULL NOT IN ()
+
+Query was expected to return results (but did not)
+```
+
+
+```sql
+SELECT 1 FROM t1 WHERE 1 IN (SELECT 1,2)
+
+Expected to get an error but did not
+```
+
+#### ☓ Ran 53 tests as _sqlite_
+
+* 18 failed
+* 66% was OK
+
+
+
+---- ---- ---- ---- ---- ---- ----
 ### 1/525 [`/Users/mwulff/git/alasql-sqllogictest/test/evidence/in1.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/evidence/in1.test)
 
 _Mimic sqlite_
@@ -477,104 +463,6 @@ _Fail found in statement setting up data so skipping rest of tests_
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 3/525 [`/Users/mwulff/git/alasql-sqllogictest/test/evidence/slt_lang_dropindex.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/evidence/slt_lang_dropindex.test)
-
-_Mimic sqlite_
-
-```sql
-DROP INDEX t1i1;
-
-Expected to get an error but did not
-```
-
-#### ☓ Ran 8 tests as _sqlite_
-
-* 2 failed
-* 75% was OK
-
-
-
----- ---- ---- ---- ---- ---- ----
-### 1/525 [`/Users/mwulff/git/alasql-sqllogictest/test/evidence/in2.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/evidence/in2.test)
-
-_Mimic sqlite_
-
-```sql
-SELECT 1 FROM t1 WHERE 1 NOT IN (2)
-
-Expected: ["1","1","1"] but got [{"1":1},{"1":1},{"1":1}]
-```
-
-
-```sql
-SELECT 1 FROM t1 WHERE NULL NOT IN ()
-
-Query was expected to return results (but did not)
-```
-
-
-```sql
-SELECT 1 FROM t1 WHERE 1 IN (SELECT 1,2)
-
-Expected to get an error but did not
-```
-
-#### ☓ Ran 53 tests as _sqlite_
-
-* 18 failed
-* 66% was OK
-
-
-
----- ---- ---- ---- ---- ---- ----
-### 6/525 [`/Users/mwulff/git/alasql-sqllogictest/test/evidence/slt_lang_dropview.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/evidence/slt_lang_dropview.test)
-
-_Mimic sqlite_
-
-```sql
-SELECT x FROM view2
-
-Expected: ["0"] but got [{"x":0}]
-```
-
-#### ☓ Ran 13 tests as _sqlite_
-
-* 2 failed
-* 84% was OK
-
-
-
----- ---- ---- ---- ---- ---- ----
-### 4/525 [`/Users/mwulff/git/alasql-sqllogictest/test/evidence/slt_lang_droptable.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/evidence/slt_lang_droptable.test)
-
-_Mimic sqlite_
-
-```sql
-DROP INDEX t1i1;
-
-Expected to get an error but did not
-```
-
-#### ☓ Ran 12 tests as _sqlite_
-
-* 1 failed
-* 91% was OK
-
-
-
----- ---- ---- ---- ---- ---- ----
-### 5/525 [`/Users/mwulff/git/alasql-sqllogictest/test/evidence/slt_lang_droptrigger.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/evidence/slt_lang_droptrigger.test)
-
-_Mimic sqlite_
-#### ★ Ran 12 tests as _sqlite_
-
-* 100% was OK
-
-`sqlite 12 OK: ./test/evidence/slt_lang_droptrigger.test`
-
-
-
----- ---- ---- ---- ---- ---- ----
 ### 7/525 [`/Users/mwulff/git/alasql-sqllogictest/test/evidence/slt_lang_update.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/evidence/slt_lang_update.test)
 
 _Mimic sqlite_
@@ -596,6 +484,24 @@ Expected: ["3"] but got [{"COUNT(*)":3}]
 
 * 11 failed
 * 59% was OK
+
+
+
+---- ---- ---- ---- ---- ---- ----
+### 6/525 [`/Users/mwulff/git/alasql-sqllogictest/test/evidence/slt_lang_dropview.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/evidence/slt_lang_dropview.test)
+
+_Mimic sqlite_
+
+```sql
+SELECT x FROM view2
+
+Expected: ["0"] but got [{"x":0}]
+```
+
+#### ☓ Ran 13 tests as _sqlite_
+
+* 2 failed
+* 84% was OK
 
 
 
@@ -949,87 +855,6 @@ Expected: ["0","2","3","6"] but got [{"pk":0},{"pk":2},{"pk":3},{"pk":6}]
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 14/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/between/10/slt_good_5.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/between/10/slt_good_5.test)
-
-_Mimic sqlite_
-
-```sql
-SELECT pk FROM tab0 WHERE ((col1 > 93.39)) AND col0 <= 43 OR col0 BETWEEN 55 AND 59 OR (((col3 < 6 OR col4 > 71.3)) AND col0 < 24 OR col1 > 74.36 OR col1 >= 19.10 AND col4 <= 52.51 OR (((col0 < 69) AND col1 IS NULL OR (col3 > 27) AND col1 < 51.86)) OR col0 IN (89) OR col3 = 80 OR col0 < 30 OR ((col…
-
-Correct amount of values returned but hash was different than expected.
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (col0 IS NULL) OR (((((col0 >= 37 AND col3 >= 92) OR col3 <= 25)) OR ((((((col1 <= 89.83) AND col0 > 23)) AND col4 > 35.15 AND col0 = 4) OR (col3 >= 10) AND col0 <= 7) AND ((col1 IS NULL))) AND col4 >= 62.7 AND col0 >= 3 AND ((col0 < 42)) AND col1 IN (10.63,94.82,82.1,25.8…
-
-Expected: ["1","3"] but got [{"pk":1},{"pk":3}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (col0 = 31) OR col4 > 95.30 AND ((col3 <= 27 AND ((col3 BETWEEN 17 AND 27) AND col0 <= 97 OR (col3 = 83)) OR col0 < 87))
-
-Expected: ["3"] but got [{"pk":3}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE ((col3 BETWEEN 16 AND 64 OR col3 <= 23 AND col0 > 88 AND col4 IN (17.85,82.23,45.55,8.75,7.60,55.86))) AND col3 <= 44
-
-Expected: ["3","4","7"] but got [{"pk":3},{"pk":4},{"pk":7}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (col3 < 81) OR (col1 IS NULL AND col3 <= 75 AND col3 BETWEEN 53 AND 98 AND col3 > 27)
-
-Expected: ["0","1","3","4","5","6","7","8"] but got [{"pk":0},{"pk":1},{"pk":3},{"pk":4},{"pk":5},{"pk":6},{"pk":7},{"pk":8}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (col0 < 73 AND (col1 > 75.79 OR (col1 < 94.78) OR (col1 BETWEEN 67.58 AND 84.35)))
-
-Expected: ["0","2","3","4","5","6","9"] but got [{"pk":0},{"pk":2},{"pk":3},{"pk":4},{"pk":5},{"pk":6},{"pk":9}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (col0 BETWEEN 13 AND 71)
-
-Expected: ["0","2","3","4","5"] but got [{"pk":0},{"pk":2},{"pk":3},{"pk":4},{"pk":5}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col3 BETWEEN 23 AND 58
-
-Expected: ["4","6","7","8"] but got [{"pk":4},{"pk":6},{"pk":7},{"pk":8}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (col1 >= 55.74) OR col3 BETWEEN 13 AND 9 OR col0 <= 21 AND col3 < 85 AND col1 BETWEEN 46.51 AND 13.32 AND (col0 > 84) OR (((col0 < 13) OR col1 > 51.85)) OR (((col3 <= 65 OR (col0 >= 40 AND col3 < 26 OR col4 > 92.67) AND (col4 IS NULL AND (col0 <= 45 AND (col0 <= 99)) OR ((…
-
-Expected: ["0","3","4","6","7","8"] but got [{"pk":0},{"pk":3},{"pk":4},{"pk":6},{"pk":7},{"pk":8}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE ((col3 < 49 AND (col4 >= 2.37 AND col3 <= 34 OR (col0 > 45 AND col3 IN (84,55,60,5,10,51) AND col3 > 44)) AND ((col4 BETWEEN 85.7 AND 68.3 AND col0 > 12) OR col3 >= 61 AND col1 < 44.10 OR ((((col1 <= 88.54)) AND col3 BETWEEN 50 AND 64) AND col0 < 7) OR ((col0 > 68)) AND co…
-
-undefined is not an object (evaluating 'this.queriesfn[0]')
-```
-
-#### ☓ Ran 10,031 tests as _sqlite_
-
-* 6,520 failed
-* 35% was OK
-
-
-
----- ---- ---- ---- ---- ---- ----
 ### 12/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/between/10/slt_good_3.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/between/10/slt_good_3.test)
 
 _Mimic sqlite_
@@ -1107,6 +932,87 @@ undefined is not an object (evaluating 'this.queriesfn[0]')
 
 * 6,570 failed
 * 34% was OK
+
+
+
+---- ---- ---- ---- ---- ---- ----
+### 14/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/between/10/slt_good_5.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/between/10/slt_good_5.test)
+
+_Mimic sqlite_
+
+```sql
+SELECT pk FROM tab0 WHERE ((col1 > 93.39)) AND col0 <= 43 OR col0 BETWEEN 55 AND 59 OR (((col3 < 6 OR col4 > 71.3)) AND col0 < 24 OR col1 > 74.36 OR col1 >= 19.10 AND col4 <= 52.51 OR (((col0 < 69) AND col1 IS NULL OR (col3 > 27) AND col1 < 51.86)) OR col0 IN (89) OR col3 = 80 OR col0 < 30 OR ((col…
+
+Correct amount of values returned but hash was different than expected.
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col0 IS NULL) OR (((((col0 >= 37 AND col3 >= 92) OR col3 <= 25)) OR ((((((col1 <= 89.83) AND col0 > 23)) AND col4 > 35.15 AND col0 = 4) OR (col3 >= 10) AND col0 <= 7) AND ((col1 IS NULL))) AND col4 >= 62.7 AND col0 >= 3 AND ((col0 < 42)) AND col1 IN (10.63,94.82,82.1,25.8…
+
+Expected: ["1","3"] but got [{"pk":1},{"pk":3}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col0 = 31) OR col4 > 95.30 AND ((col3 <= 27 AND ((col3 BETWEEN 17 AND 27) AND col0 <= 97 OR (col3 = 83)) OR col0 < 87))
+
+Expected: ["3"] but got [{"pk":3}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE ((col3 BETWEEN 16 AND 64 OR col3 <= 23 AND col0 > 88 AND col4 IN (17.85,82.23,45.55,8.75,7.60,55.86))) AND col3 <= 44
+
+Expected: ["3","4","7"] but got [{"pk":3},{"pk":4},{"pk":7}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col3 < 81) OR (col1 IS NULL AND col3 <= 75 AND col3 BETWEEN 53 AND 98 AND col3 > 27)
+
+Expected: ["0","1","3","4","5","6","7","8"] but got [{"pk":0},{"pk":1},{"pk":3},{"pk":4},{"pk":5},{"pk":6},{"pk":7},{"pk":8}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col0 < 73 AND (col1 > 75.79 OR (col1 < 94.78) OR (col1 BETWEEN 67.58 AND 84.35)))
+
+Expected: ["0","2","3","4","5","6","9"] but got [{"pk":0},{"pk":2},{"pk":3},{"pk":4},{"pk":5},{"pk":6},{"pk":9}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col0 BETWEEN 13 AND 71)
+
+Expected: ["0","2","3","4","5"] but got [{"pk":0},{"pk":2},{"pk":3},{"pk":4},{"pk":5}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col3 BETWEEN 23 AND 58
+
+Expected: ["4","6","7","8"] but got [{"pk":4},{"pk":6},{"pk":7},{"pk":8}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col1 >= 55.74) OR col3 BETWEEN 13 AND 9 OR col0 <= 21 AND col3 < 85 AND col1 BETWEEN 46.51 AND 13.32 AND (col0 > 84) OR (((col0 < 13) OR col1 > 51.85)) OR (((col3 <= 65 OR (col0 >= 40 AND col3 < 26 OR col4 > 92.67) AND (col4 IS NULL AND (col0 <= 45 AND (col0 <= 99)) OR ((…
+
+Expected: ["0","3","4","6","7","8"] but got [{"pk":0},{"pk":3},{"pk":4},{"pk":6},{"pk":7},{"pk":8}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE ((col3 < 49 AND (col4 >= 2.37 AND col3 <= 34 OR (col0 > 45 AND col3 IN (84,55,60,5,10,51) AND col3 > 44)) AND ((col4 BETWEEN 85.7 AND 68.3 AND col0 > 12) OR col3 >= 61 AND col1 < 44.10 OR ((((col1 <= 88.54)) AND col3 BETWEEN 50 AND 64) AND col0 < 7) OR ((col0 > 68)) AND co…
+
+undefined is not an object (evaluating 'this.queriesfn[0]')
+```
+
+#### ☓ Ran 10,031 tests as _sqlite_
+
+* 6,520 failed
+* 35% was OK
 
 
 
@@ -1678,87 +1584,6 @@ undefined is not an object (evaluating 'this.queriesfn[0]')
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 24/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_11.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_11.test)
-
-_Mimic sqlite_
-
-```sql
-SELECT pk FROM tab0 WHERE col3 > 41 OR col0 <= 50
-
-Correct amount of values returned but hash was different than expected.
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE ((col0 > 60))
-
-Expected: ["2","3","4","5"] but got [{"pk":2},{"pk":3},{"pk":4},{"pk":5}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col0 < 15 OR col4 <= 86.32 OR col0 > 10 AND col3 > 35 AND col3 > 69 OR ((((col1 < 2.66) AND col0 < 85 AND col0 = 99 OR (col0 >= 40)))) AND (((((((col0 IS NULL) OR col0 < 8) AND col0 < 87 AND col3 > 10 AND col1 = 25.70)))))
-
-Expected: ["0","1","2","3","5","7","8","9"] but got [{"pk":0},{"pk":1},{"pk":2},{"pk":3},{"pk":5},{"pk":7},{"pk":8},{"pk":9}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (col1 < 17.15)
-
-Expected: ["0","5","8"] but got [{"pk":0},{"pk":5},{"pk":8}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col3 > 67 OR col1 >= 50.62
-
-Expected: ["0","2","3","6","7"] but got [{"pk":0},{"pk":2},{"pk":3},{"pk":6},{"pk":7}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (((col1 > 27.83)) AND col3 < 72)
-
-Expected: ["1","2","3","6","7","9"] but got [{"pk":1},{"pk":2},{"pk":3},{"pk":6},{"pk":7},{"pk":9}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (((col3 = 13) AND col0 > 23 OR (col4 > 36.99) AND (col1 > 95.10))) OR (col0 IS NULL)
-
-Expected: ["6","7"] but got [{"pk":6},{"pk":7}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col0 > 59 OR col4 < 77.52
-
-Expected: ["0","1","2","3","4","5","9"] but got [{"pk":0},{"pk":1},{"pk":2},{"pk":3},{"pk":4},{"pk":5},{"pk":9}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (col3 <= 41) AND ((col0 <= 26))
-
-Expected: ["8"] but got [{"pk":8}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE ((((col3 > 38 OR (col4 > 28.25)) AND col3 >= 30 OR col4 >= 10.47))) OR ((col4 < 68.79 AND col4 IN (SELECT col1 FROM tab0 WHERE col4 IN (SELECT col1 FROM tab0 WHERE col0 > 20 AND col1 IS NULL OR col0 > 35 AND col4 > 72.86) OR col0 < 65) AND col4 <= 75.39))
-
-undefined is not an object (evaluating 'this.queriesfn[0]')
-```
-
-#### ☓ Ran 10,032 tests as _sqlite_
-
-* 7,310 failed
-* 27% was OK
-
-
-
----- ---- ---- ---- ---- ---- ----
 ### 25/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_12.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_12.test)
 
 _Mimic sqlite_
@@ -1840,82 +1665,82 @@ undefined is not an object (evaluating 'this.queriesfn[1]')
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 26/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_13.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_13.test)
+### 24/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_11.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_11.test)
 
 _Mimic sqlite_
 
 ```sql
-SELECT pk FROM tab0 WHERE (((col0 IN (99,22)))) OR col3 < 48 OR ((col3 > 53 AND col3 > 33))
+SELECT pk FROM tab0 WHERE col3 > 41 OR col0 <= 50
 
 Correct amount of values returned but hash was different than expected.
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE col4 > 19.54
+SELECT pk FROM tab0 WHERE ((col0 > 60))
 
-Expected: ["1","2","3","5","6","7","9"] but got [{"pk":1},{"pk":2},{"pk":3},{"pk":5},{"pk":6},{"pk":7},{"pk":9}]
+Expected: ["2","3","4","5"] but got [{"pk":2},{"pk":3},{"pk":4},{"pk":5}]
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE (((col4 <= 19.89)))
+SELECT pk FROM tab0 WHERE col0 < 15 OR col4 <= 86.32 OR col0 > 10 AND col3 > 35 AND col3 > 69 OR ((((col1 < 2.66) AND col0 < 85 AND col0 = 99 OR (col0 >= 40)))) AND (((((((col0 IS NULL) OR col0 < 8) AND col0 < 87 AND col3 > 10 AND col1 = 25.70)))))
 
-Expected: ["0","4","8"] but got [{"pk":0},{"pk":4},{"pk":8}]
+Expected: ["0","1","2","3","5","7","8","9"] but got [{"pk":0},{"pk":1},{"pk":2},{"pk":3},{"pk":5},{"pk":7},{"pk":8},{"pk":9}]
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE col0 IN (SELECT col3 FROM tab0 WHERE col0 IN (SELECT col3 FROM tab0 WHERE col0 IN (42,31,88,70,42,7) AND col1 <= 23.6 OR (col3 > 8 OR col3 IS NULL))) AND (col0 > 99)
+SELECT pk FROM tab0 WHERE (col1 < 17.15)
+
+Expected: ["0","5","8"] but got [{"pk":0},{"pk":5},{"pk":8}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col3 > 67 OR col1 >= 50.62
+
+Expected: ["0","2","3","6","7"] but got [{"pk":0},{"pk":2},{"pk":3},{"pk":6},{"pk":7}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (((col1 > 27.83)) AND col3 < 72)
+
+Expected: ["1","2","3","6","7","9"] but got [{"pk":1},{"pk":2},{"pk":3},{"pk":6},{"pk":7},{"pk":9}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (((col3 = 13) AND col0 > 23 OR (col4 > 36.99) AND (col1 > 95.10))) OR (col0 IS NULL)
+
+Expected: ["6","7"] but got [{"pk":6},{"pk":7}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col0 > 59 OR col4 < 77.52
+
+Expected: ["0","1","2","3","4","5","9"] but got [{"pk":0},{"pk":1},{"pk":2},{"pk":3},{"pk":4},{"pk":5},{"pk":9}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col3 <= 41) AND ((col0 <= 26))
+
+Expected: ["8"] but got [{"pk":8}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE ((((col3 > 38 OR (col4 > 28.25)) AND col3 >= 30 OR col4 >= 10.47))) OR ((col4 < 68.79 AND col4 IN (SELECT col1 FROM tab0 WHERE col4 IN (SELECT col1 FROM tab0 WHERE col0 > 20 AND col1 IS NULL OR col0 > 35 AND col4 > 72.86) OR col0 < 65) AND col4 <= 75.39))
 
 undefined is not an object (evaluating 'this.queriesfn[0]')
 ```
 
-
-```sql
-SELECT pk FROM tab0 WHERE col1 < 25.26 AND col0 > 35
-
-Expected: ["6","9"] but got [{"pk":6},{"pk":9}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE ((col1 <= 15.75 AND (col3 > 93)) OR col0 >= 17) AND col0 <= 83
-
-Expected: ["2","3","4","6","8","9"] but got [{"pk":2},{"pk":3},{"pk":4},{"pk":6},{"pk":8},{"pk":9}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (col3 <= 88)
-
-Expected: ["1","2","3","4","6","7","8","9"] but got [{"pk":1},{"pk":2},{"pk":3},{"pk":4},{"pk":6},{"pk":7},{"pk":8},{"pk":9}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col0 <= 17 AND (col1 > 95.88) AND col3 > 69 AND ((col3 >= 93 OR col0 >= 2 OR col4 IS NULL AND col0 = 73) OR (col1 = 6.27) OR col3 < 92) AND ((col0 > 31)) OR col3 BETWEEN 11 AND 55 OR (col0 = 18)
-
-Expected: ["1","2","6","9"] but got [{"pk":1},{"pk":2},{"pk":6},{"pk":9}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE ((col3 < 37))
-
-Expected: ["2","4","6","8","9"] but got [{"pk":2},{"pk":4},{"pk":6},{"pk":8},{"pk":9}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col4 >= 90.37
-
-Expected: ["7"] but got [{"pk":7}]
-```
-
 #### ☓ Ran 10,032 tests as _sqlite_
 
-* 7,320 failed
+* 7,310 failed
 * 27% was OK
 
 
@@ -1998,6 +1823,87 @@ undefined is not an object (evaluating 'this.queriesfn[0]')
 
 * 7,540 failed
 * 24% was OK
+
+
+
+---- ---- ---- ---- ---- ---- ----
+### 26/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_13.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_13.test)
+
+_Mimic sqlite_
+
+```sql
+SELECT pk FROM tab0 WHERE (((col0 IN (99,22)))) OR col3 < 48 OR ((col3 > 53 AND col3 > 33))
+
+Correct amount of values returned but hash was different than expected.
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col4 > 19.54
+
+Expected: ["1","2","3","5","6","7","9"] but got [{"pk":1},{"pk":2},{"pk":3},{"pk":5},{"pk":6},{"pk":7},{"pk":9}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (((col4 <= 19.89)))
+
+Expected: ["0","4","8"] but got [{"pk":0},{"pk":4},{"pk":8}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col0 IN (SELECT col3 FROM tab0 WHERE col0 IN (SELECT col3 FROM tab0 WHERE col0 IN (42,31,88,70,42,7) AND col1 <= 23.6 OR (col3 > 8 OR col3 IS NULL))) AND (col0 > 99)
+
+undefined is not an object (evaluating 'this.queriesfn[0]')
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col1 < 25.26 AND col0 > 35
+
+Expected: ["6","9"] but got [{"pk":6},{"pk":9}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE ((col1 <= 15.75 AND (col3 > 93)) OR col0 >= 17) AND col0 <= 83
+
+Expected: ["2","3","4","6","8","9"] but got [{"pk":2},{"pk":3},{"pk":4},{"pk":6},{"pk":8},{"pk":9}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col3 <= 88)
+
+Expected: ["1","2","3","4","6","7","8","9"] but got [{"pk":1},{"pk":2},{"pk":3},{"pk":4},{"pk":6},{"pk":7},{"pk":8},{"pk":9}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col0 <= 17 AND (col1 > 95.88) AND col3 > 69 AND ((col3 >= 93 OR col0 >= 2 OR col4 IS NULL AND col0 = 73) OR (col1 = 6.27) OR col3 < 92) AND ((col0 > 31)) OR col3 BETWEEN 11 AND 55 OR (col0 = 18)
+
+Expected: ["1","2","6","9"] but got [{"pk":1},{"pk":2},{"pk":6},{"pk":9}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE ((col3 < 37))
+
+Expected: ["2","4","6","8","9"] but got [{"pk":2},{"pk":4},{"pk":6},{"pk":8},{"pk":9}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col4 >= 90.37
+
+Expected: ["7"] but got [{"pk":7}]
+```
+
+#### ☓ Ran 10,032 tests as _sqlite_
+
+* 7,320 failed
+* 27% was OK
 
 
 
@@ -2164,83 +2070,83 @@ undefined is not an object (evaluating 'this.queriesfn[0]')
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 19/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/between/100/slt_good_4.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/between/100/slt_good_4.test)
+### 31/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_2.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_2.test)
 
 _Mimic sqlite_
 
 ```sql
-SELECT pk FROM tab0 WHERE ((col1 IS NULL) AND (col4 < 857.88 AND col0 > 883 AND (((((col0 = 498) AND col4 <= 768.11) AND (col4 BETWEEN 882.94 AND 903.4) OR col3 < 176 OR col3 < 594 AND col4 BETWEEN 667.99 AND 654.69 AND ((col0 > 886))))))) OR col0 <= 974
+SELECT pk FROM tab0 WHERE col4 > 94.74
+
+Expected: ["7"] but got [{"pk":7}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col3 < 78) OR col3 >= 27 AND ((col3 = 89))
 
 Correct amount of values returned but hash was different than expected.
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE col4 BETWEEN 535.22 AND 554.19
+SELECT pk FROM tab0 WHERE col0 >= 29 OR col3 >= 84 AND (col3 < 83) OR col0 IN (37) AND col0 BETWEEN 56 AND 46 AND col3 <= 75 AND ((col3 = 61)) AND col4 <= 40.18
 
-Expected: ["2","79"] but got [{"pk":2},{"pk":79}]
+Expected: ["0","2","3","6","7","9"] but got [{"pk":0},{"pk":2},{"pk":3},{"pk":6},{"pk":7},{"pk":9}]
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE col3 BETWEEN 279 AND 318
+SELECT pk FROM tab0 WHERE ((col1 > 24.35) OR ((col4 < 47.67)) AND (col0 < 7 AND col0 IS NULL OR ((col4 > 1.97))))
 
-Expected: ["26","36","64","94"] but got [{"pk":26},{"pk":36},{"pk":64},{"pk":94}]
+Expected: ["2","3","4","5","6","7","8","9"] but got [{"pk":2},{"pk":3},{"pk":4},{"pk":5},{"pk":6},{"pk":7},{"pk":8},{"pk":9}]
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE col3 < 63 AND (((col3 < 958 OR (col1 IS NULL) AND (col1 > 895.46) AND ((col4 > 336.72)) AND (((col4 < 398.23 AND col0 > 364 AND col3 > 213) OR col1 > 781.16)) OR col3 >= 114 AND (col0 > 384 AND ((col1 < 734.31 OR ((col3 > 929) AND col3 < 553)))) OR (col0 >= 364) OR (col3 >…
+SELECT pk FROM tab0 WHERE col0 < 48
 
-Expected: ["1","17","41","46","5","59","65"] but got [{"pk":1},{"pk":5},{"pk":17},{"pk":41},{"pk":46},{"pk":59},{"pk":65}]
+Expected: ["1","4","5","8","9"] but got [{"pk":1},{"pk":4},{"pk":5},{"pk":8},{"pk":9}]
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE (col0 IN (SELECT col3 FROM tab0 WHERE col4 IN (SELECT col1 FROM tab0 WHERE (((((((col3 BETWEEN 320 AND 970 AND col3 <= 223) OR col4 <= 829.17) AND (col3 >= 651 AND (col3 < 768 OR col0 > 379 OR ((col0 <= 960 OR ((((col4 >= 450.22 AND (col0 = 332 AND col3 < 129)) OR (col1 IN…
+SELECT pk FROM tab0 WHERE (((col1 >= 71.19)) OR (col3 <= 24 AND col3 = 11))
 
-undefined is not an object (evaluating 'this.queriesfn[1]')
+Expected: ["4","7","9"] but got [{"pk":4},{"pk":7},{"pk":9}]
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE col0 < 791 AND col4 IN (SELECT col1 FROM tab0 WHERE (col3 < 776 OR ((col1 BETWEEN 135.7 AND 349.86) AND col3 <= 378 OR (col0 > 288) OR col3 > 68) OR (col3 < 807) AND col4 < 696.41) OR (col0 IS NULL))
+SELECT pk FROM tab0 WHERE col1 < 61.29
 
-Expected: ["51"] but got [{"pk":51}]
+Expected: ["0","1","2","3","5","6","8"] but got [{"pk":0},{"pk":1},{"pk":2},{"pk":3},{"pk":5},{"pk":6},{"pk":8}]
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE col0 = 843 OR col1 > 729.84 AND ((col0 IS NULL AND col0 < 979 OR ((col4 >= 736.89 OR (col3 = 162 OR col3 > 114 OR col0 IN (SELECT col3 FROM tab0 WHERE (((((col0 IN (738)))) OR (col0 > 854 AND col0 = 395) AND col3 >= 718 AND col4 IN (266.27) AND col0 <= 971 AND col3 < 22) A…
+SELECT pk FROM tab0 WHERE col1 < 50.94 AND col3 > 20
 
-Expected: ["19","20","34","43","52","62","80","95"] but got [{"pk":19},{"pk":20},{"pk":34},{"pk":43},{"pk":52},{"pk":62},{"pk":80},{"pk":95}]
+Expected: ["0","1","5","6"] but got [{"pk":0},{"pk":1},{"pk":5},{"pk":6}]
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE (col3 IN (SELECT col0 FROM tab0 WHERE col1 IS NULL AND col3 BETWEEN 278 AND 105 AND (col1 > 271.26 OR col3 > 478) AND col4 <= 233.2 AND ((col0 IN (11,228,587,517,105,521))) OR ((((col1 > 41.9)))) OR col4 > 39.51) AND col3 < 383)
+SELECT pk FROM tab0 WHERE (col1 >= 11.50 OR (col3 = 12)) AND col3 < 31
 
-Expected: ["11","18","94"] but got [{"pk":11},{"pk":18},{"pk":94}]
+Expected: ["0","8"] but got [{"pk":0},{"pk":8}]
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE (col4 BETWEEN 561.14 AND 642.47) AND (col0 > 315 OR (((col0 <= 754))))
+SELECT pk FROM tab0 WHERE col3 BETWEEN 34 AND 30 OR col0 >= 51 OR (((col0 >= 5)) OR (col0 > 89 AND col3 IN (SELECT col0 FROM tab0 WHERE ((((col3 IN (SELECT col0 FROM tab0 WHERE col0 < 16))) AND ((((col0 > 44)) AND ((col3 IN (61,11,73,92,40,71) OR col1 > 56.22 AND (((col1 > 37.94))) AND col1 < 36.46…
 
-Expected: ["54","6","62","67","85","9"] but got [{"pk":6},{"pk":9},{"pk":54},{"pk":62},{"pk":67},{"pk":85}]
+undefined is not an object (evaluating 'this.queriesfn[0]')
 ```
 
+#### ☓ Ran 10,037 tests as _sqlite_
 
-```sql
-SELECT pk FROM tab0 WHERE col4 < 455.32 AND col4 <= 416.54 AND (((col0 > 826 AND col4 IS NULL AND (((col1 IS NULL) AND col0 < 830 OR col4 > 632.95)) OR col3 >= 863) AND col4 <= 425.86 AND col3 IS NULL AND ((col0 <= 647 OR col0 < 6)) OR (col3 >= 887) OR (col0 IN (574,914)) AND (col3 < 837 AND ((col3…
-
-Expected: ["50","70","71","91","92"] but got [{"pk":50},{"pk":70},{"pk":71},{"pk":91},{"pk":92}]
-```
-
-#### ☓ Ran 10,125 tests as _sqlite_
-
-* 7,010 failed
-* 30% was OK
+* 7,404 failed
+* 26% was OK
 
 
 
@@ -2326,83 +2232,34 @@ undefined is not an object (evaluating 'this.queriesfn[0]')
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 31/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_2.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_2.test)
+### 32/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_20.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_20.test)
 
 _Mimic sqlite_
 
 ```sql
-SELECT pk FROM tab0 WHERE col4 > 94.74
-
-Expected: ["7"] but got [{"pk":7}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (col3 < 78) OR col3 >= 27 AND ((col3 = 89))
+SELECT pk FROM tab0 WHERE ((col1 IN (89.81,41.51,53.17,28.18) AND col3 < 8)) OR col3 IN (90,30) AND col4 BETWEEN 58.95 AND 57.98 AND (col0 <= 12) AND col3 IS NULL AND col3 <= 40 AND ((col1 <= 31.76 AND ((col1 < 16.51) OR ((col1 < 44.87)) AND col3 >= 86) OR col3 <= 55 AND col0 >= 5 AND col0 > 52 AND…
 
 Correct amount of values returned but hash was different than expected.
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE col0 >= 29 OR col3 >= 84 AND (col3 < 83) OR col0 IN (37) AND col0 BETWEEN 56 AND 46 AND col3 <= 75 AND ((col3 = 61)) AND col4 <= 40.18
+SELECT pk FROM tab0 WHERE (col0 <= 24 AND col3 <= 25 AND col1 BETWEEN 47.44 AND 98.18 OR ((col0 IN (SELECT col3 FROM tab0 WHERE (col4 <= 92.0 OR col1 > 60.93) OR (((col0 = 26) AND col1 < 93.19 OR (((col1 = 86.81) AND col3 >= 25 AND ((col4 = 66.80)))))) OR ((col3 > 8) AND col3 <= 0 OR (col0 < 88 OR …
 
-Expected: ["0","2","3","6","7","9"] but got [{"pk":0},{"pk":2},{"pk":3},{"pk":6},{"pk":7},{"pk":9}]
+Expected: ["7","8","9"] but got [{"pk":7},{"pk":8},{"pk":9}]
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE ((col1 > 24.35) OR ((col4 < 47.67)) AND (col0 < 7 AND col0 IS NULL OR ((col4 > 1.97))))
-
-Expected: ["2","3","4","5","6","7","8","9"] but got [{"pk":2},{"pk":3},{"pk":4},{"pk":5},{"pk":6},{"pk":7},{"pk":8},{"pk":9}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col0 < 48
-
-Expected: ["1","4","5","8","9"] but got [{"pk":1},{"pk":4},{"pk":5},{"pk":8},{"pk":9}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (((col1 >= 71.19)) OR (col3 <= 24 AND col3 = 11))
-
-Expected: ["4","7","9"] but got [{"pk":4},{"pk":7},{"pk":9}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col1 < 61.29
-
-Expected: ["0","1","2","3","5","6","8"] but got [{"pk":0},{"pk":1},{"pk":2},{"pk":3},{"pk":5},{"pk":6},{"pk":8}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col1 < 50.94 AND col3 > 20
-
-Expected: ["0","1","5","6"] but got [{"pk":0},{"pk":1},{"pk":5},{"pk":6}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (col1 >= 11.50 OR (col3 = 12)) AND col3 < 31
-
-Expected: ["0","8"] but got [{"pk":0},{"pk":8}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col3 BETWEEN 34 AND 30 OR col0 >= 51 OR (((col0 >= 5)) OR (col0 > 89 AND col3 IN (SELECT col0 FROM tab0 WHERE ((((col3 IN (SELECT col0 FROM tab0 WHERE col0 < 16))) AND ((((col0 > 44)) AND ((col3 IN (61,11,73,92,40,71) OR col1 > 56.22 AND (((col1 > 37.94))) AND col1 < 36.46…
+SELECT pk FROM tab0 WHERE ((col0 >= 54)) AND (col3 IS NULL) AND (col4 IN (SELECT col1 FROM tab0 WHERE (col0 <= 60 AND (col3 >= 28) OR ((col3 < 46 AND col3 > 89 OR (col4 < 45.11) AND col0 > 31 OR col3 >= 62 AND col1 = 7.35)) AND col3 >= 62 AND ((col0 <= 64 AND col3 > 48) AND ((col3 >= 95)) OR (((col…
 
 undefined is not an object (evaluating 'this.queriesfn[0]')
 ```
 
-#### ☓ Ran 10,037 tests as _sqlite_
+#### ☓ Ran 10,032 tests as _sqlite_
 
-* 7,404 failed
-* 26% was OK
+* 4,770 failed
+* 52% was OK
 
 
 
@@ -2449,38 +2306,6 @@ undefined is not an object (evaluating 'this.queriesfn[0]')
 
 * 5,270 failed
 * 47% was OK
-
-
-
----- ---- ---- ---- ---- ---- ----
-### 32/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_20.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_20.test)
-
-_Mimic sqlite_
-
-```sql
-SELECT pk FROM tab0 WHERE ((col1 IN (89.81,41.51,53.17,28.18) AND col3 < 8)) OR col3 IN (90,30) AND col4 BETWEEN 58.95 AND 57.98 AND (col0 <= 12) AND col3 IS NULL AND col3 <= 40 AND ((col1 <= 31.76 AND ((col1 < 16.51) OR ((col1 < 44.87)) AND col3 >= 86) OR col3 <= 55 AND col0 >= 5 AND col0 > 52 AND…
-
-Correct amount of values returned but hash was different than expected.
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (col0 <= 24 AND col3 <= 25 AND col1 BETWEEN 47.44 AND 98.18 OR ((col0 IN (SELECT col3 FROM tab0 WHERE (col4 <= 92.0 OR col1 > 60.93) OR (((col0 = 26) AND col1 < 93.19 OR (((col1 = 86.81) AND col3 >= 25 AND ((col4 = 66.80)))))) OR ((col3 > 8) AND col3 <= 0 OR (col0 < 88 OR …
-
-Expected: ["7","8","9"] but got [{"pk":7},{"pk":8},{"pk":9}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE ((col0 >= 54)) AND (col3 IS NULL) AND (col4 IN (SELECT col1 FROM tab0 WHERE (col0 <= 60 AND (col3 >= 28) OR ((col3 < 46 AND col3 > 89 OR (col4 < 45.11) AND col0 > 31 OR col3 >= 62 AND col1 = 7.35)) AND col3 >= 62 AND ((col0 <= 64 AND col3 > 48) AND ((col3 >= 95)) OR (((col…
-
-undefined is not an object (evaluating 'this.queriesfn[0]')
-```
-
-#### ☓ Ran 10,032 tests as _sqlite_
-
-* 4,770 failed
-* 52% was OK
 
 
 
@@ -2542,6 +2367,31 @@ undefined is not an object (evaluating 'this.queriesfn[0]')
 
 
 ---- ---- ---- ---- ---- ---- ----
+### 36/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_25.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_25.test)
+
+_Mimic sqlite_
+
+```sql
+SELECT pk FROM tab0 WHERE col1 >= 65.92
+
+Correct amount of values returned but hash was different than expected.
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col1 < 80.86 OR (col3 >= 77 OR col3 >= 37 OR col0 < 54 AND col1 >= 76.16 AND (col1 <= 6.1 AND col3 >= 36)) OR col0 IN (SELECT col3 FROM tab0 WHERE (((col3 < 88 AND (((col3 < 80 AND col4 > 90.2) OR (col3 > 14 OR col0 <= 41 AND col3 = 88) AND col3 >= 58 AND (((col3 < 39))) A…
+
+undefined is not an object (evaluating 'this.queriesfn[0]')
+```
+
+#### ☓ Ran 10,030 tests as _sqlite_
+
+* 4,690 failed
+* 53% was OK
+
+
+
+---- ---- ---- ---- ---- ---- ----
 ### 37/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_27.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_27.test)
 
 _Mimic sqlite_
@@ -2567,27 +2417,83 @@ undefined is not an object (evaluating 'this.queriesfn[0]')
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 36/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_25.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_25.test)
+### 19/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/between/100/slt_good_4.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/between/100/slt_good_4.test)
 
 _Mimic sqlite_
 
 ```sql
-SELECT pk FROM tab0 WHERE col1 >= 65.92
+SELECT pk FROM tab0 WHERE ((col1 IS NULL) AND (col4 < 857.88 AND col0 > 883 AND (((((col0 = 498) AND col4 <= 768.11) AND (col4 BETWEEN 882.94 AND 903.4) OR col3 < 176 OR col3 < 594 AND col4 BETWEEN 667.99 AND 654.69 AND ((col0 > 886))))))) OR col0 <= 974
 
 Correct amount of values returned but hash was different than expected.
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE col1 < 80.86 OR (col3 >= 77 OR col3 >= 37 OR col0 < 54 AND col1 >= 76.16 AND (col1 <= 6.1 AND col3 >= 36)) OR col0 IN (SELECT col3 FROM tab0 WHERE (((col3 < 88 AND (((col3 < 80 AND col4 > 90.2) OR (col3 > 14 OR col0 <= 41 AND col3 = 88) AND col3 >= 58 AND (((col3 < 39))) A…
+SELECT pk FROM tab0 WHERE col4 BETWEEN 535.22 AND 554.19
 
-undefined is not an object (evaluating 'this.queriesfn[0]')
+Expected: ["2","79"] but got [{"pk":2},{"pk":79}]
 ```
 
-#### ☓ Ran 10,030 tests as _sqlite_
 
-* 4,690 failed
-* 53% was OK
+```sql
+SELECT pk FROM tab0 WHERE col3 BETWEEN 279 AND 318
+
+Expected: ["26","36","64","94"] but got [{"pk":26},{"pk":36},{"pk":64},{"pk":94}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col3 < 63 AND (((col3 < 958 OR (col1 IS NULL) AND (col1 > 895.46) AND ((col4 > 336.72)) AND (((col4 < 398.23 AND col0 > 364 AND col3 > 213) OR col1 > 781.16)) OR col3 >= 114 AND (col0 > 384 AND ((col1 < 734.31 OR ((col3 > 929) AND col3 < 553)))) OR (col0 >= 364) OR (col3 >…
+
+Expected: ["1","17","41","46","5","59","65"] but got [{"pk":1},{"pk":5},{"pk":17},{"pk":41},{"pk":46},{"pk":59},{"pk":65}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col0 IN (SELECT col3 FROM tab0 WHERE col4 IN (SELECT col1 FROM tab0 WHERE (((((((col3 BETWEEN 320 AND 970 AND col3 <= 223) OR col4 <= 829.17) AND (col3 >= 651 AND (col3 < 768 OR col0 > 379 OR ((col0 <= 960 OR ((((col4 >= 450.22 AND (col0 = 332 AND col3 < 129)) OR (col1 IN…
+
+undefined is not an object (evaluating 'this.queriesfn[1]')
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col0 < 791 AND col4 IN (SELECT col1 FROM tab0 WHERE (col3 < 776 OR ((col1 BETWEEN 135.7 AND 349.86) AND col3 <= 378 OR (col0 > 288) OR col3 > 68) OR (col3 < 807) AND col4 < 696.41) OR (col0 IS NULL))
+
+Expected: ["51"] but got [{"pk":51}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col0 = 843 OR col1 > 729.84 AND ((col0 IS NULL AND col0 < 979 OR ((col4 >= 736.89 OR (col3 = 162 OR col3 > 114 OR col0 IN (SELECT col3 FROM tab0 WHERE (((((col0 IN (738)))) OR (col0 > 854 AND col0 = 395) AND col3 >= 718 AND col4 IN (266.27) AND col0 <= 971 AND col3 < 22) A…
+
+Expected: ["19","20","34","43","52","62","80","95"] but got [{"pk":19},{"pk":20},{"pk":34},{"pk":43},{"pk":52},{"pk":62},{"pk":80},{"pk":95}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col3 IN (SELECT col0 FROM tab0 WHERE col1 IS NULL AND col3 BETWEEN 278 AND 105 AND (col1 > 271.26 OR col3 > 478) AND col4 <= 233.2 AND ((col0 IN (11,228,587,517,105,521))) OR ((((col1 > 41.9)))) OR col4 > 39.51) AND col3 < 383)
+
+Expected: ["11","18","94"] but got [{"pk":11},{"pk":18},{"pk":94}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col4 BETWEEN 561.14 AND 642.47) AND (col0 > 315 OR (((col0 <= 754))))
+
+Expected: ["54","6","62","67","85","9"] but got [{"pk":6},{"pk":9},{"pk":54},{"pk":62},{"pk":67},{"pk":85}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col4 < 455.32 AND col4 <= 416.54 AND (((col0 > 826 AND col4 IS NULL AND (((col1 IS NULL) AND col0 < 830 OR col4 > 632.95)) OR col3 >= 863) AND col4 <= 425.86 AND col3 IS NULL AND ((col0 <= 647 OR col0 < 6)) OR (col3 >= 887) OR (col0 IN (574,914)) AND (col3 < 837 AND ((col3…
+
+Expected: ["50","70","71","91","92"] but got [{"pk":50},{"pk":70},{"pk":71},{"pk":91},{"pk":92}]
+```
+
+#### ☓ Ran 10,125 tests as _sqlite_
+
+* 7,010 failed
+* 30% was OK
 
 
 
@@ -2929,66 +2835,6 @@ undefined is not an object (evaluating 'this.queriesfn[0]')
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 20/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/between/1000/slt_good_0.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/between/1000/slt_good_0.test)
-
-_Mimic sqlite_
-
-```sql
-SELECT pk FROM tab0 WHERE (col1 BETWEEN 9128.11 AND 4747.32 OR col0 < 8802)
-
-Correct amount of values returned but hash was different than expected.
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (col1 > 1140.37 AND col0 > 6867 AND col3 IS NULL OR col3 >= 4028 OR ((((((col3 > 7836 OR ((((col3 < 2360 AND ((col3 = 4198)) OR (((col4 > 1701.59) OR col4 = 6837.88) OR col3 < 7916) AND col0 BETWEEN 8446 AND 7080 OR col3 IS NULL))) OR (col1 >= 9678.28 OR col1 <= 9172.75 AN…
-
-undefined is not an object (evaluating 'this.queriesfn[0]')
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col1 BETWEEN 1188.71 AND 2044.9 AND col0 > 9332 AND col3 > 2283
-
-Expected: ["396","554","685","942"] but got [{"pk":396},{"pk":554},{"pk":685},{"pk":942}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col3 = 1463 OR (((col3 BETWEEN 8581 AND 6074))) AND (col4 > 4626.26) AND col3 >= 1107
-
-Expected: ["493"] but got [{"pk":493}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (col3 >= 7521) AND col4 > 1552.66 AND col3 IN (SELECT col0 FROM tab0 WHERE ((col3 BETWEEN 4258 AND 5025)) OR col0 <= 1169 OR col3 >= 7139 OR col3 = 3295)
-
-Expected: ["30","469","520","850","968","976"] but got [{"pk":30},{"pk":469},{"pk":520},{"pk":850},{"pk":968},{"pk":976}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (col1 >= 9747.57) AND (col3 BETWEEN 3054 AND 5460) AND col3 < 6733 AND (col3 > 238)
-
-Expected: ["161","181","20","302","507","721","742","90"] but got [{"pk":20},{"pk":90},{"pk":161},{"pk":181},{"pk":302},{"pk":507},{"pk":721},{"pk":742}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col4 < 4859.17 AND col1 > 9805.12 AND col0 > 4139 OR col0 <= 7660 AND (col3 > 8087) AND (col4 IN (SELECT col1 FROM tab0 WHERE ((col0 = 2308 OR col4 BETWEEN 5336.20 AND 6538.43)) AND (col0 > 8261)) AND col4 <= 8506.94) AND (col4 < 8291.78) AND col4 <= 7509.81 OR col4 IS NULL
-
-Expected: ["213","302","525","933","968"] but got [{"pk":213},{"pk":302},{"pk":525},{"pk":933},{"pk":968}]
-```
-
-#### ☓ Ran 3,792 tests as _sqlite_
-
-* 1,931 failed
-* 49% was OK
-
-
-
----- ---- ---- ---- ---- ---- ----
 ### 47/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_6.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/10/slt_good_6.test)
 
 _Mimic sqlite_
@@ -3232,87 +3078,6 @@ undefined is not an object (evaluating 'this.queriesfn[0]')
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 51/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/100/slt_good_1.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/100/slt_good_1.test)
-
-_Mimic sqlite_
-
-```sql
-SELECT pk FROM tab0 WHERE col0 > 718
-
-Correct amount of values returned but hash was different than expected.
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col3 > 157 AND col3 < 194
-
-Expected: ["24","27","4","68"] but got [{"pk":4},{"pk":24},{"pk":27},{"pk":68}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col3 < 14 AND (((col4 >= 496.84 AND col3 = 307) AND (col1 BETWEEN 114.57 AND 122.52) OR col3 < 322))
-
-Expected: ["96"] but got [{"pk":96}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col0 < 93
-
-Expected: ["23","42","44","53","64","70","79","97"] but got [{"pk":23},{"pk":42},{"pk":44},{"pk":53},{"pk":64},{"pk":70},{"pk":79},{"pk":97}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE ((((col3 > 603))) AND col0 <= 68 AND col1 <= 684.48) AND ((col4 IS NULL AND (col0 IS NULL))) OR col3 >= 310 AND col3 IN (339,351,659,201,174) OR col1 < 83.44 AND (col0 >= 517)
-
-Expected: ["49","83","86","93","98"] but got [{"pk":49},{"pk":83},{"pk":86},{"pk":93},{"pk":98}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col0 > 39 AND ((col1 > 960.64))
-
-Expected: ["30","48","71"] but got [{"pk":30},{"pk":48},{"pk":71}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col4 < 39.87
-
-Expected: ["18","35"] but got [{"pk":18},{"pk":35}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col0 IN (SELECT col3 FROM tab0 WHERE col3 > 969 AND col4 <= 479.12 AND col4 > 588.75 OR (col1 < 756.83) OR col3 > 205 AND col4 > 12.36 OR col3 > 41 AND (col0 > 252 OR (((col4 > 237.26 AND (col0 < 576) AND ((((col4 = 793.82) OR ((col3 < 213 OR col0 < 256)) AND (col0 < 923 A…
-
-undefined is not an object (evaluating 'this.queriesfn[0]')
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col3 <= 62
-
-Expected: ["15","23","42","48","54","84","96"] but got [{"pk":15},{"pk":23},{"pk":42},{"pk":48},{"pk":54},{"pk":84},{"pk":96}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col1 > 937.49
-
-Expected: ["30","48","59","71","75","95"] but got [{"pk":30},{"pk":48},{"pk":59},{"pk":71},{"pk":75},{"pk":95}]
-```
-
-#### ☓ Ran 10,120 tests as _sqlite_
-
-* 8,080 failed
-* 20% was OK
-
-
-
----- ---- ---- ---- ---- ---- ----
 ### 50/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/100/slt_good_0.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/100/slt_good_0.test)
 
 _Mimic sqlite_
@@ -3394,83 +3159,83 @@ Expected: ["11","72"] but got [{"pk":11},{"pk":72}]
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 53/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/100/slt_good_11.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/100/slt_good_11.test)
+### 51/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/100/slt_good_1.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/100/slt_good_1.test)
 
 _Mimic sqlite_
 
 ```sql
-SELECT pk FROM tab0 WHERE col4 <= 815.50
+SELECT pk FROM tab0 WHERE col0 > 718
 
 Correct amount of values returned but hash was different than expected.
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE (col3 < 198 OR col4 >= 935.25 AND (col0 <= 483))
+SELECT pk FROM tab0 WHERE col3 > 157 AND col3 < 194
 
-Expected: ["24","33","54","80","93"] but got [{"pk":24},{"pk":33},{"pk":54},{"pk":80},{"pk":93}]
+Expected: ["24","27","4","68"] but got [{"pk":4},{"pk":24},{"pk":27},{"pk":68}]
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE (((((((col3 > 954)))))))
+SELECT pk FROM tab0 WHERE col3 < 14 AND (((col4 >= 496.84 AND col3 = 307) AND (col1 BETWEEN 114.57 AND 122.52) OR col3 < 322))
 
-Expected: ["30","51"] but got [{"pk":30},{"pk":51}]
+Expected: ["96"] but got [{"pk":96}]
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE (((col0 < 354) AND (col3 <= 54 OR (col0 < 423) AND col1 > 243.89 OR ((((col3 IN (477))) OR (col0 <= 843)))) AND col1 >= 709.93))
+SELECT pk FROM tab0 WHERE col0 < 93
 
-Expected: ["22","32","54","68","7","8","80","94"] but got [{"pk":7},{"pk":8},{"pk":22},{"pk":32},{"pk":54},{"pk":68},{"pk":80},{"pk":94}]
+Expected: ["23","42","44","53","64","70","79","97"] but got [{"pk":23},{"pk":42},{"pk":44},{"pk":53},{"pk":64},{"pk":70},{"pk":79},{"pk":97}]
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE (col0 >= 951)
+SELECT pk FROM tab0 WHERE ((((col3 > 603))) AND col0 <= 68 AND col1 <= 684.48) AND ((col4 IS NULL AND (col0 IS NULL))) OR col3 >= 310 AND col3 IN (339,351,659,201,174) OR col1 < 83.44 AND (col0 >= 517)
 
-Expected: ["1","43","53","56","57","6","87"] but got [{"pk":1},{"pk":6},{"pk":43},{"pk":53},{"pk":56},{"pk":57},{"pk":87}]
+Expected: ["49","83","86","93","98"] but got [{"pk":49},{"pk":83},{"pk":86},{"pk":93},{"pk":98}]
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE ((col0 < 188)) OR (col0 < 618) AND ((col3 <= 882) AND col3 < 993 AND (col0 < 224) OR col0 > 499 AND col3 <= 377)
+SELECT pk FROM tab0 WHERE col0 > 39 AND ((col1 > 960.64))
 
-Expected: ["0","26","3","44","45","86"] but got [{"pk":0},{"pk":3},{"pk":26},{"pk":44},{"pk":45},{"pk":86}]
+Expected: ["30","48","71"] but got [{"pk":30},{"pk":48},{"pk":71}]
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE (col0 <= 242 AND col3 < 195 AND col4 >= 35.65 AND col3 < 134) OR ((col3 IN (662,399,896) OR col3 < 79))
+SELECT pk FROM tab0 WHERE col4 < 39.87
 
-Expected: ["52"] but got [{"pk":52}]
+Expected: ["18","35"] but got [{"pk":18},{"pk":35}]
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE (col3 > 920) OR ((col4 IN (412.20,479.40,807.80) AND ((col4 < 786.47) AND col3 IS NULL AND col3 < 458 OR (col0 = 903) AND (col4 <= 525.31) AND (col1 < 555.29)) AND (col3 IN (471,452)) AND (((col0 IN (799,811,594,962)) OR col3 < 953 OR ((((col3 < 170 AND (col1 IN (995.66,94…
-
-Expected: ["30","51","63"] but got [{"pk":30},{"pk":51},{"pk":63}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col1 > 955.59
-
-Expected: ["54","72","75","9"] but got [{"pk":9},{"pk":54},{"pk":72},{"pk":75}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col1 > 934.79 OR (col0 <= 122) AND col3 IN (572,775,935,506) OR (col1 <= 126.68) OR col3 IN (SELECT col0 FROM tab0 WHERE ((col3 IN (SELECT col0 FROM tab0 WHERE (col0 <= 963) AND col4 < 611.64 AND ((col4 > 507.11))) OR ((col1 > 59.38 AND (col4 >= 918.90)))))) AND col3 <= 93
+SELECT pk FROM tab0 WHERE col0 IN (SELECT col3 FROM tab0 WHERE col3 > 969 AND col4 <= 479.12 AND col4 > 588.75 OR (col1 < 756.83) OR col3 > 205 AND col4 > 12.36 OR col3 > 41 AND (col0 > 252 OR (((col4 > 237.26 AND (col0 < 576) AND ((((col4 = 793.82) OR ((col3 < 213 OR col0 < 256)) AND (col0 < 923 A…
 
 undefined is not an object (evaluating 'this.queriesfn[0]')
 ```
 
-#### ☓ Ran 10,123 tests as _sqlite_
 
-* 7,640 failed
-* 24% was OK
+```sql
+SELECT pk FROM tab0 WHERE col3 <= 62
+
+Expected: ["15","23","42","48","54","84","96"] but got [{"pk":15},{"pk":23},{"pk":42},{"pk":48},{"pk":54},{"pk":84},{"pk":96}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col1 > 937.49
+
+Expected: ["30","48","59","71","75","95"] but got [{"pk":30},{"pk":48},{"pk":59},{"pk":71},{"pk":75},{"pk":95}]
+```
+
+#### ☓ Ran 10,120 tests as _sqlite_
+
+* 8,080 failed
+* 20% was OK
 
 
 
@@ -3549,83 +3314,83 @@ Expected: ["25","33","41","8"] but got [{"pk":8},{"pk":25},{"pk":33},{"pk":41}]
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 56/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/100/slt_good_3.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/100/slt_good_3.test)
+### 53/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/100/slt_good_11.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/100/slt_good_11.test)
 
 _Mimic sqlite_
 
 ```sql
-SELECT pk FROM tab0 WHERE col3 < 263
+SELECT pk FROM tab0 WHERE col4 <= 815.50
 
 Correct amount of values returned but hash was different than expected.
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE col3 <= 20
+SELECT pk FROM tab0 WHERE (col3 < 198 OR col4 >= 935.25 AND (col0 <= 483))
 
-Expected: ["20","28","69","82"] but got [{"pk":20},{"pk":28},{"pk":69},{"pk":82}]
+Expected: ["24","33","54","80","93"] but got [{"pk":24},{"pk":33},{"pk":54},{"pk":80},{"pk":93}]
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE ((col4 > 634.2)) AND (col1 >= 879.66)
+SELECT pk FROM tab0 WHERE (((((((col3 > 954)))))))
 
-Expected: ["44","73","8"] but got [{"pk":8},{"pk":44},{"pk":73}]
+Expected: ["30","51"] but got [{"pk":30},{"pk":51}]
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE col1 <= 57.44 AND col0 <= 921
+SELECT pk FROM tab0 WHERE (((col0 < 354) AND (col3 <= 54 OR (col0 < 423) AND col1 > 243.89 OR ((((col3 IN (477))) OR (col0 <= 843)))) AND col1 >= 709.93))
 
-Expected: ["25","37","6","89","9","90"] but got [{"pk":6},{"pk":9},{"pk":25},{"pk":37},{"pk":89},{"pk":90}]
+Expected: ["22","32","54","68","7","8","80","94"] but got [{"pk":7},{"pk":8},{"pk":22},{"pk":32},{"pk":54},{"pk":68},{"pk":80},{"pk":94}]
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE ((col0 < 58))
+SELECT pk FROM tab0 WHERE (col0 >= 951)
 
-Expected: ["82","95"] but got [{"pk":82},{"pk":95}]
+Expected: ["1","43","53","56","57","6","87"] but got [{"pk":1},{"pk":6},{"pk":43},{"pk":53},{"pk":56},{"pk":57},{"pk":87}]
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE (col3 >= 875) AND (col0 >= 164) AND col3 > 154
+SELECT pk FROM tab0 WHERE ((col0 < 188)) OR (col0 < 618) AND ((col3 <= 882) AND col3 < 993 AND (col0 < 224) OR col0 > 499 AND col3 <= 377)
 
-Expected: ["2","3","4","46","54","55","72"] but got [{"pk":2},{"pk":3},{"pk":4},{"pk":46},{"pk":54},{"pk":55},{"pk":72}]
+Expected: ["0","26","3","44","45","86"] but got [{"pk":0},{"pk":3},{"pk":26},{"pk":44},{"pk":45},{"pk":86}]
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE col3 > 514 AND col0 IN (269)
+SELECT pk FROM tab0 WHERE (col0 <= 242 AND col3 < 195 AND col4 >= 35.65 AND col3 < 134) OR ((col3 IN (662,399,896) OR col3 < 79))
 
-Expected: ["46"] but got [{"pk":46}]
+Expected: ["52"] but got [{"pk":52}]
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE col1 >= 925.66
+SELECT pk FROM tab0 WHERE (col3 > 920) OR ((col4 IN (412.20,479.40,807.80) AND ((col4 < 786.47) AND col3 IS NULL AND col3 < 458 OR (col0 = 903) AND (col4 <= 525.31) AND (col1 < 555.29)) AND (col3 IN (471,452)) AND (((col0 IN (799,811,594,962)) OR col3 < 953 OR ((((col3 < 170 AND (col1 IN (995.66,94…
 
-Expected: ["21","42","44","56","73","8","82","85"] but got [{"pk":8},{"pk":21},{"pk":42},{"pk":44},{"pk":56},{"pk":73},{"pk":82},{"pk":85}]
+Expected: ["30","51","63"] but got [{"pk":30},{"pk":51},{"pk":63}]
 ```
 
 
 ```sql
-SELECT pk FROM tab0 WHERE col0 IN (SELECT col3 FROM tab0 WHERE ((((((((col3 < 927) OR col0 BETWEEN 727 AND 937 OR col0 = 89))))) AND col0 BETWEEN 817 AND 967) OR col3 IN (SELECT col0 FROM tab0 WHERE col0 < 797)))
+SELECT pk FROM tab0 WHERE col1 > 955.59
+
+Expected: ["54","72","75","9"] but got [{"pk":9},{"pk":54},{"pk":72},{"pk":75}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col1 > 934.79 OR (col0 <= 122) AND col3 IN (572,775,935,506) OR (col1 <= 126.68) OR col3 IN (SELECT col0 FROM tab0 WHERE ((col3 IN (SELECT col0 FROM tab0 WHERE (col0 <= 963) AND col4 < 611.64 AND ((col4 > 507.11))) OR ((col1 > 59.38 AND (col4 >= 918.90)))))) AND col3 <= 93
 
 undefined is not an object (evaluating 'this.queriesfn[0]')
 ```
 
+#### ☓ Ran 10,123 tests as _sqlite_
 
-```sql
-SELECT pk FROM tab0 WHERE (col3 = 723 OR col3 > 958)
-
-Expected: ["13","46","54","57","72"] but got [{"pk":13},{"pk":46},{"pk":54},{"pk":57},{"pk":72}]
-```
-
-#### ☓ Ran 10,121 tests as _sqlite_
-
-* 8,080 failed
-* 20% was OK
+* 7,640 failed
+* 24% was OK
 
 
 
@@ -3778,6 +3543,87 @@ undefined is not an object (evaluating 'this.queriesfn[0]')
 
 
 ---- ---- ---- ---- ---- ---- ----
+### 56/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/100/slt_good_3.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/100/slt_good_3.test)
+
+_Mimic sqlite_
+
+```sql
+SELECT pk FROM tab0 WHERE col3 < 263
+
+Correct amount of values returned but hash was different than expected.
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col3 <= 20
+
+Expected: ["20","28","69","82"] but got [{"pk":20},{"pk":28},{"pk":69},{"pk":82}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE ((col4 > 634.2)) AND (col1 >= 879.66)
+
+Expected: ["44","73","8"] but got [{"pk":8},{"pk":44},{"pk":73}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col1 <= 57.44 AND col0 <= 921
+
+Expected: ["25","37","6","89","9","90"] but got [{"pk":6},{"pk":9},{"pk":25},{"pk":37},{"pk":89},{"pk":90}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE ((col0 < 58))
+
+Expected: ["82","95"] but got [{"pk":82},{"pk":95}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col3 >= 875) AND (col0 >= 164) AND col3 > 154
+
+Expected: ["2","3","4","46","54","55","72"] but got [{"pk":2},{"pk":3},{"pk":4},{"pk":46},{"pk":54},{"pk":55},{"pk":72}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col3 > 514 AND col0 IN (269)
+
+Expected: ["46"] but got [{"pk":46}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col1 >= 925.66
+
+Expected: ["21","42","44","56","73","8","82","85"] but got [{"pk":8},{"pk":21},{"pk":42},{"pk":44},{"pk":56},{"pk":73},{"pk":82},{"pk":85}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col0 IN (SELECT col3 FROM tab0 WHERE ((((((((col3 < 927) OR col0 BETWEEN 727 AND 937 OR col0 = 89))))) AND col0 BETWEEN 817 AND 967) OR col3 IN (SELECT col0 FROM tab0 WHERE col0 < 797)))
+
+undefined is not an object (evaluating 'this.queriesfn[0]')
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col3 = 723 OR col3 > 958)
+
+Expected: ["13","46","54","57","72"] but got [{"pk":13},{"pk":46},{"pk":54},{"pk":57},{"pk":72}]
+```
+
+#### ☓ Ran 10,121 tests as _sqlite_
+
+* 8,080 failed
+* 20% was OK
+
+
+
+---- ---- ---- ---- ---- ---- ----
 ### 57/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/100/slt_good_4.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/100/slt_good_4.test)
 
 _Mimic sqlite_
@@ -3859,87 +3705,6 @@ Expected: ["35","4","59","73","81","99"] but got [{"pk":4},{"pk":35},{"pk":59},{
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 59/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/100/slt_good_6.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/100/slt_good_6.test)
-
-_Mimic sqlite_
-
-```sql
-SELECT pk FROM tab0 WHERE col3 > 89
-
-Correct amount of values returned but hash was different than expected.
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col1 < 43.7
-
-Expected: ["15","82"] but got [{"pk":15},{"pk":82}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col0 >= 978
-
-Expected: ["36","61","62","76","81","83"] but got [{"pk":36},{"pk":61},{"pk":62},{"pk":76},{"pk":81},{"pk":83}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col0 > 971
-
-Expected: ["36","61","62","65","76","81","83"] but got [{"pk":36},{"pk":61},{"pk":62},{"pk":65},{"pk":76},{"pk":81},{"pk":83}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col0 IN (SELECT col3 FROM tab0 WHERE (col1 < 264.77))
-
-Expected: ["23","32","47","52"] but got [{"pk":23},{"pk":32},{"pk":47},{"pk":52}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col0 < 45
-
-Expected: ["27","28","48","52","58","68","71","9"] but got [{"pk":9},{"pk":27},{"pk":28},{"pk":48},{"pk":52},{"pk":58},{"pk":68},{"pk":71}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (((col4 > 25.14) AND col0 >= 363 OR (((col3 < 635 OR col0 > 836)) OR (col3 IN (SELECT col0 FROM tab0 WHERE ((col0 > 656 AND ((col1 < 1.74 AND col0 < 513 AND (col0 >= 513) AND col3 > 699 AND col4 <= 727.95 OR (col3 = 493) OR ((col3 > 761 AND col4 < 746.24 AND (((col3 < 305)…
-
-undefined is not an object (evaluating 'this.queriesfn[0]')
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (col3 > 953 AND col3 > 834)
-
-Expected: ["13","33","55","57","60"] but got [{"pk":13},{"pk":33},{"pk":55},{"pk":57},{"pk":60}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (col3 = 724)
-
-Expected: ["58"] but got [{"pk":58}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE ((col3 > 970))
-
-Expected: ["55","57","60"] but got [{"pk":55},{"pk":57},{"pk":60}]
-```
-
-#### ☓ Ran 10,122 tests as _sqlite_
-
-* 8,100 failed
-* 19% was OK
-
-
-
----- ---- ---- ---- ---- ---- ----
 ### 58/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/100/slt_good_5.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/100/slt_good_5.test)
 
 _Mimic sqlite_
@@ -4017,6 +3782,87 @@ Expected: ["25","33"] but got [{"pk":25},{"pk":33}]
 
 * 7,960 failed
 * 21% was OK
+
+
+
+---- ---- ---- ---- ---- ---- ----
+### 59/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/100/slt_good_6.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/100/slt_good_6.test)
+
+_Mimic sqlite_
+
+```sql
+SELECT pk FROM tab0 WHERE col3 > 89
+
+Correct amount of values returned but hash was different than expected.
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col1 < 43.7
+
+Expected: ["15","82"] but got [{"pk":15},{"pk":82}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col0 >= 978
+
+Expected: ["36","61","62","76","81","83"] but got [{"pk":36},{"pk":61},{"pk":62},{"pk":76},{"pk":81},{"pk":83}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col0 > 971
+
+Expected: ["36","61","62","65","76","81","83"] but got [{"pk":36},{"pk":61},{"pk":62},{"pk":65},{"pk":76},{"pk":81},{"pk":83}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col0 IN (SELECT col3 FROM tab0 WHERE (col1 < 264.77))
+
+Expected: ["23","32","47","52"] but got [{"pk":23},{"pk":32},{"pk":47},{"pk":52}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col0 < 45
+
+Expected: ["27","28","48","52","58","68","71","9"] but got [{"pk":9},{"pk":27},{"pk":28},{"pk":48},{"pk":52},{"pk":58},{"pk":68},{"pk":71}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (((col4 > 25.14) AND col0 >= 363 OR (((col3 < 635 OR col0 > 836)) OR (col3 IN (SELECT col0 FROM tab0 WHERE ((col0 > 656 AND ((col1 < 1.74 AND col0 < 513 AND (col0 >= 513) AND col3 > 699 AND col4 <= 727.95 OR (col3 = 493) OR ((col3 > 761 AND col4 < 746.24 AND (((col3 < 305)…
+
+undefined is not an object (evaluating 'this.queriesfn[0]')
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col3 > 953 AND col3 > 834)
+
+Expected: ["13","33","55","57","60"] but got [{"pk":13},{"pk":33},{"pk":55},{"pk":57},{"pk":60}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col3 = 724)
+
+Expected: ["58"] but got [{"pk":58}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE ((col3 > 970))
+
+Expected: ["55","57","60"] but got [{"pk":55},{"pk":57},{"pk":60}]
+```
+
+#### ☓ Ran 10,122 tests as _sqlite_
+
+* 8,100 failed
+* 19% was OK
 
 
 
@@ -4179,6 +4025,66 @@ undefined is not an object (evaluating 'this.queriesfn[0]')
 
 * 7,700 failed
 * 23% was OK
+
+
+
+---- ---- ---- ---- ---- ---- ----
+### 20/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/between/1000/slt_good_0.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/between/1000/slt_good_0.test)
+
+_Mimic sqlite_
+
+```sql
+SELECT pk FROM tab0 WHERE (col1 BETWEEN 9128.11 AND 4747.32 OR col0 < 8802)
+
+Correct amount of values returned but hash was different than expected.
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col1 > 1140.37 AND col0 > 6867 AND col3 IS NULL OR col3 >= 4028 OR ((((((col3 > 7836 OR ((((col3 < 2360 AND ((col3 = 4198)) OR (((col4 > 1701.59) OR col4 = 6837.88) OR col3 < 7916) AND col0 BETWEEN 8446 AND 7080 OR col3 IS NULL))) OR (col1 >= 9678.28 OR col1 <= 9172.75 AN…
+
+undefined is not an object (evaluating 'this.queriesfn[0]')
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col1 BETWEEN 1188.71 AND 2044.9 AND col0 > 9332 AND col3 > 2283
+
+Expected: ["396","554","685","942"] but got [{"pk":396},{"pk":554},{"pk":685},{"pk":942}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col3 = 1463 OR (((col3 BETWEEN 8581 AND 6074))) AND (col4 > 4626.26) AND col3 >= 1107
+
+Expected: ["493"] but got [{"pk":493}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col3 >= 7521) AND col4 > 1552.66 AND col3 IN (SELECT col0 FROM tab0 WHERE ((col3 BETWEEN 4258 AND 5025)) OR col0 <= 1169 OR col3 >= 7139 OR col3 = 3295)
+
+Expected: ["30","469","520","850","968","976"] but got [{"pk":30},{"pk":469},{"pk":520},{"pk":850},{"pk":968},{"pk":976}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col1 >= 9747.57) AND (col3 BETWEEN 3054 AND 5460) AND col3 < 6733 AND (col3 > 238)
+
+Expected: ["161","181","20","302","507","721","742","90"] but got [{"pk":20},{"pk":90},{"pk":161},{"pk":181},{"pk":302},{"pk":507},{"pk":721},{"pk":742}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col4 < 4859.17 AND col1 > 9805.12 AND col0 > 4139 OR col0 <= 7660 AND (col3 > 8087) AND (col4 IN (SELECT col1 FROM tab0 WHERE ((col0 = 2308 OR col4 BETWEEN 5336.20 AND 6538.43)) AND (col0 > 8261)) AND col4 <= 8506.94) AND (col4 < 8291.78) AND col4 <= 7509.81 OR col4 IS NULL
+
+Expected: ["213","302","525","933","968"] but got [{"pk":213},{"pk":302},{"pk":525},{"pk":933},{"pk":968}]
+```
+
+#### ☓ Ran 3,792 tests as _sqlite_
+
+* 1,931 failed
+* 49% was OK
 
 
 
@@ -4507,6 +4413,87 @@ Expected: ["0","1","4","5","7","8","9"] but got [{"pk":0},{"pk":1},{"pk":4},{"pk
 
 
 ---- ---- ---- ---- ---- ---- ----
+### 69/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/in/10/slt_good_4.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/in/10/slt_good_4.test)
+
+_Mimic sqlite_
+
+```sql
+SELECT pk FROM tab0 WHERE (col0 <= 20 OR col0 IN (SELECT col3 FROM tab0 WHERE col3 IS NULL AND ((col3 > 58)) AND ((col0 < 69)) OR ((((col3 < 73) OR col4 < 36.62) OR col3 >= 60)) OR ((col1 IN (36.28,52.39,78.56) OR (col4 <= 86.71))) AND col1 >= 27.26 AND col1 <= 96.67 OR col3 > 31 OR ((col3 > 8) AND…
+
+Expected: ["4","6"] but got [{"pk":4},{"pk":6}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col3 <= 10 OR ((col1 < 58.21) AND ((col4 IN (21.21,63.32,7.66,20.75) AND col3 = 43)) OR col0 <= 55 AND col3 >= 49)
+
+Expected: ["1","4","6","7","8"] but got [{"pk":1},{"pk":4},{"pk":6},{"pk":7},{"pk":8}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col4 < 99.51 OR col0 IN (4,71,26,48,91,70))
+
+Correct amount of values returned but hash was different than expected.
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col0 IS NULL AND col1 BETWEEN 47.18 AND 46.61 AND col3 > 0 OR col0 > 23 OR col3 <= 45 AND col0 = 52 AND col3 IN (48,46,75,75,99,33) AND ((col0 > 77)) AND col3 > 93)
+
+Expected: ["0","1","2","3","5","7","8","9"] but got [{"pk":0},{"pk":1},{"pk":2},{"pk":3},{"pk":5},{"pk":7},{"pk":8},{"pk":9}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col3 IN (54,49,1,7)
+
+Expected: ["6"] but got [{"pk":6}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col0 <= 68 OR col0 >= 28) AND col3 = 9 AND col4 > 49.42 AND col4 IN (96.12,52.36,13.8) AND col4 < 25.86 OR (col1 > 56.31) AND col1 > 75.5 AND col0 >= 16 OR col4 > 63.43 AND (col0 <= 13) AND col0 <= 56
+
+Expected: ["1","6","7","9"] but got [{"pk":1},{"pk":6},{"pk":7},{"pk":9}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col1 < 77.87 OR col0 <= 59 AND col0 < 15 OR ((col0 <= 23) AND (col3 >= 15 OR col0 IS NULL OR col4 IS NULL) AND col3 < 44 OR col4 > 84.90) AND col0 >= 53 AND (col0 >= 9) AND ((((col3 < 14 OR col1 < 44.88) AND (col1 < 5.14 AND (((col4 IN (50.65,26.91,45.50,98.28) AND (col4 >…
+
+Expected: ["0","2","3","4","5","8"] but got [{"pk":0},{"pk":2},{"pk":3},{"pk":4},{"pk":5},{"pk":8}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (((((col0 > 34)) AND col1 >= 50.60 OR col3 > 21 AND col0 IS NULL) AND ((((((col0 > 72)) AND (col3 > 58 OR col3 > 7 AND col1 IS NULL)) AND col0 >= 61 AND (col1 > 97.12 AND (col3 < 88)) AND ((col0 > 35) OR col4 > 87.65) AND (col0 <= 61) AND col0 < 11)) OR col1 < 77.8 OR (col…
+
+Expected: ["1","7","8"] but got [{"pk":1},{"pk":7},{"pk":8}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col0 = 32 AND col0 > 66 AND ((col0 IS NULL)) OR (col4 <= 40.93) AND ((col3 <= 55)) OR ((col3 > 88)) OR ((col3 < 42) AND col0 < 32 OR (col3 > 72) AND col3 IN (99,86,86,87,87,11) AND (((col0 > 51)))) OR ((col4 < 3.44)) OR (col1 IN (92.43) OR ((col3 = 32))) AND (((col3 = 23))…
+
+undefined is not an object (evaluating 'this.queriesfn[0]')
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE ((col1 > 37.25) AND col0 IN (20,74) AND col0 BETWEEN 83 AND 9 AND col1 > 44.73 AND ((col3 < 35) AND col1 <= 85.88) AND (col0 > 41) AND ((((((col4 > 17.64 OR ((col1 < 41.81) AND col0 > 65 OR col4 < 80.16) OR col4 = 70.87 AND col3 = 8 AND (col3 >= 14) AND col3 >= 59))))) AND…
+
+Expected: ["0","1","2","3","5","7","9"] but got [{"pk":0},{"pk":1},{"pk":2},{"pk":3},{"pk":5},{"pk":7},{"pk":9}]
+```
+
+#### ☓ Ran 10,038 tests as _sqlite_
+
+* 5,970 failed
+* 40% was OK
+
+
+
+---- ---- ---- ---- ---- ---- ----
 ### 63/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/1000/slt_good_2.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/1000/slt_good_2.test)
 
 _Mimic sqlite_
@@ -4634,161 +4621,6 @@ Expected: ["116","778","787","989"] but got [{"pk":116},{"pk":778},{"pk":787},{"
 
 
 ---- ---- ---- ---- ---- ---- ----
-### 69/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/in/10/slt_good_4.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/in/10/slt_good_4.test)
-
-_Mimic sqlite_
-
-```sql
-SELECT pk FROM tab0 WHERE (col0 <= 20 OR col0 IN (SELECT col3 FROM tab0 WHERE col3 IS NULL AND ((col3 > 58)) AND ((col0 < 69)) OR ((((col3 < 73) OR col4 < 36.62) OR col3 >= 60)) OR ((col1 IN (36.28,52.39,78.56) OR (col4 <= 86.71))) AND col1 >= 27.26 AND col1 <= 96.67 OR col3 > 31 OR ((col3 > 8) AND…
-
-Expected: ["4","6"] but got [{"pk":4},{"pk":6}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col3 <= 10 OR ((col1 < 58.21) AND ((col4 IN (21.21,63.32,7.66,20.75) AND col3 = 43)) OR col0 <= 55 AND col3 >= 49)
-
-Expected: ["1","4","6","7","8"] but got [{"pk":1},{"pk":4},{"pk":6},{"pk":7},{"pk":8}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (col4 < 99.51 OR col0 IN (4,71,26,48,91,70))
-
-Correct amount of values returned but hash was different than expected.
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (col0 IS NULL AND col1 BETWEEN 47.18 AND 46.61 AND col3 > 0 OR col0 > 23 OR col3 <= 45 AND col0 = 52 AND col3 IN (48,46,75,75,99,33) AND ((col0 > 77)) AND col3 > 93)
-
-Expected: ["0","1","2","3","5","7","8","9"] but got [{"pk":0},{"pk":1},{"pk":2},{"pk":3},{"pk":5},{"pk":7},{"pk":8},{"pk":9}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col3 IN (54,49,1,7)
-
-Expected: ["6"] but got [{"pk":6}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (col0 <= 68 OR col0 >= 28) AND col3 = 9 AND col4 > 49.42 AND col4 IN (96.12,52.36,13.8) AND col4 < 25.86 OR (col1 > 56.31) AND col1 > 75.5 AND col0 >= 16 OR col4 > 63.43 AND (col0 <= 13) AND col0 <= 56
-
-Expected: ["1","6","7","9"] but got [{"pk":1},{"pk":6},{"pk":7},{"pk":9}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col1 < 77.87 OR col0 <= 59 AND col0 < 15 OR ((col0 <= 23) AND (col3 >= 15 OR col0 IS NULL OR col4 IS NULL) AND col3 < 44 OR col4 > 84.90) AND col0 >= 53 AND (col0 >= 9) AND ((((col3 < 14 OR col1 < 44.88) AND (col1 < 5.14 AND (((col4 IN (50.65,26.91,45.50,98.28) AND (col4 >…
-
-Expected: ["0","2","3","4","5","8"] but got [{"pk":0},{"pk":2},{"pk":3},{"pk":4},{"pk":5},{"pk":8}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (((((col0 > 34)) AND col1 >= 50.60 OR col3 > 21 AND col0 IS NULL) AND ((((((col0 > 72)) AND (col3 > 58 OR col3 > 7 AND col1 IS NULL)) AND col0 >= 61 AND (col1 > 97.12 AND (col3 < 88)) AND ((col0 > 35) OR col4 > 87.65) AND (col0 <= 61) AND col0 < 11)) OR col1 < 77.8 OR (col…
-
-Expected: ["1","7","8"] but got [{"pk":1},{"pk":7},{"pk":8}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col0 = 32 AND col0 > 66 AND ((col0 IS NULL)) OR (col4 <= 40.93) AND ((col3 <= 55)) OR ((col3 > 88)) OR ((col3 < 42) AND col0 < 32 OR (col3 > 72) AND col3 IN (99,86,86,87,87,11) AND (((col0 > 51)))) OR ((col4 < 3.44)) OR (col1 IN (92.43) OR ((col3 = 32))) AND (((col3 = 23))…
-
-undefined is not an object (evaluating 'this.queriesfn[0]')
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE ((col1 > 37.25) AND col0 IN (20,74) AND col0 BETWEEN 83 AND 9 AND col1 > 44.73 AND ((col3 < 35) AND col1 <= 85.88) AND (col0 > 41) AND ((((((col4 > 17.64 OR ((col1 < 41.81) AND col0 > 65 OR col4 < 80.16) OR col4 = 70.87 AND col3 = 8 AND (col3 >= 14) AND col3 >= 59))))) AND…
-
-Expected: ["0","1","2","3","5","7","9"] but got [{"pk":0},{"pk":1},{"pk":2},{"pk":3},{"pk":5},{"pk":7},{"pk":9}]
-```
-
-#### ☓ Ran 10,038 tests as _sqlite_
-
-* 5,970 failed
-* 40% was OK
-
-
-
----- ---- ---- ---- ---- ---- ----
-### 62/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/1000/slt_good_1.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/1000/slt_good_1.test)
-
-_Mimic sqlite_
-
-```sql
-SELECT pk FROM tab0 WHERE col0 > 5727
-
-Correct amount of values returned but hash was different than expected.
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE ((col1 > 7479.36 AND col0 < 9588 OR col3 > 4586 AND col0 < 2194 AND col3 <= 2668) AND col0 = 1798)
-
-Expected: ["840"] but got [{"pk":840}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (col0 IN (539,5714,9741,1479,2379,3616) OR col4 = 1802.57) OR col3 = 4794 AND col0 >= 8171
-
-Expected: ["225","773"] but got [{"pk":225},{"pk":773}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col0 < 1114 AND col3 > 9375
-
-Expected: ["124","458","498","916"] but got [{"pk":124},{"pk":458},{"pk":498},{"pk":916}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE (col3 > 9825)
-
-Expected: ["126","458","603","683","852","881","916"] but got [{"pk":126},{"pk":458},{"pk":603},{"pk":683},{"pk":852},{"pk":881},{"pk":916}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col3 = 6034 OR ((col0 >= 9773 OR col3 < 642 AND col0 IN (415,4083,249,9259))) AND col3 <= 2648
-
-Expected: ["202","628","667","784","988"] but got [{"pk":202},{"pk":628},{"pk":667},{"pk":784},{"pk":988}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col1 >= 9927.45
-
-Expected: ["140","233","381","625","775","950","952","97"] but got [{"pk":97},{"pk":140},{"pk":233},{"pk":381},{"pk":625},{"pk":775},{"pk":950},{"pk":952}]
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE ((((col0 IN (SELECT col3 FROM tab0 WHERE col3 = 7862 OR (col0 > 7104) AND col3 IN (SELECT col0 FROM tab0 WHERE ((col4 < 3774.80))) OR col0 >= 4545 OR (col3 > 1867) AND col1 >= 3341.69 AND col1 <= 8546.42 AND col0 <= 6797 AND col0 = 9644 AND (col3 IN (8505,121,8833,5588,941…
-
-undefined is not an object (evaluating 'this.queriesfn[0]')
-```
-
-
-```sql
-SELECT pk FROM tab0 WHERE col4 < 75.13
-
-Expected: ["468","630","85","884","958","97"] but got [{"pk":85},{"pk":97},{"pk":468},{"pk":630},{"pk":884},{"pk":958}]
-```
-
-#### ☓ Ran 10,583 tests as _sqlite_
-
-* 7,860 failed
-* 25% was OK
-
-
-
----- ---- ---- ---- ---- ---- ----
 ### 70/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/in/10/slt_good_5.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/in/10/slt_good_5.test)
 
 _Mimic sqlite_
@@ -4866,6 +4698,80 @@ Expected: ["0","1","3","4","5","7","9"] but got [{"pk":0},{"pk":1},{"pk":3},{"pk
 
 * 5,865 failed
 * 41% was OK
+
+
+
+---- ---- ---- ---- ---- ---- ----
+### 62/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/commute/1000/slt_good_1.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/commute/1000/slt_good_1.test)
+
+_Mimic sqlite_
+
+```sql
+SELECT pk FROM tab0 WHERE col0 > 5727
+
+Correct amount of values returned but hash was different than expected.
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE ((col1 > 7479.36 AND col0 < 9588 OR col3 > 4586 AND col0 < 2194 AND col3 <= 2668) AND col0 = 1798)
+
+Expected: ["840"] but got [{"pk":840}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col0 IN (539,5714,9741,1479,2379,3616) OR col4 = 1802.57) OR col3 = 4794 AND col0 >= 8171
+
+Expected: ["225","773"] but got [{"pk":225},{"pk":773}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col0 < 1114 AND col3 > 9375
+
+Expected: ["124","458","498","916"] but got [{"pk":124},{"pk":458},{"pk":498},{"pk":916}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col3 > 9825)
+
+Expected: ["126","458","603","683","852","881","916"] but got [{"pk":126},{"pk":458},{"pk":603},{"pk":683},{"pk":852},{"pk":881},{"pk":916}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col3 = 6034 OR ((col0 >= 9773 OR col3 < 642 AND col0 IN (415,4083,249,9259))) AND col3 <= 2648
+
+Expected: ["202","628","667","784","988"] but got [{"pk":202},{"pk":628},{"pk":667},{"pk":784},{"pk":988}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col1 >= 9927.45
+
+Expected: ["140","233","381","625","775","950","952","97"] but got [{"pk":97},{"pk":140},{"pk":233},{"pk":381},{"pk":625},{"pk":775},{"pk":950},{"pk":952}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE ((((col0 IN (SELECT col3 FROM tab0 WHERE col3 = 7862 OR (col0 > 7104) AND col3 IN (SELECT col0 FROM tab0 WHERE ((col4 < 3774.80))) OR col0 >= 4545 OR (col3 > 1867) AND col1 >= 3341.69 AND col1 <= 8546.42 AND col0 <= 6797 AND col0 = 9644 AND (col3 IN (8505,121,8833,5588,941…
+
+undefined is not an object (evaluating 'this.queriesfn[0]')
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col4 < 75.13
+
+Expected: ["468","630","85","884","958","97"] but got [{"pk":85},{"pk":97},{"pk":468},{"pk":630},{"pk":884},{"pk":958}]
+```
+
+#### ☓ Ran 10,583 tests as _sqlite_
+
+* 7,860 failed
+* 25% was OK
 
 
 
@@ -5531,6 +5437,87 @@ Expected: ["3","4","6","8","9"] but got [{"pk":9},{"pk":8},{"pk":6},{"pk":4},{"p
 
 * 6,540 failed
 * 34% was OK
+
+
+
+---- ---- ---- ---- ---- ---- ----
+### 75/525 [`/Users/mwulff/git/alasql-sqllogictest/test/index/in/100/slt_good_4.test`](https://github.com/alasql/alasql-logictest/blob/master//Users/mwulff/git/alasql-sqllogictest/test/index/in/100/slt_good_4.test)
+
+_Mimic sqlite_
+
+```sql
+SELECT pk FROM tab0 WHERE ((((col4 < 4.84)))) OR (col0 > 87 OR col4 <= 159.42 AND col0 > 197 AND ((col0 >= 811 OR col0 IN (47,566))) OR (col4 = 152.11)) OR col3 <= 571
+
+Correct amount of values returned but hash was different than expected.
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col0 IN (SELECT col3 FROM tab0 WHERE col1 < 551.34 AND col3 < 854) OR (col4 IN (289.55,34.33,397.17,386.31,250.87,133.69)))
+
+Expected: ["17","57"] but got [{"pk":17},{"pk":57}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (((col0 < 704)) OR col1 < 819.96 AND col4 > 168.12 AND ((col4 IS NULL OR ((col0 > 545)) AND ((col0 > 884 OR (col0 >= 782 OR (col3 IS NULL AND col0 >= 993))) AND col0 <= 390) AND col0 IS NULL) AND ((col3 > 931) AND (((col0 > 66))))) OR ((col4 = 349.61 OR col3 BETWEEN 715 AN…
+
+Expected: ["17","65","82"] but got [{"pk":17},{"pk":65},{"pk":82}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col3 > 972) OR ((col4 > 622.28 AND (((col3 IN (26,960,430,271,308,89)))) AND col4 < 586.18)) AND ((col1 = 724.12))
+
+Expected: ["20"] but got [{"pk":20}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col3 IN (834,716,839,882) OR (col3 > 791) AND ((col0 >= 569)) AND col4 <= 949.9
+
+Expected: ["15","30","77","81","83","85","89","92"] but got [{"pk":15},{"pk":30},{"pk":77},{"pk":81},{"pk":83},{"pk":85},{"pk":89},{"pk":92}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col3 > 816 AND (((col4 < 976.91 AND (col0 IN (31,289,754,841)) OR (((col1 > 829.62))) OR col4 >= 712.93 AND col4 > 100.39 OR (col1 >= 396.56) AND col3 < 423 AND col4 <= 458.12 AND col3 < 751 AND (col0 > 11) OR ((col3 <= 434)) OR col3 > 976 AND col4 = 291.72)))
+
+Expected: ["30","55","60","86","92","99"] but got [{"pk":30},{"pk":55},{"pk":60},{"pk":86},{"pk":92},{"pk":99}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col4 = 526.85 AND col3 IN (339,955) AND col3 = 134 AND col0 IN (SELECT col3 FROM tab0 WHERE ((((((col0 <= 553 AND col0 < 499 AND col0 >= 905)) AND col1 = 577.28 OR col4 > 767.50))) OR col0 >= 594 AND col0 <= 213 AND col3 >= 486 AND col0 IN (SELECT col3 FROM tab0 WHERE col…
+
+undefined is not an object (evaluating 'this.queriesfn[0]')
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE col1 IN (516.84,202.40,258.53,635.65) OR col1 >= 852.18 AND col4 < 76.3 OR col1 <= 673.89 AND col3 < 233 AND col3 < 237 AND (col0 IS NULL)
+
+Expected: ["36","83","92","98"] but got [{"pk":36},{"pk":83},{"pk":92},{"pk":98}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (col1 > 141.45 AND (((col0 > 963)) AND col1 IN (310.95,415.99) OR col1 > 931.70 OR col4 IN (184.61)))
+
+Expected: ["30","36","83","92","99"] but got [{"pk":30},{"pk":36},{"pk":83},{"pk":92},{"pk":99}]
+```
+
+
+```sql
+SELECT pk FROM tab0 WHERE (((col4 IN (764.96,287.13)) AND (col1 < 465.90 OR col0 < 64)) AND col4 IN (56.95,711.1,176.47,512.75,137.21)) OR (col3 <= 466) AND (col3 >= 366) AND col0 >= 642 AND col1 > 482.19 AND col0 < 740 AND col1 >= 803.71 OR col0 > 902
+
+Expected: ["0","14","34","38","39","61","98"] but got [{"pk":0},{"pk":14},{"pk":34},{"pk":38},{"pk":39},{"pk":61},{"pk":98}]
+```
+
+#### ☓ Ran 10,127 tests as _sqlite_
+
+* 6,435 failed
+* 36% was OK
 
 
 
