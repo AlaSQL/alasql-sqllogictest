@@ -29,3 +29,6 @@ build/Release
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
 
+
+# Written by bun2-run with --debug, replaced on every run
+results/debug.jsonl
