@@ -54,7 +54,14 @@ const config = {
   quiet: isFlag("--quiet") || isFlag("--summary-only"),
   // --debug: also write every failure as one JSON line (full SQL) to results/debug.jsonl
   debug: isFlag("--debug"),
+  // --progress: print each test as it runs (pass or fail, time in ms, SQL) instead of a file's section when
+  // the file is done; one worker unless --concurrency is given, so the lines of files do not mix
+  progress: isFlag("--progress"),
+  // --ignore-under-ms=N: with --progress, leave out the tests that took less than N ms (turns --progress on)
+  ignoreUnderMs: Number(getArg("--ignore-under-ms", "0")) || 0,
 };
+if (config.ignoreUnderMs > 0) config.progress = true;
+if (config.progress && getArg("--concurrency") === undefined) config.concurrency = 1;
 
 // Ensure deterministic walk order
 function walkFiles(dir, reYes, reNo) {
@@ -139,13 +146,18 @@ ensureParserModule();
 const debugPath = path.resolve(projectRoot, "results/debug.jsonl");
 if (config.debug) fs.writeFileSync(debugPath, "");
 
-console.time("Total script time");
+// console.time writes to stderr, which yarn test does not put in results/output.md
+const started = performance.now();
 console.log("# SQLlogictest " + (config.onlyParseSql ? " compile " : "") + "results for AlaSQL\n");
 console.log("`" + new Date().toISOString() + " target: alasql@" + alasql.version + "`\n");
 if (!config.runOnlyDemo && testfiles.length < 622) {
   console.log("This is a subset of the total 622 tests.");
 }
 console.log("Results from " + testfiles.length + " test files:\n");
+// what the report shows: with --progress each test as it runs, without the fast ones when --ignore-under-ms is set
+if (config.progress) {
+  console.log("_Progress: each test is printed as it runs, with the time it took" + (config.ignoreUnderMs > 0 ? "; only tests that took " + config.ignoreUnderMs + " ms or more are printed (a group of setup statements by its total time). Failures are printed as usual._" : "._") + "\n");
+}
 
 // Stats
 const format = v => numeral(v).format("0,0");
@@ -154,6 +166,7 @@ const score = {
   fail: 0,
   skip: 0,
   assumedOk: 0,
+  hidden: 0,
 };
 
 // Build jobs (file x mimic), apply skip fast-path
@@ -216,6 +229,67 @@ function dispatchNext() {
   }
 }
 
+// --progress. The worker cannot print while AlaSQL runs (that blocks its thread), so it reports the start and the
+// end of each test and this thread prints: the SQL at once (or, with --ignore-under-ms, once the test has run that
+// long), then the result and the time when it ends. A statement that stalls the run is the last line, without a
+// time. Setup statements that run fast are summed up in one line per group.
+const write = text => process.stdout.write(text);
+const msText = ms => (ms < 10 ? ms.toFixed(1) : String(Math.round(ms)));
+const trunc = (str, n) => (n < 2 || str.length <= n ? str : str.slice(0, n - 1) + "…");
+function progressMessage(slot, m) {
+  const p = (slot.progress ||= { open: false, test: null, timer: null, setup: { n: 0, ms: 0 } });
+  const under = config.ignoreUnderMs;
+  // a group of fast setup statements becomes one line before anything else is printed
+  const flushSetup = () => {
+    if (p.setup.n) {
+      if (p.setup.ms >= under) write("- " + format(p.setup.n) + " setup statement" + (p.setup.n === 1 ? "" : "s") + " ✓ " + msText(p.setup.ms) + " ms\n");
+      else score.hidden += p.setup.n;
+    }
+    p.setup = { n: 0, ms: 0 };
+  };
+  const showSql = () => {
+    if (!p.test || p.test.shown) return;
+    flushSetup();
+    write("- `" + trunc(p.test.sql.replace(/\s+/g, " "), config.truncSQLStatement).replace(/`/g, "'") + "`");
+    p.test.shown = true;
+    p.open = true;
+  };
+  if (m.progress !== undefined) {
+    // a line of the report (a heading, a failure block, the file's summary)
+    if (p.open) write("\n"), (p.open = false);
+    flushSetup();
+    write(m.progress + "\n");
+  } else if (m.start) {
+    p.test = { sql: m.sql || "", setup: m.setup, shown: false };
+    if (under > 0) p.timer = setTimeout(showSql, under);
+    else if (!m.setup) showSql();
+  } else if (m.end) {
+    clearTimeout(p.timer);
+    const t = p.test;
+    p.test = null;
+    if (!t) return;
+    const result = " " + (m.ok ? "✓" : "☓") + " " + msText(m.ms) + " ms" + (m.ok ? "" : " => " + trunc(m.msg, config.truncSQLStatement));
+    if (t.shown) {
+      write(result + "\n");
+      p.open = false;
+    } else if (t.setup && m.ok && (under === 0 || m.ms < under)) {
+      // a fast setup statement: counted into its group's line
+      p.setup.n++;
+      p.setup.ms += m.ms;
+    } else if (m.ms >= under) {
+      // the test ended just as its time was up, before the timer printed the SQL
+      p.test = t;
+      showSql();
+      p.test = null;
+      write(result + "\n");
+      p.open = false;
+    } else score.hidden++;
+  } else if (m.fileEnd) {
+    if (p.open) write("\n"), (p.open = false);
+    flushSetup();
+  }
+}
+
 async function runWorkerJob(slot, job, fileIndex, totalFiles) {
   const payload = {
     file: job.file,
@@ -229,12 +303,19 @@ async function runWorkerJob(slot, job, fileIndex, totalFiles) {
       truncSQLStatement: config.truncSQLStatement,
       quiet: config.quiet,
       debug: config.debug,
+      progress: config.progress,
+      ignoreUnderMs: config.ignoreUnderMs,
       genParserPath: genParserUrl,
       projectRoot,
     },
   };
   const result = await new Promise((resolve, reject) => {
     const handler = (ev) => {
+      // with --progress the worker sends its lines as it writes them, the start and end of each test, then the result
+      if (ev.data && (ev.data.progress !== undefined || ev.data.start || ev.data.end || ev.data.fileEnd)) {
+        progressMessage(slot, ev.data);
+        return;
+      }
       slot.worker.removeEventListener("message", handler);
       resolve(ev.data);
     };
@@ -270,7 +351,8 @@ function finish() {
   if (score.assumedOk) console.log("* Assumed still OK:", format(score.assumedOk));
   const pct = (score.ok + score.assumedOk) === 0 ? 0 : ((100.0 * (score.ok + score.assumedOk) / (score.ok + score.fail + score.skip)) | 0);
   console.log("* Final score:", pct, "% was OK\n");
-  console.timeEnd("Total script time");
+  if (config.ignoreUnderMs > 0) console.log("* Progress lines not printed (under " + config.ignoreUnderMs + " ms): " + format(score.hidden || 0) + " tests\n");
+  console.log("Total script time: " + ((performance.now() - started) / 1000).toFixed(1) + "s");
   console.log("");
   console.log("_Please note that repetetive errors are not always printed again_");
 }

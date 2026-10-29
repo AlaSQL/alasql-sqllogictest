@@ -38,31 +38,48 @@ async function parseTestFile(path, parser) {
   return commands;
 }
 
-function cleanResults(result, sortType){
+// The leading number of a text, as SQLite reads it for an INTEGER or REAL column ('12x' is 12, 'abc' is 0)
+const leadingNumber = s => {
+  const m = /^\s*[-+]?(\d+\.?\d*|\.\d+)([eE][-+]?\d+)?/.exec(s);
+  return m ? Number(m[0]) : 0;
+};
+
+// One value as the reference driver (slt_sqlite.c) prints it for its declared column type: I as a whole number
+// (column_int64), R with three decimals (column_double), T as text with an empty text as (empty) and control
+// characters as @. NULL is NULL for every type.
+function asColumnType(x, type){
+  if(null === x || undefined === x) return 'NULL';
+  // AlaSQL gives NaN or ±Infinity where SQL has NULL (division by zero, an arithmetic NULL)
+  if(typeof x === 'number' && !Number.isFinite(x)) return 'NULL';
+  if(true === x) x = 1;
+  if(false === x) x = 0;
+  if('I' === type){
+    const n = typeof x === 'number' ? x : leadingNumber(''+x);
+    return String(Math.trunc(n));
+  }
+  if('R' === type){
+    const n = typeof x === 'number' ? x : leadingNumber(''+x);
+    return n.toFixed(3);
+  }
+  if('' === x) return '(empty)';
+  return (''+x).replace(/[\n\r\t\x00\x08\x0B\x0C\x0E-\x1F\x7F]/gim, '@');
+}
+
+function cleanResults(result, sortType, colType){
   if(!result || !result.length || !result[0] || !result[0].length){
     return result;
   }
   for(let i = 0; i < result.length; i++){
-    result[i] = result[i].map(x => {
-      if(true === x) return "1";
-      if(false === x) return "0";
-      if(null === x) return 'NULL';
-      if('Infinity' === ''+x) return 'NULL';
-      if('-Infinity' === ''+x) return 'NULL';
-      if('NaN' === ''+x) return 'NULL';
-      if('undefined' === ''+x) return 'NULL';
-      if('' === x) return "(empty)";
-      if(x === +x && x !== (x|0)){
-        return ''+x.toFixed(3);
-      }
-      return (''+x).replace(/[\n\r\t\x00\x08\x0B\x0C\x0E-\x1F\x7F]/gim, '@');
-    });
+    // a query without declared types (or with fewer than its columns) prints the rest as text
+    result[i] = result[i].map((x, j) => asColumnType(x, (colType && colType[j]) || 'T'));
   }
   if('rowsort' === sortType){
+    // rows compared value by value, as the reference driver does (not as one joined string)
     result.sort((a,b) => {
-      const str1 = a.join('');
-      const str2 = b.join('');
-      return str1 === str2 ? 0 : (str1 > str2 ? 1 : -1);
+      for(let i = 0; i < a.length; i++){
+        if(a[i] !== b[i]) return a[i] > b[i] ? 1 : -1;
+      }
+      return 0;
     });
   }
   result = [].concat.apply([], result);
@@ -101,7 +118,7 @@ function verifyTest(fragment, db, options){
   }
   req.ok = (fragment.expectSuccess === req.success);
   if(fragment.result && req.success && req.ok){
-    req.result = cleanResults(req.result, fragment.result.sort);
+    req.result = cleanResults(req.result, fragment.result.sort, fragment.result.colType);
     if('void' === fragment.result.type){
       req.ok = true;
     } else if('statement' === fragment.result.type){
@@ -136,7 +153,13 @@ function verifyTest(fragment, db, options){
 self.addEventListener("message", async (ev) => {
   const { file, mimic, fileIndex, totalFiles, options } = ev.data;
   let out = "";
-  const log = (...args) => { out += args.join(' ') + "\n"; };
+  // with --progress each line goes to the main thread at once; otherwise the file's section is sent when it is done
+  const log = options.progress
+    ? (...args) => self.postMessage({ progress: args.join(' ') })
+    : (...args) => { out += args.join(' ') + "\n"; };
+  const fileStarted = performance.now();
+
+  const relative = file.replace(options.projectRoot + "/", "").replace(/\\/g, '/');
   
   // Track error hashes to only print first occurrence of each unique error
   const errorIndex = {};
@@ -144,7 +167,7 @@ self.addEventListener("message", async (ev) => {
   // Header for this test file with index and GitHub link
   log("");
   log("---- ---- ---- ---- ---- ---- ----");
-  log("### " + fileIndex + "/" + totalFiles + " [`" + file + "`](https://github.com/alasql/alasql-logictest/blob/master/" + file + ")");
+  log("### " + fileIndex + "/" + totalFiles + " [`" + relative + "`](https://github.com/alasql/alasql-logictest/blob/master/" + relative + ")");
   log("");
   log("_Mimic "+mimic+"_");
 
@@ -225,7 +248,13 @@ self.addEventListener("message", async (ev) => {
       continue;
     }
 
+    // --progress: the main thread prints the SQL (at once, or when it runs longer than --ignore-under-ms) and the
+    // time when the test ends; this thread is blocked while AlaSQL runs, so it only reports start and end
+    const isSetup = 'statement' === fragment.result?.type && fragment.expectSuccess;
+    if (options.progress) self.postMessage({ start: true, sql: fragment.sql, setup: isSetup });
+    const t0 = performance.now();
     const test = verifyTest(fragment, alasql, options);
+    if (options.progress) self.postMessage({ end: true, ok: test.ok, ms: performance.now() - t0, msg: test.ok ? '' : test.msg });
     if(test.ok){
       ok++;
     } else {
@@ -270,9 +299,10 @@ self.addEventListener("message", async (ev) => {
     }
   }
 
+  if (options.progress) self.postMessage({ fileEnd: true });
   const roundTotal = ok + fail + skip;
   if (roundTotal) {
-    log('#### '+ (fail === 0 ? '★' : '☓') +' Ran', format(roundTotal), 'tests as _'+mimic+'_');
+    log('#### '+ (fail === 0 ? '★' : '☓') +' Ran', format(roundTotal), 'tests as _'+mimic+'_ in ' + ((performance.now() - fileStarted) / 1000).toFixed(1) + ' s');
     log('');
     if (skip) log('* '+format(skip)+ ' skipped');
     if (fail) log('* '+format(fail)+ ' failed');
