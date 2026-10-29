@@ -5,7 +5,7 @@
     "": {
       "name": "alasql-logictest",
       "dependencies": {
-        "alasql": "^4.20.1",
+        "alasql": "^4.22.0",
         "comparray": "1.1.2",
         "md5": "2.3.0",
         "numeral": "2.0.6",
@@ -112,7 +112,7 @@
 
     "agent-base": ["agent-base@7.1.4", "", {}, "sha512-MnA+YT8fwfJPgBx3m60MNqakm30XOkyIoH1y6huTQvC0PwZG7ki8NacLBcrPbNoo8vEZy7Jpuk7+jMO+CUovTQ=="],
 
-    "alasql": ["alasql@4.20.1", "", { "dependencies": { "cross-fetch": "4.1.0", "yargs": "16" }, "optionalDependencies": { "react-native-fs": "^2.20.0" }, "bin": { "alasql": "bin/alasql-cli.js" } }, "sha512-AkorROVS+pJfR4wzk8qUfJfXXFfvn2LU924lRCN5qVJnsFPOYO8pwt3tUbw+SHlxBucHoDMVqGZyCZrNpoi/Aw=="],
+    "alasql": ["alasql@4.22.0", "", { "dependencies": { "cross-fetch": "4.1.0", "yargs": "16" }, "optionalDependencies": { "react-native-fs": "^2.20.0" }, "bin": { "alasql": "bin/alasql-cli.js" } }, "sha512-0npFw2Ez03NZWBOMB6w/Yau5vzZ5I2zHHAqK14+6saSfbFXa0NxHuzq5j1Kze9Fx0po1eHmMdXQ0Ki99lTSKQQ=="],
 
     "anser": ["anser@1.4.10", "", {}, "sha512-hCv9AqTQ8ycjpSd3upOJd7vFwW1JaoYQ7tpham03GJ1ca8/65rqn0RpaWpItOAd6ylW9wAw6luXYPJIyPFVOww=="],
 
