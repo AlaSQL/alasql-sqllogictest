@@ -81,9 +81,12 @@ You can customize test execution by passing flags to the run scripts. With `yarn
 | `--include=PATTERN` | | Only run test files whose path matches this regular expression |
 | `--exclude=PATTERN` | | Skip test files whose path matches this regular expression |
 | `--no-skipTests` | | Also run the 95 files listed in `skipTests.line` (see [What a run includes](#what-a-run-includes)) |
+| `--force-all-tests` | | Run all 622 files: also `select4.test`, `select5.test` and the files in `skipTests.line`. `--include` and `--exclude` still filter; for example `yarn test --force-all-tests --query-time-limit-ms=5000` |
 | `--concurrency=N` | the number of cores (1 with `--progress`) | Number of worker threads |
 | `--progress` | | Print each test as it runs, in the same report, instead of a file's section when the file is done: the SQL as the test starts, then `✓` or `☓`, the time in ms (measured around the statement) and the reason for a failure when it ends. A statement that stalls the run is therefore the last line, without a time. Setup statements (`statement ok` that run) are summed up in one line per group; a failed setup statement and a `statement error` test get their own line. Uses one worker unless `--concurrency` is given, so the lines of files do not mix; for example `yarn test --only-run=test/select5.test --progress` |
 | `--ignore-under-ms=N` | | With `--progress` (and turning it on): leave out the progress lines of tests that take less than N ms. The SQL of a test is printed once it has run N ms (so a stalling statement still shows, without a time), and its time when it ends; the exact moment of printing may be a few ms late, the time printed is exact. A setup statement that runs longer is printed on its own; the fast ones are summed up in a group line, printed when the group took N ms or more. Failures are printed as usual. The report says so at the top and gives the number of left-out tests in the final result; for example `yarn test --only-run=test/select4.test --ignore-under-ms=1000` shows only the slow queries |
+| `--query-time-limit-ms=N` | | Stop a test that runs longer than N ms. It counts as failed (`Stopped: the test ran longer than N ms`), its failure is always printed (in `--progress`: `☓ stopped after N ms`), and the rest of its file runs: the worker is replaced, and the new one runs the file again from the top, repeating only its statements (without a report) to build the same data, then goes on after the stopped test. The report says so at the top and lists the stopped tests in the final result. For long runs that should go on past the queries AlaSQL cannot finish; for example `yarn test --only-run=test/select4.test --query-time-limit-ms=5000` |
+| `--query-kill-counter-max=N` | | With `--query-time-limit-ms`: end the run when N tests have been stopped. The files still running are cut off where they are (their sections so far and their counts are kept), the files not started are not run, and the report ends with the final result so far; for example `yarn test --query-time-limit-ms=5000 --query-kill-counter-max=20` |
 | `--debug` | | Also write every failure, with the full SQL, to `results/debug.jsonl` (see [below](#failures-as-json-lines---debug)) |
 | `--printAllErrors` | | Print every failure instead of a sample |
 | `--curiousErrorprinting=SHARE` | `0.0003` | Besides the first failure of each kind, print about this share of the repeated ones |
@@ -102,7 +105,7 @@ The `test` folder has 622 test files. A run without `--only-run` leaves out:
 - **`select4.test` and `select5.test`**, which used to take very long. Run them with `--only-run`; with AlaSQL 4.22.0 `select5.test` takes a few seconds, `select4.test` still much longer.
 - **The 95 files in `skipTests.line`**, files that passed when the list was made. They are not run and are counted as "assumed still OK" in the final result. `--no-skipTests` runs them too.
 
-So `yarn test` runs 525 files, and `yarn test --no-skipTests` all 620 files besides `select4.test` and `select5.test`.
+So `yarn test` runs 525 files, `yarn test --no-skipTests` all 620 files besides `select4.test` and `select5.test`, and `yarn test --force-all-tests` all 622. `select4.test` takes about 9 minutes with `--query-time-limit-ms=1000` (351 of its queries are stopped) and does not finish without a limit.
 
 ## Test Runners
 
@@ -127,7 +130,8 @@ Bun2 uses a persistent worker pool with the following advantages:
 - **Worker reuse**: Workers are created once and reused across test files
 - **Isolated state**: Each worker maintains isolated AlaSQL state (reset per job)
 - **Shared parser**: PEG parser is generated once at startup and shared via file URL
-- **Buffered output**: Test output is buffered per-file to avoid interleaving. With `--progress` (one worker) the worker reports the start and end of each test instead, and the main thread prints: a worker cannot print while AlaSQL runs a statement, the main thread can
+- **Buffered output**: The worker sends each line of the report to the main thread as it writes it, and the main thread keeps a file's section until the file is done, to avoid interleaving. With `--progress` (one worker) it prints the lines at once, and the worker also reports the start and end of each test: a worker cannot print while AlaSQL runs a statement, the main thread can
+- **Time limit**: with `--query-time-limit-ms` the main thread times each test from the start the worker reports, and stops the worker (`terminate()`) when the test runs too long. Nothing of the file is lost: the lines and failures so far are already in the main thread, and the counts so far come with each start
 - **Graceful shutdown**: Workers terminate cleanly when all jobs complete
 
 Please see the config section in the respective `run.js` files to customize test execution.
@@ -152,12 +156,13 @@ The output from run.js is structured the following way:
 - Date and time for the run, and the AlaSQL version tested
 - How many test files are used, with a notice if this is not all test files in the test folder
 - With `--progress`: what the report shows (and the `--ignore-under-ms` limit)
+- With `--query-time-limit-ms`: the time limit (and the `--query-kill-counter-max` count that ends the run)
 - For each test file
     - The name of the test file, linked to it on GitHub
     - With `--progress`: one line per test (or group of setup statements) as it runs, with its time
     - If errors occur, the SQL that triggered the error followed by the error or the difference in the result (a sample, see `--printAllErrors`)
     - A summary: how many tests ran and how long the file took, how many failed or were skipped, and the share that was OK
-- The final result: the AlaSQL and Bun versions, the number of tests, failed and skipped, the tests assumed OK from `skipTests.line`, the final score, the progress lines left out by `--ignore-under-ms`, and the total script time
+- The final result: the AlaSQL and Bun versions, the number of tests, failed and skipped, the tests assumed OK from `skipTests.line`, the final score, the progress lines left out by `--ignore-under-ms`, the tests stopped by `--query-time-limit-ms` (each with its file and SQL), and the total script time. A run ended by `--query-kill-counter-max` says so before the final result
 
 The output from a single testfile could look like this
 
@@ -199,6 +204,10 @@ A statement that is still running when the run is stopped (or stalls it) is the 
 
 > - `SELECT a3, a2, e1, a9+b9, e4*658+b1, x8 FROM t9, t3, t4, t1, t2, t8 WHERE a3=e1 AND ...` ✓ 2648 ms
 > - `SELECT d1*631, a4+637+a1, a8, x6, c2, e3 FROM t6, t8, t2, t3, t4, t1 WHERE e8 in (548,632,981,646,63,487,859) AND ...`
+
+With `--query-time-limit-ms=1000` that test is stopped instead, and the file goes on:
+
+> - `SELECT d1*631, a4+637+a1, a8, x6, c2, e3 FROM t6, t8, t2, t3, t4, t1 WHERE e8 in (548,632,981,646,63,487,859) AND ...` ☓ stopped after 1000 ms
 
 
 Supported
