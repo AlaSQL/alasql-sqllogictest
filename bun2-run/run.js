@@ -331,9 +331,14 @@ async function runWorkerJob(slot, job, fileIndex, totalFiles) {
       projectRoot,
     },
   };
-  // the file's section (without --progress) and its failures for results/debug.jsonl, kept until the file is done
+  // the file's section (without --progress), kept until the file is done, and its failures for results/debug.jsonl,
+  // written in batches so a file with many failures does not fill the memory
   slot.out = [];
-  const failures = [];
+  let failures = [];
+  const flushFailures = () => {
+    if (config.debug && failures.length) fs.appendFileSync(debugPath, failures.map(f => JSON.stringify(f)).join("\n") + "\n");
+    failures = [];
+  };
   const startedAt = Date.now();
   // a test that runs longer than --query-time-limit-ms: the worker is replaced and runs the file again from the
   // test after it (payload.resume); a statement stopped while it runs again only builds data, so it is not counted
@@ -361,6 +366,7 @@ async function runWorkerJob(slot, job, fileIndex, totalFiles) {
         }
         if (m && m.failure) {
           failures.push(m.failure);
+          if (failures.length >= 500) flushFailures();
           return;
         }
         if (m && (m.progress !== undefined || m.fileEnd)) {
@@ -399,13 +405,12 @@ async function runWorkerJob(slot, job, fileIndex, totalFiles) {
     if (config.queryKillCounterMax > 0 && stoppedTests.length >= config.queryKillCounterMax) {
       // the counts before the last stopped test, and that test as failed
       const c = payload.resume.counts;
+      flushFailures();
       endRun([c[0], c[1] + 1, c[2]]);
       return new Promise(() => {}); // the run ends in endRun
     }
   }
-  if (config.debug && failures.length) {
-    fs.appendFileSync(debugPath, failures.map(f => JSON.stringify(f)).join("\n") + "\n");
-  }
+  flushFailures();
   if (slot.out.length) {
     // Print grouped output for this one test
     console.log(slot.out.join("\n"));
