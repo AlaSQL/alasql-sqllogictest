@@ -151,25 +151,27 @@ function verifyTest(fragment, db, options){
 
 // Worker can handle multiple jobs sequentially
 self.addEventListener("message", async (ev) => {
-  const { file, mimic, fileIndex, totalFiles, options } = ev.data;
-  let out = "";
-  // with --progress each line goes to the main thread at once; otherwise the file's section is sent when it is done
-  const log = options.progress
-    ? (...args) => self.postMessage({ progress: args.join(' ') })
-    : (...args) => { out += args.join(' ') + "\n"; };
-  const fileStarted = performance.now();
+  const { file, mimic, fileIndex, totalFiles, options, resume } = ev.data;
+  // each line of the report goes to the main thread at once: it prints it (--progress) or keeps the file's section
+  // until the file is done, so a file whose query is stopped by --query-time-limit-ms loses nothing
+  const log = (...args) => self.postMessage({ progress: args.join(' ') });
+  // run again after a query was stopped: the counts so far and the start time come from the earlier run
+  const fileStarted = resume ? resume.started : Date.now();
+  const killed = new Set(resume ? resume.killed : []);
 
   const relative = file.replace(options.projectRoot + "/", "").replace(/\\/g, '/');
   
   // Track error hashes to only print first occurrence of each unique error
   const errorIndex = {};
 
-  // Header for this test file with index and GitHub link
-  log("");
-  log("---- ---- ---- ---- ---- ---- ----");
-  log("### " + fileIndex + "/" + totalFiles + " [`" + relative + "`](https://github.com/alasql/alasql-logictest/blob/master/" + relative + ")");
-  log("");
-  log("_Mimic "+mimic+"_");
+  // Header for this test file with index and GitHub link (printed by the earlier run when this one resumes)
+  if (!resume) {
+    log("");
+    log("---- ---- ---- ---- ---- ---- ----");
+    log("### " + fileIndex + "/" + totalFiles + " [`" + relative + "`](https://github.com/alasql/alasql-logictest/blob/master/" + relative + ")");
+    log("");
+    log("_Mimic "+mimic+"_");
+  }
 
   // CRITICAL: Reset AlaSQL state before each job (worker is reused)
   // This ensures no cross-contamination between test files
@@ -210,19 +212,30 @@ self.addEventListener("message", async (ev) => {
     parserMod = await import(options.genParserPath);
   } catch (e) {
     log("Parser import error:", e?.message || e);
-    self.postMessage({ output: out, ok:0, fail:1, skip:0 });
+    self.postMessage({ ok:0, fail:1, skip:0 });
     return;
   }
   const parser = parserMod.default || parserMod.parser || parserMod;
 
   // Parse and execute
   const fragments = await parseTestFile(file, parser);
-  let ok = 0, fail = 0, skip = 0;
-  const failures = []; // with --debug: every failure, untruncated, for results/debug.jsonl
+  let [ok, fail, skip] = resume ? resume.counts : [0, 0, 0];
   let statementFailed = false;
 
   for (let i = 0; i < fragments.length; i++){
     const fragment = fragments[i];
+    // after a stopped query the file runs again from the top: the tests before it were counted and printed by the
+    // earlier run, so only its statements run again (without a report) to build the same data; queries are skipped,
+    // and so is every test that was stopped
+    if (resume && i < resume.idx){
+      if (killed.has(i) || 'execute' !== fragment.command || 'statement' !== fragment.result?.type) continue;
+      if(fragment.skipif && fragment.skipif.length && fragment.skipif.indexOf(mimic) >= 0) continue;
+      if(fragment.onlyif && fragment.onlyif.length && fragment.onlyif.indexOf(mimic) < 0) continue;
+      self.postMessage({ start: true, idx: i, quiet: true });
+      runTest(fragment.sql, alasql, false);
+      self.postMessage({ end: true, quiet: true });
+      continue;
+    }
     if (fragment.command === 'parse_error'){
       fail++;
       if (!options.quiet){
@@ -249,18 +262,25 @@ self.addEventListener("message", async (ev) => {
     }
 
     // --progress: the main thread prints the SQL (at once, or when it runs longer than --ignore-under-ms) and the
-    // time when the test ends; this thread is blocked while AlaSQL runs, so it only reports start and end
+    // time when the test ends; --query-time-limit-ms: it stops the worker when the test runs too long. This thread is
+    // blocked while AlaSQL runs, so it only reports the start (with the counts so far) and the end
     const isSetup = 'statement' === fragment.result?.type && fragment.expectSuccess;
-    if (options.progress) self.postMessage({ start: true, sql: fragment.sql, setup: isSetup });
-    const t0 = performance.now();
-    const test = verifyTest(fragment, alasql, options);
-    if (options.progress) self.postMessage({ end: true, ok: test.ok, ms: performance.now() - t0, msg: test.ok ? '' : test.msg });
+    const stopped = resume && i === resume.idx;
+    let test;
+    if (stopped){
+      test = { ok: false, success: false, sql: fragment.sql, msg: 'Stopped: the test ran longer than ' + resume.limit + ' ms (--query-time-limit-ms)' };
+    } else {
+      self.postMessage({ start: true, idx: i, sql: fragment.sql, setup: isSetup, counts: [ok, fail, skip] });
+      const t0 = performance.now();
+      test = verifyTest(fragment, alasql, options);
+      self.postMessage({ end: true, ok: test.ok, ms: performance.now() - t0, msg: test.ok ? '' : test.msg });
+    }
     if(test.ok){
       ok++;
     } else {
       fail++;
       if (options.debug) {
-        failures.push({
+        self.postMessage({ failure: {
           file: file.replace(options.projectRoot + "/", ""),
           mimic,
           sql: test.sql,
@@ -270,7 +290,7 @@ self.addEventListener("message", async (ev) => {
           // the declared column types (I, R, T) and sort mode, which the comparison above does not apply
           colType: fragment.result && fragment.result.colType,
           sort: fragment.result && fragment.result.sort,
-        });
+        } });
       }
       if('statement' === fragment.result?.type && fragment.expectSuccess){
         statementFailed = true;
@@ -279,7 +299,8 @@ self.addEventListener("message", async (ev) => {
         // Create hash from error message to deduplicate similar errors
         const errHash = test.msg.split('-----^').pop().replace(/[^a-z]/mig, '');
         
-        if(options.printAllErrors || !errorIndex[errHash] || !(i % (1/options.curiousErrorprinting))){
+        // a stopped test is always printed
+        if(stopped || options.printAllErrors || !errorIndex[errHash] || !(i % (1/options.curiousErrorprinting))){
           log('');
           log('```sql');
           log(trunc(test.sql, options.truncSQLStatement));
@@ -299,10 +320,10 @@ self.addEventListener("message", async (ev) => {
     }
   }
 
-  if (options.progress) self.postMessage({ fileEnd: true });
+  self.postMessage({ fileEnd: true });
   const roundTotal = ok + fail + skip;
   if (roundTotal) {
-    log('#### '+ (fail === 0 ? '★' : '☓') +' Ran', format(roundTotal), 'tests as _'+mimic+'_ in ' + ((performance.now() - fileStarted) / 1000).toFixed(1) + ' s');
+    log('#### '+ (fail === 0 ? '★' : '☓') +' Ran', format(roundTotal), 'tests as _'+mimic+'_ in ' + ((Date.now() - fileStarted) / 1000).toFixed(1) + ' s');
     log('');
     if (skip) log('* '+format(skip)+ ' skipped');
     if (fail) log('* '+format(fail)+ ' failed');
@@ -318,5 +339,5 @@ self.addEventListener("message", async (ev) => {
     }
   }
 
-  self.postMessage({ output: out, ok, fail, skip, failures });
+  self.postMessage({ done: true, ok, fail, skip });
 });

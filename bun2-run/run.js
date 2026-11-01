@@ -42,7 +42,9 @@ const config = {
   printAllErrors: isFlag("--printAllErrors"),
   curiousErrorprinting: Number(getArg("--curiousErrorprinting", "0.0003")),
   truncSQLStatement: Number(getArg("--truncSQLStatement", "300")),
-  skipTests: !isFlag("--no-skipTests"),
+  // --force-all-tests: all 622 files, also select4.test, select5.test and the files in skipTests.line
+  forceAllTests: isFlag("--force-all-tests"),
+  skipTests: !isFlag("--no-skipTests") && !isFlag("--force-all-tests"),
   skipTestsFile: path.resolve(projectRoot, "skipTests.line"),
   // --only-run=test/evidence/in1.test[,other.test]: exactly these files, ignoring --include, --exclude,
   // the select4/select5 exclusion and skipTests.line
@@ -59,6 +61,10 @@ const config = {
   progress: isFlag("--progress"),
   // --ignore-under-ms=N: with --progress, leave out the tests that took less than N ms (turns --progress on)
   ignoreUnderMs: Number(getArg("--ignore-under-ms", "0")) || 0,
+  // --query-time-limit-ms=N: stop a test that runs longer than N ms; it counts as failed and its file goes on
+  queryTimeLimitMs: Number(getArg("--query-time-limit-ms", "0")) || 0,
+  // --query-kill-counter-max=N: end the run when N tests have been stopped by --query-time-limit-ms
+  queryKillCounterMax: Number(getArg("--query-kill-counter-max", "0")) || 0,
 };
 if (config.ignoreUnderMs > 0) config.progress = true;
 if (config.progress && getArg("--concurrency") === undefined) config.concurrency = 1;
@@ -91,7 +97,7 @@ function walkFiles(dir, reYes, reNo) {
 let testfiles = walkFiles(
   path.resolve(projectRoot, "./test"),
   /\.test$/,
-  /select[45]\.test/  // exclude select4.test and select5.test by default
+  config.forceAllTests ? false : /select[45]\.test/  // exclude select4.test and select5.test by default
 );
 
 if (config.runOnlyDemo) {
@@ -158,6 +164,9 @@ console.log("Results from " + testfiles.length + " test files:\n");
 if (config.progress) {
   console.log("_Progress: each test is printed as it runs, with the time it took" + (config.ignoreUnderMs > 0 ? "; only tests that took " + config.ignoreUnderMs + " ms or more are printed (a group of setup statements by its total time). Failures are printed as usual._" : "._") + "\n");
 }
+if (config.queryTimeLimitMs > 0) {
+  console.log("_Time limit: a test that runs longer than " + config.queryTimeLimitMs + " ms is stopped and counted as failed, and the rest of its file runs" + (config.queryKillCounterMax > 0 ? "; the run ends when " + config.queryKillCounterMax + " tests have been stopped" : "") + "._\n");
+}
 
 // Stats
 const format = v => numeral(v).format("0,0");
@@ -168,6 +177,11 @@ const score = {
   assumedOk: 0,
   hidden: 0,
 };
+// the tests stopped by --query-time-limit-ms: file and SQL
+const stoppedTests = [];
+// the files whose worker crashed: file and error
+const crashedFiles = [];
+let runEnded = false;
 
 // Build jobs (file x mimic), apply skip fast-path
 const jobs = [];
@@ -197,21 +211,23 @@ jobs.sort((a, b) => fs.statSync(b.file).size - fs.statSync(a.file).size);
 const concurrency = config.concurrency;
 const pending = [...jobs];
 let done = 0;
+let startedJobs = 0;
 
 // Create persistent worker pool
 const workerPool = [];
+const newWorker = () => new Worker(new URL("./worker.js", import.meta.url).href, { type: "module" });
 for (let i = 0; i < concurrency; i++) {
-  const worker = new Worker(new URL("./worker.js", import.meta.url).href, { type: "module" });
-  workerPool.push({ worker, busy: false });
+  workerPool.push({ worker: newWorker(), busy: false });
 }
 
 // Job dispatcher
 function dispatchNext() {
   for (const slot of workerPool) {
-    if (!slot.busy && pending.length > 0) {
+    if (!slot.busy && pending.length > 0 && !runEnded) {
       const job = pending.shift();
       slot.busy = true;
-      runWorkerJob(slot, job, done + 1, jobs.length).finally(() => {
+      // numbered in the order the files start (files that start together would share done + 1)
+      runWorkerJob(slot, job, ++startedJobs, jobs.length).finally(() => {
         slot.busy = false;
         done++;
         
@@ -221,7 +237,7 @@ function dispatchNext() {
         }
         
         // Check if all work is complete: no pending jobs AND all workers idle
-        if (pending.length === 0 && workerPool.every(s => !s.busy)) {
+        if (!runEnded && pending.length === 0 && workerPool.every(s => !s.busy)) {
           finish();
         }
       });
@@ -284,6 +300,14 @@ function progressMessage(slot, m) {
       write(result + "\n");
       p.open = false;
     } else score.hidden++;
+  } else if (m.stopped) {
+    // --query-time-limit-ms stopped the test: its SQL is printed even when it is under --ignore-under-ms
+    clearTimeout(p.timer);
+    if (!p.test) return;
+    showSql();
+    p.test = null;
+    write(" ☓ stopped after " + msText(m.ms) + " ms\n");
+    p.open = false;
   } else if (m.fileEnd) {
     if (p.open) write("\n"), (p.open = false);
     flushSetup();
@@ -309,32 +333,127 @@ async function runWorkerJob(slot, job, fileIndex, totalFiles) {
       projectRoot,
     },
   };
-  const result = await new Promise((resolve, reject) => {
-    const handler = (ev) => {
-      // with --progress the worker sends its lines as it writes them, the start and end of each test, then the result
-      if (ev.data && (ev.data.progress !== undefined || ev.data.start || ev.data.end || ev.data.fileEnd)) {
-        progressMessage(slot, ev.data);
-        return;
-      }
-      slot.worker.removeEventListener("message", handler);
-      resolve(ev.data);
-    };
-    slot.worker.addEventListener("message", handler);
-    slot.worker.onerror = (e) => {
-      reject(e);
-    };
-    slot.worker.postMessage(payload);
-  });
-  if (result && result.output && result.output.length) {
-    // Print grouped output for this one test
-    console.log(result.output);
+  // the file's section (without --progress), kept until the file is done, and its failures for results/debug.jsonl,
+  // written in batches so a file with many failures does not fill the memory
+  slot.out = [];
+  let failures = [];
+  const flushFailures = () => {
+    if (config.debug && failures.length) fs.appendFileSync(debugPath, failures.map(f => JSON.stringify(f)).join("\n") + "\n");
+    failures = [];
+  };
+  const startedAt = Date.now();
+  // a test that runs longer than --query-time-limit-ms: the worker is replaced and runs the file again from the
+  // test after it (payload.resume); a statement stopped while it runs again only builds data, so it is not counted
+  let result;
+  for (;;) {
+    result = await new Promise((resolve) => {
+      let timer = null;
+      let current = null;
+      // the worker is replaced when it is stopped or when it crashes (an error in AlaSQL that is not caught, or
+      // out of memory), so the run goes on with the next file
+      const replace = (out) => {
+        clearTimeout(timer);
+        slot.worker.removeEventListener("message", handler);
+        slot.worker.onerror = null;
+        slot.worker.terminate();
+        slot.worker = newWorker();
+        resolve(out);
+      };
+      const stop = () => replace({ stoppedAt: current });
+      const handler = (ev) => {
+        const m = ev.data;
+        if (m && (m.start || m.end)) {
+          clearTimeout(timer);
+          if (m.start) {
+            current = m;
+            if (config.queryTimeLimitMs > 0) timer = setTimeout(stop, config.queryTimeLimitMs);
+          }
+          if (config.progress && !m.quiet) progressMessage(slot, m);
+          return;
+        }
+        if (m && m.failure) {
+          failures.push(m.failure);
+          if (failures.length >= 500) flushFailures();
+          return;
+        }
+        if (m && (m.progress !== undefined || m.fileEnd)) {
+          if (config.progress) progressMessage(slot, m);
+          else if (m.progress !== undefined) slot.out.push(m.progress);
+          return;
+        }
+        clearTimeout(timer);
+        slot.worker.removeEventListener("message", handler);
+        resolve(m);
+      };
+      slot.worker.addEventListener("message", handler);
+      slot.worker.onerror = (e) => {
+        e.preventDefault?.();
+        // Bun's message is a code frame and the stack: the line that names the error is the one to print
+        const lines = String((e && e.message) || e).split("\n").map(l => l.trim()).filter(Boolean);
+        const msg = lines.find(l => /^(\w*Error|error)\b/.test(l)) || lines.pop() || "no error message";
+        replace({ crashed: msg, at: current });
+      };
+      slot.worker.postMessage(payload);
+    });
+    if (result.crashed) {
+      // the counts so far come with the last test that started; the rest of the file is not run
+      const c = (result.at && result.at.counts) || [0, 0, 0];
+      const relative = path.relative(projectRoot, job.file);
+      crashedFiles.push({ file: relative, msg: result.crashed });
+      slot.out.push("", "_The worker crashed in this file (" + result.crashed + "); the rest of the file was not run._", "");
+      if (config.progress) progressMessage(slot, { progress: slot.out.splice(0).join("\n") });
+      result = { ok: c[0], fail: c[1], skip: c[2] };
+      break;
+    }
+    if (!result.stoppedAt) break;
+    const m = result.stoppedAt;
+    const relative = path.relative(projectRoot, job.file);
+    const before = payload.resume;
+    if (m.quiet) {
+      // a statement that ran again to build data: skipped from now on
+      before.killed.push(m.idx);
+    } else {
+      if (config.progress) progressMessage(slot, { stopped: true, ms: config.queryTimeLimitMs });
+      stoppedTests.push({ file: relative, sql: m.sql });
+      payload.resume = {
+        idx: m.idx,
+        counts: m.counts,
+        killed: [...(before ? before.killed : []), m.idx],
+        started: before ? before.started : startedAt,
+        limit: config.queryTimeLimitMs,
+      };
+    }
+    if (config.queryKillCounterMax > 0 && stoppedTests.length >= config.queryKillCounterMax) {
+      // the counts before the last stopped test, and that test as failed
+      const c = payload.resume.counts;
+      flushFailures();
+      endRun([c[0], c[1] + 1, c[2]]);
+      return new Promise(() => {}); // the run ends in endRun
+    }
   }
+  flushFailures();
+  if (slot.out.length) {
+    // Print grouped output for this one test
+    console.log(slot.out.join("\n"));
+  }
+  slot.out = [];
   score.ok += result.ok || 0;
   score.fail += result.fail || 0;
   score.skip += result.skip || 0;
-  if (config.debug && result.failures && result.failures.length) {
-    fs.appendFileSync(debugPath, result.failures.map(f => JSON.stringify(f)).join("\n") + "\n");
-  }
+}
+
+// --query-kill-counter-max reached: the files still running are cut off where they are (their sections so far
+// are printed, the stopping file's counts are added) and the run ends with the final result
+function endRun(counts) {
+  runEnded = true;
+  for (const s of workerPool) s.worker.terminate();
+  if (!config.progress) for (const s of workerPool) if (s.busy && s.out && s.out.length) console.log(s.out.join("\n"));
+  if (config.progress) process.stdout.write("\n");
+  console.log("\n_The run was ended here: " + format(stoppedTests.length) + " tests were stopped by the time limit (--query-kill-counter-max=" + config.queryKillCounterMax + "). The files still running are cut off; " + format(pending.length) + " files were not started._");
+  score.ok += counts[0];
+  score.fail += counts[1];
+  score.skip += counts[2];
+  finish();
 }
 
 function finish() {
@@ -352,9 +471,21 @@ function finish() {
   const pct = (score.ok + score.assumedOk) === 0 ? 0 : ((100.0 * (score.ok + score.assumedOk) / (score.ok + score.fail + score.skip)) | 0);
   console.log("* Final score:", pct, "% was OK\n");
   if (config.ignoreUnderMs > 0) console.log("* Progress lines not printed (under " + config.ignoreUnderMs + " ms): " + format(score.hidden || 0) + " tests\n");
+  if (config.queryTimeLimitMs > 0) {
+    console.log("* Tests stopped by the time limit (" + config.queryTimeLimitMs + " ms): " + format(stoppedTests.length) + (stoppedTests.length ? ", counted as failed:" : "") + "\n");
+    for (const t of stoppedTests) console.log("  - `" + t.file + "`: `" + trunc(t.sql.replace(/\s+/g, " "), config.truncSQLStatement).replace(/`/g, "'") + "`");
+    if (stoppedTests.length) console.log("");
+  }
+  if (crashedFiles.length) {
+    console.log("* Files whose worker crashed (the rest of each file was not run): " + format(crashedFiles.length) + "\n");
+    for (const f of crashedFiles) console.log("  - `" + f.file + "`: " + trunc(f.msg, config.truncSQLStatement));
+    console.log("");
+  }
   console.log("Total script time: " + ((performance.now() - started) / 1000).toFixed(1) + "s");
   console.log("");
   console.log("_Please note that repetetive errors are not always printed again_");
+  // a stopped worker may still be busy in AlaSQL and keep the process alive
+  process.exit(0);
 }
 
 // Start dispatching jobs
