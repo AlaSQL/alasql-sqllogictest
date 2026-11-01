@@ -179,6 +179,8 @@ const score = {
 };
 // the tests stopped by --query-time-limit-ms: file and SQL
 const stoppedTests = [];
+// the files whose worker crashed: file and error
+const crashedFiles = [];
 let runEnded = false;
 
 // Build jobs (file x mimic), apply skip fast-path
@@ -344,15 +346,20 @@ async function runWorkerJob(slot, job, fileIndex, totalFiles) {
   // test after it (payload.resume); a statement stopped while it runs again only builds data, so it is not counted
   let result;
   for (;;) {
-    result = await new Promise((resolve, reject) => {
+    result = await new Promise((resolve) => {
       let timer = null;
       let current = null;
-      const stop = () => {
+      // the worker is replaced when it is stopped or when it crashes (an error in AlaSQL that is not caught, or
+      // out of memory), so the run goes on with the next file
+      const replace = (out) => {
+        clearTimeout(timer);
         slot.worker.removeEventListener("message", handler);
+        slot.worker.onerror = null;
         slot.worker.terminate();
         slot.worker = newWorker();
-        resolve({ stoppedAt: current });
+        resolve(out);
       };
+      const stop = () => replace({ stoppedAt: current });
       const handler = (ev) => {
         const m = ev.data;
         if (m && (m.start || m.end)) {
@@ -380,10 +387,24 @@ async function runWorkerJob(slot, job, fileIndex, totalFiles) {
       };
       slot.worker.addEventListener("message", handler);
       slot.worker.onerror = (e) => {
-        reject(e);
+        e.preventDefault?.();
+        // Bun's message is a code frame and the stack: the line that names the error is the one to print
+        const lines = String((e && e.message) || e).split("\n").map(l => l.trim()).filter(Boolean);
+        const msg = lines.find(l => /^(\w*Error|error)\b/.test(l)) || lines.pop() || "no error message";
+        replace({ crashed: msg, at: current });
       };
       slot.worker.postMessage(payload);
     });
+    if (result.crashed) {
+      // the counts so far come with the last test that started; the rest of the file is not run
+      const c = (result.at && result.at.counts) || [0, 0, 0];
+      const relative = path.relative(projectRoot, job.file);
+      crashedFiles.push({ file: relative, msg: result.crashed });
+      slot.out.push("", "_The worker crashed in this file (" + result.crashed + "); the rest of the file was not run._", "");
+      if (config.progress) progressMessage(slot, { progress: slot.out.splice(0).join("\n") });
+      result = { ok: c[0], fail: c[1], skip: c[2] };
+      break;
+    }
     if (!result.stoppedAt) break;
     const m = result.stoppedAt;
     const relative = path.relative(projectRoot, job.file);
@@ -454,6 +475,11 @@ function finish() {
     console.log("* Tests stopped by the time limit (" + config.queryTimeLimitMs + " ms): " + format(stoppedTests.length) + (stoppedTests.length ? ", counted as failed:" : "") + "\n");
     for (const t of stoppedTests) console.log("  - `" + t.file + "`: `" + trunc(t.sql.replace(/\s+/g, " "), config.truncSQLStatement).replace(/`/g, "'") + "`");
     if (stoppedTests.length) console.log("");
+  }
+  if (crashedFiles.length) {
+    console.log("* Files whose worker crashed (the rest of each file was not run): " + format(crashedFiles.length) + "\n");
+    for (const f of crashedFiles) console.log("  - `" + f.file + "`: " + trunc(f.msg, config.truncSQLStatement));
+    console.log("");
   }
   console.log("Total script time: " + ((performance.now() - started) / 1000).toFixed(1) + "s");
   console.log("");

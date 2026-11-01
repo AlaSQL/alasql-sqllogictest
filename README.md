@@ -132,6 +132,7 @@ Bun2 uses a persistent worker pool with the following advantages:
 - **Shared parser**: PEG parser is generated once at startup and shared via file URL
 - **Buffered output**: The worker sends each line of the report to the main thread as it writes it, and the main thread keeps a file's section until the file is done, to avoid interleaving. With `--progress` (one worker) it prints the lines at once, and the worker also reports the start and end of each test: a worker cannot print while AlaSQL runs a statement, the main thread can
 - **Time limit**: with `--query-time-limit-ms` the main thread times each test from the start the worker reports, and stops the worker (`terminate()`) when the test runs too long. Nothing of the file is lost: the lines and failures so far are already in the main thread, and the counts so far come with each start
+- **Crashed workers**: a worker that crashes (an error AlaSQL does not catch, or out of memory) is replaced and the run goes on with the next file. The report notes the crash in the file's section, keeps its counts so far, and lists the file in the final result
 - **Graceful shutdown**: Workers terminate cleanly when all jobs complete
 
 Please see the config section in the respective `run.js` files to customize test execution.
